@@ -3,6 +3,7 @@ import CustomButton from "../../UI/button/CustomButton";
 import ProductService from "../../../services/ProductService";
 import cl from './ProductDelete.module.css'
 import {useLocation, useNavigate} from "react-router-dom";
+import productStore from "../../../store/ProductStore";
 const ProductDelete = ({fetch, setVisible, product}) => {
     const navigate = useNavigate()
     const location = useLocation();
@@ -11,11 +12,14 @@ const ProductDelete = ({fetch, setVisible, product}) => {
         e.preventDefault()
         ProductService.delete(product.slug).then(res=>{
             setVisible(false)
-            fetch()
+            productStore.clearProducts()
+            if(location.pathname !== '/admin/products'){
+                navigate('/admin/products')
+            }
+            else{
+                fetch()
+            }
         })
-        if(location.pathname !== '/admin/products'){
-            navigate('/admin/products')
-        }
     }
     const back = (e)=>{
         e.preventDefault()

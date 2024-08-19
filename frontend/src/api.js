@@ -48,6 +48,8 @@ api.interceptors.request.use(async config => {
 api.interceptors.response.use(response => {
     return response;
 }, async error => {
+    AuthStore.logout()
+    await router.navigate('/user/login')
 });
 
 export default api;

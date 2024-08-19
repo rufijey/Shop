@@ -9,13 +9,17 @@ import AuthStore from "../../../store/AuthStore";
 import {observer} from "mobx-react-lite";
 import authStore from "../../../store/AuthStore";
 import { AiOutlineProduct } from "react-icons/ai";
-import CustomInput from "../input/CustomInput";
+import CustomInput from "../../UI/input/CustomInput";
 import { AiFillHome } from "react-icons/ai";
+import { FaSearch } from "react-icons/fa";
+import productStore from "../../../store/ProductStore";
 
 const Navbar = observer(() => {
     const [visible, setVisible] = useState(false);
+    const [search, setSearch] = useState('');
     const dropdownRef = useRef(null);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
     const toggleDropdown = () => {
         setVisible(!visible);
     }
@@ -31,8 +35,24 @@ const Navbar = observer(() => {
     }, []);
 
     function handleLogout() {
-        AuthStore.logout()
-        navigate('/user/login')
+        AuthStore.logout();
+        navigate('/user/login');
+    }
+
+    const searchSubmit = () => {
+        const path = window.location.pathname
+        if(!(path === '/products' || path === '/admin/products')){
+            const part = path.split('/')[1];
+            part === 'admin' ? navigate(`/admin/products`) : navigate('/products')
+        }
+        productStore.setFilter('title', search);
+    }
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            searchSubmit();
+        }
     }
 
     return (
@@ -42,7 +62,12 @@ const Navbar = observer(() => {
                 <Link to='/products' className={cl.main__item}><AiOutlineProduct/></Link>
             </div>
             <div className={cl.input}>
-                <CustomInput/>
+                <CustomInput
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                />
+                <FaSearch className={cl.searchIcon} onClick={searchSubmit}/>
             </div>
             <div className={cl.navbar__links}>
                 {authStore.isAdmin &&

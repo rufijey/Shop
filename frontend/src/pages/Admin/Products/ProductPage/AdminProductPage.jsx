@@ -16,7 +16,7 @@ const AdminProductPage = () => {
     const [visibleDelete, setVisibleDelete] = useState(false)
     const navigate = useNavigate()
 
-    const fetchProducts = async () => {
+    const fetchProduct = async () => {
         try {
             setLoading(true);
             const res = await ProductService.get(params.slug);
@@ -28,7 +28,7 @@ const AdminProductPage = () => {
         }
     }
     useEffect(() => {
-        fetchProducts()
+        fetchProduct()
     }, []);
 
     if (loading) {
@@ -88,7 +88,6 @@ const AdminProductPage = () => {
             </div>
             <Modal visible={visibleDelete} setVisible={setVisibleDelete}>
                 <ProductDelete
-                    fetch={fetchProducts}
                     setVisible={setVisibleDelete}
                     product={product}
                 />

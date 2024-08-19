@@ -1,8 +1,8 @@
 import React from 'react';
-import Navbar from "../../components/UI/Navbar/Navbar";
+import Navbar from "../../components/Bars/Navbar/Navbar";
 import {Outlet} from "react-router-dom";
 import cl from './ProductsLayout.module.css'
-import ProductsSidebar from "../../components/UI/ProductsSidebar/ProductsSidebar";
+import ProductsSidebar from "../../components/Bars/ProductsSidebar/ProductsSidebar";
 
 const UserLayout = () => {
     return (

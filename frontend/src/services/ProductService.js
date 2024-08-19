@@ -2,11 +2,12 @@ import api from "../api";
 import axios from "axios";
 
 export default class ProductService{
-    static async getAll(page, per_page){
+    static async getAll(filters){
         return await axios.get('/products', {
             params:{
-                page: page,
-                per_page: per_page
+                page: filters.page,
+                per_page: filters.per_page,
+                title: filters.title
             }
         })
     }

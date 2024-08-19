@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from "../../components/UI/Navbar/Navbar";
+import Navbar from "../../components/Bars/Navbar/Navbar";
 import {Outlet} from "react-router-dom";
 import cl from './UserLayout.module.css'
 

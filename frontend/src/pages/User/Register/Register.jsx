@@ -8,6 +8,7 @@ import cl from './Register.module.css'
 import {getFingerprint} from "../../../services/FingerprintService";
 import axios from "axios";
 import UserService from "../../../services/UserService";
+import AuthStore from "../../../store/AuthStore";
 
 const Register = observer(() => {
     const [registrationForm, setRegistrationForm] = useState({
@@ -21,13 +22,12 @@ const Register = observer(() => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        registrationForm.fingerprint = await getFingerprint()
-        await UserService.register(registrationForm)
+        await AuthStore.register(registrationForm)
     };
 
     return (
         <div className={cl.container}>
-            <div className={cl.form__container}>
+            <form className={cl.form__container} onSubmit={handleSubmit}>
                 <CustomInput placeholder="name"
                              value={registrationForm.name}
                              onChange={e => setRegistrationForm({...registrationForm, name: e.target.value})}
@@ -51,8 +51,8 @@ const Register = observer(() => {
                              })}
                              type="password"
                 />
-                <CustomButton onClick={handleSubmit} type="submit">Register</CustomButton>
-            </div>
+                <CustomButton type="submit">Register</CustomButton>
+            </form>
         </div>
     );
 });

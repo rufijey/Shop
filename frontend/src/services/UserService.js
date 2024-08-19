@@ -5,22 +5,10 @@ import api from "../api";
 
 export default class UserService {
     static async login(data) {
-        await axios.post('/auth/login', data)
-            .then(res => {
-                authStore.login(res.data);
-                router.navigate('/user/me')
-            }).catch(err => {
-                console.log(err.message)
-            })
+        return await axios.post('/auth/login', data)
     }
     static async register(data) {
-        await axios.post('/auth/register', data)
-            .then(res => {
-                authStore.login(res.data);
-                router.navigate('/user/me')
-            }).catch(err => {
-                console.log(err.message)
-            })
+        return await axios.post('/auth/register', data)
     }
     static async getByEmail(email) {
         return await api.get(`/user/email`, {

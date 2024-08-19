@@ -1,7 +1,7 @@
 .container {
     margin: 5px 0;
 }
-.tagsList, .selectedTags {
+.tags__list, .selected__tags {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;

@@ -1,7 +1,7 @@
 import React from 'react';
-import Navbar from "../../components/UI/Navbar/Navbar";
+import Navbar from "../../components/Bars/Navbar/Navbar";
 import {Outlet} from "react-router-dom";
-import AdminSidebar from "../../components/UI/AdminSidebar/AdminSidebar";
+import AdminSidebar from "../../components/Bars/AdminSidebar/AdminSidebar";
 import cl from './AdminLayout.module.css'
 
 const UserLayout = () => {

@@ -10,48 +10,38 @@ import {TiDelete} from "react-icons/ti";
 import cl from './Products.module.css'
 import {useObserver} from "../../../hooks/useObserver";
 import {getPagesCount} from "../../../utils/pages";
+import Pagination from "../../../components/UI/pagination/Pagination";
+import productStore from "../../../store/ProductStore";
+import {observer} from "mobx-react-lite";
 
-const Products = () => {
+const Products =  observer(() =>{
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [visibleDelete, setVisibleDelete] = useState(false);
-    const [productForChange, setProductForChange] = useState(null);
-    const [productForDelete, setProductForDelete] = useState(null);
     const navigate = useNavigate()
     const [totalPages, setTotalPages] = useState(0)
-    const observedElement = useRef(null)
-    const observer = useRef()
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(9);
-    const fetchProducts = async () => {
-        try {
-            setLoading(true);
-            const res = await ProductService.getAll(page, perPage);
-            setProducts([...products, ...res.data]);
-            const totalCount = res.headers['x-total-count']
-            setTotalPages(getPagesCount(totalCount, perPage));
-        } catch (error) {
-            console.error("Error fetching products:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const [perPage, setPerPage] = useState(12);
 
-    useObserver(observedElement,page<totalPages, loading, ()=> {
-
-        setPage(page + 1)
-    })
+    // useObserver(observedElement,page<totalPages, loading, ()=> {
+    //     console.log(page+1)
+    //     setPage(page + 1)
+    // })
 
     useEffect(() => {
-        fetchProducts();
+        productStore.syncUrl()
+        productStore.fetchProducts();
     }, [page]);
 
-
+    if(productStore.loading){
+        return (
+            <Loader/>
+        )
+    }
 
     return (
         <div className={cl.container}>
             <div className={cl.products}>
-                {products.map(product => (
+                {productStore.products.map(product => (
                     <div className={cl.product__item}
                          key={product.id}
                          onClick={() => navigate(`/products/${product.slug}`)}
@@ -65,11 +55,19 @@ const Products = () => {
 
                     </div>
                 ))}
-                {loading && <Loader/>}
-                <div ref={observedElement} style={{height: 1}}></div>
+                {/*<div ref={observedElement} style={{height: 100, backgroundColor:"red", width:"100%"}}></div>*/}
+                {productStore.totalPages > 1 &&
+                    <div className={cl.wrapper}>
+                        <Pagination
+                            page={productStore.filters.page}
+                            changePage={productStore.setPage}
+                            totalPages={productStore.totalPages}
+                        />
+                    </div>
+                }
             </div>
         </div>
     );
-};
+});
 
 export default Products;

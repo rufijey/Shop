@@ -43,7 +43,7 @@ const TagSelector = ({selectedTags, setSelectedTags}) => {
             <div className={cl.selected__tag}>
                 <FaTags className={cl.title}/>
 
-                <div className={cl.selectedTags}>
+                <div className={cl.selected__tags}>
                     {selectedTags.map((tag, index) => (
                         <div key={`${tag.id}-${index}`} className={cl.selectedTag}>
                             {tag.title}
@@ -61,7 +61,7 @@ const TagSelector = ({selectedTags, setSelectedTags}) => {
                 <div>
                     <div className={cl.title}>Tags</div>
 
-                    <div className={cl.selectedTags}>
+                    <div className={cl.selected__tags}>
                         {selectedTags.map((tag, index) => (
                             <div key={`${tag.id}-${index}`} className={cl.selectedTag}>
                                 {tag.title}
@@ -73,7 +73,7 @@ const TagSelector = ({selectedTags, setSelectedTags}) => {
                     {tagsLoading ? (
                         <Loader/>
                     ) : (
-                        <div className={cl.tagsList}>
+                        <div className={cl.tags__list}>
                             {tags.map((tag, index) => (
                                 <div
                                     key={`${tag.id}-${index}`}

@@ -18,6 +18,8 @@ import Error404 from "../pages/Error/Error404";
 import Products from "../pages/Products/Main/Products";
 import ProductPage from "../pages/Products/ProductPage/ProductPage";
 import ProductsLayout from "../layouts/ProductsLayout/ProductsLayout";
+import UnRegisteredRoute from "../routes/UnRegisteredRoute";
+import RegisteredRoute from "../routes/RegisteredRoute";
 
 const router = createBrowserRouter([
     {
@@ -29,16 +31,26 @@ const router = createBrowserRouter([
                 element: <Main/>,
             },
             {
-                path: "/user/register",
-                element: <Register/>,
+                element: <UnRegisteredRoute/>,
+                children:[
+                    {
+                        path: "/user/register",
+                        element: <Register/>,
+                    },
+                    {
+                        path: "/user/login",
+                        element: <Login/>,
+                    },
+                ]
             },
             {
-                path: "/user/login",
-                element: <Login/>,
-            },
-            {
-                path: "/user/me",
-                element: <UserPage/>,
+                element: <RegisteredRoute/>,
+                children:[
+                    {
+                        path: "/user/me",
+                        element: <UserPage/>,
+                    },
+                ]
             },
             {
                 path: "/products/:slug",

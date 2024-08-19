@@ -1,5 +1,9 @@
 import { makeAutoObservable } from 'mobx';
 import {jwtDecode} from 'jwt-decode';
+import {getFingerprint} from "../services/FingerprintService";
+import UserService from "../services/UserService";
+import register from "../pages/User/Register/Register";
+import router from "../router";
 
 class AuthStore {
     user = null;
@@ -20,11 +24,23 @@ class AuthStore {
         this.user = jwtDecode(token);
     }
 
-    login(tokenData) {
-        this.setUserFromToken(tokenData.access_token);
-        localStorage.setItem('access_token', tokenData.access_token);
-        const expires_time =Date.now() + tokenData.expires_in*1000
+    async login(loginForm) {
+        loginForm.fingerprint = await getFingerprint()
+        const res = await UserService.login(loginForm)
+        this.setUserFromToken(res.data.access_token);
+        localStorage.setItem('access_token', res.data.access_token);
+        const expires_time =Date.now() + res.data.expires_in*1000
         localStorage.setItem('expires_time', expires_time);
+        await router.navigate('/user/me')
+    }
+    async register(registrationForm) {
+        registrationForm.fingerprint = await getFingerprint()
+        const res = await UserService.register(registrationForm)
+        this.setUserFromToken(res.data.access_token);
+        localStorage.setItem('access_token', res.data.access_token);
+        const expires_time =Date.now() + res.data.expires_in*1000
+        localStorage.setItem('expires_time', expires_time);
+        await router.navigate('/user/me')
     }
 
     logout() {

@@ -10,9 +10,12 @@ import {useNavigate} from "react-router-dom";
 import Loader from "../../../../components/UI/loader/Loader";
 import {useObserver} from "../../../../hooks/useObserver";
 import {getPagesCount} from "../../../../utils/pages";
+import productStore from "../../../../store/ProductStore";
+import Pagination from "../../../../components/UI/pagination/Pagination";
+import {observer} from "mobx-react-lite";
 
 
-const AdminProducts = () => {
+const AdminProducts = observer(() => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [visibleDelete, setVisibleDelete] = useState(false);
@@ -23,27 +26,15 @@ const AdminProducts = () => {
     const observedElement = useRef(null)
     const observer = useRef()
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(6);
-    const fetchProducts = async () => {
-        try {
-            setLoading(true);
-            const res = await ProductService.getAll(page, perPage);
-            setProducts([...products, ...res.data]);
-            const totalCount = res.headers['x-total-count']
-            setTotalPages(getPagesCount(totalCount, perPage));
-        } catch (error) {
-            console.error("Error fetching products:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const [perPage, setPerPage] = useState(12);
 
-    useObserver(observedElement,page<totalPages, loading, ()=> {
-        setPage(page + 1)
-    })
+    // useObserver(observedElement,page<totalPages, loading, ()=> {
+    //     setPage(page + 1)
+    // })
 
     useEffect(() => {
-        fetchProducts();
+        productStore.syncUrl()
+        productStore.fetchProducts();
     }, [page]);
 
 
@@ -57,11 +48,16 @@ const AdminProducts = () => {
         navigate(`/admin/products/${product.slug}/update`)
     }
 
+    if(productStore.loading){
+        return (
+            <Loader/>
+        )
+    }
 
     return (
         <div className={cl.container}>
             <div className={cl.products}>
-                {products.map(product => (
+                {productStore.products.map(product => (
                     <div className={cl.product__item}
                          key={product.id}
                          onClick={() => navigate(`/admin/products/${product.slug}`)}
@@ -85,8 +81,16 @@ const AdminProducts = () => {
 
                     </div>
                 ))}
-                {loading && <Loader/>}
-                <div ref={observedElement} style={{height: 1}}></div>
+                {/*<div ref={observedElement} style={{height: 1}}></div>*/}
+                {productStore.totalPages > 1 &&
+                    <div className={cl.wrapper}>
+                        <Pagination
+                            page={productStore.filters.page}
+                            changePage={productStore.setPage}
+                            totalPages={productStore.totalPages}
+                        />
+                    </div>
+                }
             </div>
             <IoMdAddCircleOutline
                 className={cl.add}
@@ -96,7 +100,7 @@ const AdminProducts = () => {
             <Modal visible={visibleDelete} setVisible={setVisibleDelete}>
                 {productForDelete && (
                     <ProductDelete
-                        fetch={fetchProducts}
+                        fetch={productStore.fetchProducts}
                         setVisible={setVisibleDelete}
                         product={productForDelete}
                     />
@@ -104,6 +108,6 @@ const AdminProducts = () => {
             </Modal>
         </div>
     );
-};
+});
 
 export default AdminProducts;

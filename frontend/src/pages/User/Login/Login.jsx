@@ -10,6 +10,7 @@ import {jwtDecode} from "jwt-decode";
 import api from "../../../api";
 import axios from "axios";
 import UserService from "../../../services/UserService";
+import AuthStore from "../../../store/AuthStore";
 
 const Login = observer(() => {
     const [loginForm, setLoginForm] = useState({
@@ -21,13 +22,12 @@ const Login = observer(() => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        loginForm.fingerprint = await getFingerprint()
-        await UserService.login(loginForm)
+        await AuthStore.login(loginForm)
     };
 
     return (
         <div className={cl.container}>
-            <div className={cl.form__container}>
+            <form className={cl.form__container} onSubmit={handleSubmit}>
                 <CustomInput placeholder="email"
                              value={loginForm.email}
                              onChange={e => setLoginForm({...loginForm, email: e.target.value})}
@@ -38,8 +38,8 @@ const Login = observer(() => {
                              onChange={e => setLoginForm({...loginForm, password: e.target.value})}
                              type="password"
                 />
-                <CustomButton onClick={handleSubmit} type="submit">Login</CustomButton>
-            </div>
+                <CustomButton type="submit">Login</CustomButton>
+            </form>
         </div>
     );
 });
