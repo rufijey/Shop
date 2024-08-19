@@ -1,0 +1,68 @@
+.container {
+    margin: 5px 0;
+}
+.tagsList, .selectedTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 400px;
+    overflow-y: scroll; /* Включает прокрутку */
+    scrollbar-width: none; /* Для Firefox */
+    -ms-overflow-style: none;  /* Для Internet Explorer и Edge */
+
+}
+.categoriesList::-webkit-scrollbar, .selectedCategory::-webkit-scrollbar {
+    display: none; /* Для Chrome, Safari и Opera */
+}
+.selected__tag{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.tag {
+    background-color: #dcfafa;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.selectedTag {
+    display: flex;
+    align-items: center;
+    background-color: #d3fbfb;
+    border: 1px solid #bbb;
+    padding: 5px 10px;
+}
+
+.delete {
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+hr {
+    margin: 5px 0;
+}
+
+.add {
+    font-size: 28px;
+    margin: 10px 20px;
+    position: sticky;
+    transition: 0.2s;
+}
+
+.add:hover {
+    transform: translateY(-3px);
+    color: teal;
+}
+
+.add:active {
+    transform: translateY(-1px);
+    color: green;
+}
+
+.title {
+    font-size: 24px;
+    margin: 0 5px 0 0;
+    color: teal;
+}

@@ -1,0 +1,47 @@
+# Node.js
+frontend/node_modules/
+frontend/npm-debug.log
+frontend/yarn-error.log
+
+# Laravel
+backend/vendor/
+backend/storage/*.key
+backend/.env
+backend/.env.*
+backend/Homestead.yaml
+backend/Homestead.json
+backend/.vagrant
+
+# Docker
+docker-compose.override.yml
+.env.docker
+
+# Laravel specific logs
+backend/storage/logs/*.log
+backend/storage/framework/cache/data/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/app/public/*
+backend/bootstrap/cache/*
+
+# MySQL
+mysql/data/
+
+# React specific
+frontend/build/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# IDEs and Editors
+.idea/
+/.vscode/
+/*.sublime-project
+/*.sublime-workspace
+
+# MacOS
+.DS_Store
+
+# Temporary files
+/tmp/

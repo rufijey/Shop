@@ -1,0 +1,99 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+.products{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 0 20px;
+}
+
+.product__item{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px 20px;
+    margin: 10px;
+    border: 2px solid gray;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 20px;
+    cursor: pointer;
+    box-sizing: border-box;
+    width: calc(25% - 20px);
+    height: calc(30vh + 20px);
+}
+.product__item:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 2px 0 #757474;
+}
+.product__item:active{
+    transform: translateY(-2px);
+    box-shadow: 0 1px 0 #757474;
+}
+.description{
+    margin: 10px 20px;
+    font-size: 20px;
+    transition: 0.5s;
+
+}
+
+.item__default{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+.title{
+    margin: 5px;
+    font-size: 25px;
+    color: #1a7695;
+}
+.image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.image__container{
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.observer__container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 1200px) {
+    .product__item {
+        width: calc(33.33% - 20px); /* 3 элемента в ряду */
+    }
+}
+
+@media (max-width: 900px) {
+    .product__item {
+        width: calc(50% - 20px); /* 2 элемента в ряду */
+    }
+}
+
+@media (max-width: 600px) {
+    .product__item {
+        width: calc(100% - 20px); /* 1 элемент в ряду */
+        height: auto; /* Автоматическая высота */
+    }
+    .title {
+        font-size: 20px; /* Уменьшение размера шрифта для маленьких экранов */
+    }
+    .description {
+        font-size: 18px; /* Уменьшение размера текста описания */
+    }
+}

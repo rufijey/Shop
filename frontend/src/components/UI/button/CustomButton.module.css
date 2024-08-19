@@ -1,0 +1,17 @@
+.btn{
+    padding: 5px 15px;
+    color: teal;
+    font-size: 20px;
+    background: transparent;
+    border: 2px solid teal;
+    cursor: pointer;
+    border-radius: 6px;
+}
+.btn:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 3px 0 darkslategray;
+}
+.btn:active{
+    transform: translateY(-2px);
+    box-shadow: 0 2px 0 darkslategray;
+}

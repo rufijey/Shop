@@ -1,0 +1,20 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    background-color: #f3f3f3;
+    min-height: 100vh;
+}
+.page__navbar{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-grow: 1;
+}
+.sidebar{
+    margin-right: 4px;
+}
+.navbar{
+    margin-bottom: 2px;
+    position: sticky;
+    top: 0;
+}

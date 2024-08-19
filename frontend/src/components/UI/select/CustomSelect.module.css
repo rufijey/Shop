@@ -1,0 +1,39 @@
+.customSelectContainer {
+    position: relative;
+    width: 200px;
+}
+
+.selectedValue {
+    color: teal;
+    font-size: 20px;
+    outline: none;
+    border-radius: 6px;
+    border: 2px solid teal;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.optionsList {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    max-height: 150px; /* Максимальная высота списка */
+    overflow-y: auto; /* Вертикальная прокрутка */
+    background-color: white;
+    border: 1px solid teal;
+    border-radius: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    z-index: 1;
+}
+
+.optionItem {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.optionItem:hover {
+    background-color: #f0f0f0;
+}
