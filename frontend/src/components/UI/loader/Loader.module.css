@@ -3,7 +3,8 @@
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    border: 5px dashed teal;
+    border: 5px solid white;
+    border-top: 5px solid gray;
     animation: rotate 1s linear infinite;
     margin-top: 10px;
     justify-self: center;

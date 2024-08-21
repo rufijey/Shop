@@ -1,0 +1,19 @@
+/* Стили для контейнера слайдера */
+.slider__container {
+    width: 100%;
+    padding: 10px;
+}
+
+.price__display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+    margin-top: 5px;
+}
+.input{
+    width: 74px;
+    border-radius: 6px;
+    padding: 2px;
+}

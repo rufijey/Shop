@@ -44,4 +44,9 @@ class ProductController extends Controller
     public function destroy(Product $product){
         $this->productService->delete($product);
     }
+    public function getMaxPrice()
+    {
+        $maxPrice = Product::max('price');
+        return response()->json(['max_price' => $maxPrice]);
+    }
 }

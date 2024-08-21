@@ -28,6 +28,8 @@ Route::get('/send-mail', function () {
 //
 //});
 
+//Route::get('/max-price', [ProductController::class, 'getMaxPrice'])->withoutMiddleware(['auth:api', 'role:admin']);
+
 Route::group(['middleware' => 'auth:api'], function (){
     Route::group(['middleware' => 'role:admin'], function (){
         Route::group(['prefix' => 'categories'], function () {
@@ -39,6 +41,7 @@ Route::group(['middleware' => 'auth:api'], function (){
         });
         Route::group(['prefix' => 'products'], function () {
             Route::get('/', [ProductController::class, 'index'])->withoutMiddleware(['auth:api', 'role:admin']);
+            Route::get('/max-price', [ProductController::class, 'getMaxPrice'])->withoutMiddleware(['auth:api', 'role:admin']);
             Route::get('/{product}', [ProductController::class, 'show'])->withoutMiddleware(['auth:api', 'role:admin']);
             Route::post('/', [ProductController::class, 'store']);
             Route::patch('/{product}', [ProductController::class, 'update']);

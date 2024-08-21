@@ -1,27 +1,18 @@
-.sidebar{
-    width: 160px;
+.sidebar {
+    width: 180px;
     background-color: #86a8a8;
     color: white;
-    min-height: 100vh;
+    height: 100vh;
     position: sticky;
     top: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
+
 @media (max-width: 500px) {
     .sidebar{
         display: none;
     }
-}
-.items{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 40px;
-    gap: 10px;
-    margin-top: 30px;
-}
-.tags{
-    font-size: 20px;
-    color: black;
 }
 .main{
     border-bottom: 4px solid #f3f3f3;
@@ -30,11 +21,7 @@
     padding: 11px;
     cursor: pointer;
 }
-.item:hover{
-    transform: translateY(-3px);
-    color: #eef4f4;
-}
-.item:active{
-    transform: translateY(-2px);
-    color: #dde8ed;
+.sidebar {
+    scrollbar-width: thin;
+    scrollbar-color: #86a8a8 #f1f1f1;
 }

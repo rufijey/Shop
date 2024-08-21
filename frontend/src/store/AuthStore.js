@@ -42,7 +42,22 @@ class AuthStore {
         localStorage.setItem('expires_time', expires_time);
         await router.navigate('/user/me')
     }
+    async refresh() {
+        try {
+            const fingerprint = await getFingerprint()
+            const res = await UserService.refresh(fingerprint)
+            this.setUserFromToken(res.data.access_token);
+            localStorage.setItem('access_token', res.data.access_token);
+            const expires_time =Date.now() + res.data.expires_in*1000
+            localStorage.setItem('expires_time', expires_time);
+        }
+        catch (err){
+            console.log(err.message)
+            this.logout()
+            await router.navigate('/user/login')
+        }
 
+    }
     logout() {
         this.user = null;
         localStorage.removeItem('access_token');

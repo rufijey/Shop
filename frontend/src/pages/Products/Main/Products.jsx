@@ -14,13 +14,8 @@ import Pagination from "../../../components/UI/pagination/Pagination";
 import productStore from "../../../store/ProductStore";
 import {observer} from "mobx-react-lite";
 
-const Products =  observer(() =>{
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+const Products = observer(() => {
     const navigate = useNavigate()
-    const [totalPages, setTotalPages] = useState(0)
-    const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(12);
 
     // useObserver(observedElement,page<totalPages, loading, ()=> {
     //     console.log(page+1)
@@ -29,10 +24,10 @@ const Products =  observer(() =>{
 
     useEffect(() => {
         productStore.syncUrl()
-        productStore.fetchProducts();
-    }, [page]);
+        productStore.fetchProducts()
+    }, []);
 
-    if(productStore.loading){
+    if (productStore.loading) {
         return (
             <Loader/>
         )

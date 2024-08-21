@@ -7,7 +7,10 @@ export default class ProductService{
             params:{
                 page: filters.page,
                 per_page: filters.per_page,
-                title: filters.title
+                title: filters.title,
+                tag_ids: filters.tag_ids,
+                category_id: filters.category_id,
+                price_range: {min: filters.price_range.min, max: filters.price_range.max}
             }
         })
     }
@@ -24,5 +27,8 @@ export default class ProductService{
     static async update(data, slug){
         return await api.post(`/products/${slug}`,data)
 
+    }
+    static async maxPrice(){
+        return await axios.get('/products/max-price');
     }
 }

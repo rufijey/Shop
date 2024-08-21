@@ -2,11 +2,14 @@ import React, {useEffect, useState} from 'react';
 import cl from './Main.module.css'
 import CategoryService from "../../services/CategoryService";
 import TagService from "../../services/TagService";
+import productStore from "../../store/ProductStore";
+import {useNavigate} from "react-router-dom";
 const Main = () => {
     const [categories, setCategories] = useState([])
     const [categoriesLoading, setCategoriesLoading] = useState(false)
     const [tags, setTags] = useState([])
     const [tagsLoading, setTagsLoading] = useState(false)
+    const navigate = useNavigate()
     const fetchCategories = async () => {
         try {
             setCategoriesLoading(true);
@@ -31,9 +34,21 @@ const Main = () => {
     };
 
     useEffect(() => {
+        productStore.resetFilters()
         fetchCategories();
         fetchTags();
     }, []);
+
+    const handleCategoryClick = (category) => {
+        productStore.setFilter('category_id', category.id)
+        navigate('/products')
+    }
+
+    const handleTagClick = (tag) => {
+        productStore.setFilter('tag_ids', [tag.id])
+        navigate('/products')
+    }
+
     return (
         <div className={cl.container}>
             <div className={cl.title}>SHOP</div>
@@ -42,7 +57,7 @@ const Main = () => {
                     <div className={cl.item__title}>Categories</div>
                     <div className={cl.list}>
                         {categories.map(category=>
-                            <div key={category.id} className={cl.link}>
+                            <div key={category.id} className={cl.link} onClick={()=>handleCategoryClick(category)}>
                                 {category.title}
                             </div>
                         )}
@@ -52,7 +67,7 @@ const Main = () => {
                     <div className={cl.item__title}>Tags</div>
                     <div className={cl.list}>
                         {tags.map(tag=>
-                            <div key={tag.id} className={cl.link}>
+                            <div key={tag.id} className={cl.link} onClick={()=>handleTagClick(tag)}>
                                 {tag.title}
                             </div>
                         )}

@@ -39,13 +39,15 @@ const Navbar = observer(() => {
         navigate('/user/login');
     }
 
-    const searchSubmit = () => {
+    const searchSubmit = async () => {
         const path = window.location.pathname
         if(!(path === '/products' || path === '/admin/products')){
             const part = path.split('/')[1];
             part === 'admin' ? navigate(`/admin/products`) : navigate('/products')
         }
         productStore.setFilter('title', search);
+        productStore.syncUrl()
+        await productStore.fetchProducts()
     }
 
     const handleKeyDown = (e) => {
@@ -62,7 +64,7 @@ const Navbar = observer(() => {
                 <Link to='/products' className={cl.main__item}><AiOutlineProduct/></Link>
             </div>
             <div className={cl.input}>
-                <CustomInput
+            <CustomInput
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     onKeyDown={handleKeyDown}

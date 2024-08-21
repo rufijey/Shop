@@ -1,0 +1,65 @@
+.items{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 40px;
+    width: 100%;
+}
+.tags{
+    font-size: 20px;
+    color: black;
+    width: 100%;
+}
+.slider{
+    font-size: 16px;
+    color: black;
+    width: 100%;
+}
+.categories{
+    font-size: 20px;
+    color: black;
+    width: 100%;
+}
+.main{
+    border-bottom: 4px solid #f3f3f3;
+    display: flex;
+    justify-content: center;
+    padding: 11px;
+    cursor: pointer;
+}
+.item:hover{
+    transform: translateY(-3px);
+    color: #eef4f4;
+}
+.item:active{
+    transform: translateY(-2px);
+    color: #dde8ed;
+}
+
+.sidebar {
+    scrollbar-width: thin; /* Можно использовать 'auto' или 'thin' */
+    scrollbar-color: #86a8a8 #f1f1f1; /* Цвет ползунка и трека */
+}
+.filter__btns{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    color: #022a3a;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.filter__btn{
+
+}
+.filter__btn:hover{
+    transform: translateY(-3px);
+    color: #017575;
+}
+.filter__btn:active{
+    transform: translateY(-2px);
+    color: #0498d3;
+}

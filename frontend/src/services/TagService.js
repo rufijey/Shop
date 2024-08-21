@@ -2,8 +2,12 @@ import api from "../api";
 import axios from "axios";
 
 export default class TagService{
-    static async getAll(){
-        return await axios.get('/tags')
+    static async getAll(title){
+        return await axios.get('/tags',{
+            params:{
+                title: title
+            }
+        })
     }
     static async post(tag){
        return await api.post(`/tags`,{

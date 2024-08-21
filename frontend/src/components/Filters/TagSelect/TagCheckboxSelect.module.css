@@ -1,0 +1,120 @@
+.tagsOpen{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    cursor: pointer;
+}
+.container{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 10px 20px;
+}
+.select{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #f3f3f3;
+}
+.tags{
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+.custom__checkbox {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    user-select: none;
+    display: flex;
+    align-items: center;
+}
+
+/* Скрываем стандартный чекбокс */
+.custom__checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Создаем кастомный чекбокс */
+.custom__checkbox .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #f3f3f3;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Стиль для чекбокса при наведении */
+.custom__checkbox:hover input ~ .checkmark {
+    background-color: #e6e6e6;
+}
+
+/* Стиль для активного чекбокса */
+.custom__checkbox input:checked ~ .checkmark {
+    background-color: #bdbdbd;
+    border: 2px solid #76b1f3;
+}
+
+.custom__checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Стиль для галочки */
+.custom__checkbox .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 9px;
+    border: solid #350e0e;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+.loader{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.tag__input{
+    height: 24px !important;
+    font-size: 16px !important;
+    padding: 5px !important;
+    margin-bottom: 0 !important;
+}
+.tags__search{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0;
+
+}
+.searchIcon{
+}
+.searchIcon:hover{
+    color: #01698c;
+}
+.searchIcon:active{
+    color: #0181aa;
+}
+.tagsOpen:hover .arrow{
+    color: #003d5c;
+}
+.tagsOpen:active .arrow{
+    color: #00689e;
+}

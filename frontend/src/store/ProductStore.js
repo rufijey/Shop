@@ -8,7 +8,7 @@ class ProductStore {
         title: '',
         category_id: null,
         tag_ids: [],
-        price_range: { min: null, max: null },
+        price_range: { min: 0, max: null },
         page: 1,
         per_page: 1
     };
@@ -25,15 +25,20 @@ class ProductStore {
         const searchParams = new URLSearchParams(window.location.search);
 
         this.filters.title = searchParams.get('title') || '';
-        this.filters.category_id = searchParams.get('category_id');
-        this.filters.tag_ids = searchParams.get('tag_ids') ? searchParams.get('tag_ids').split(',') : [];
+        this.filters.category_id = searchParams.get('category_id') ? parseInt(searchParams.get('category_id')) : null;
+
+        this.filters.tag_ids = searchParams.get('tag_ids')
+            ? searchParams.get('tag_ids').split(',').map(id => parseInt(id))
+            : [];
+
         this.filters.price_range = {
-            min: searchParams.get('min_price') || null,
-            max: searchParams.get('max_price') || null,
+            min: searchParams.get('min_price') ? parseInt(searchParams.get('min_price')) : 0,
+            max: searchParams.get('max_price') ? parseInt(searchParams.get('max_price')) : null,
         };
         this.filters.page = parseInt(searchParams.get('page')) || 1;
         this.filters.per_page = parseInt(searchParams.get('per_page')) || 10;
     }
+
 
     syncUrl() {
         const searchParams = new URLSearchParams();
@@ -53,33 +58,29 @@ class ProductStore {
             title: '',
             category_id: null,
             tag_ids: [],
-            price_range: { min: null, max: null },
+            price_range: { min: 0, max: null },
             page: 1,
             per_page: 10
         };
-        this.syncUrl();
+        this.syncUrl()
     }
 
     fetchProducts = async () => {
         try {
-            this.setLoading(true);
-
-            const res = await ProductService.getAll(this.filters);
-            this.setProducts(res.data);
-
-            const totalCount = res.headers['x-total-count'];
-            this.setTotalPages(getPagesCount(totalCount, this.filters.per_page));
+            this.setLoading(true)
+            const res = await ProductService.getAll(this.filters)
+            this.setProducts(res.data)
+            const totalCount = res.headers['x-total-count']
+            this.setTotalPages(getPagesCount(totalCount, this.filters.per_page))
         } catch (error) {
-            console.error("Error fetching products:", error);
+            console.error("Error fetching products:", error)
         } finally {
-            this.setLoading(false);
+            this.setLoading(false)
         }
     }
 
     setFilter(key, value) {
         this.filters[key] = value;
-        this.syncUrl();
-        this.fetchProducts()
     }
 
     setPage = (page) => {
@@ -103,7 +104,6 @@ class ProductStore {
     setTotalPages(totalPages) {
         this.totalPages = totalPages;
     }
-
 
 }
 
