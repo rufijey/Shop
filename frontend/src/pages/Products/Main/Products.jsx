@@ -1,15 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import ProductService from "../../../services/ProductService";
-import {IoMdAddCircleOutline} from "react-icons/io";
-import Loader from "../../../components/UI/loader/Loader";
-import ProductDelete from "../../../components/Product/Delete/ProductDelete";
-import Modal from "../../../components/UI/modal/Modal";
-import {MdOutlineDriveFileRenameOutline} from "react-icons/md";
-import {TiDelete} from "react-icons/ti";
+import Loader from "../../../components/UI/loader/Loader"
 import cl from './Products.module.css'
-import {useObserver} from "../../../hooks/useObserver";
-import {getPagesCount} from "../../../utils/pages";
 import Pagination from "../../../components/UI/pagination/Pagination";
 import productStore from "../../../store/ProductStore";
 import {observer} from "mobx-react-lite";
@@ -46,6 +38,7 @@ const Products = observer(() => {
                                 <img src={product.images[0].url} className={cl.image} alt="huu"/>
                             </div>
                             <div>{product.title}</div>
+                            <div className={cl.price}>{product.price} ₴</div>
                         </div>
 
                     </div>

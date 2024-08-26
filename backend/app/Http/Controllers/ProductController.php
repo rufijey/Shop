@@ -15,11 +15,14 @@ use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
     private $productService;
+
     public function __construct(ProductService $productService)
     {
         $this->productService = $productService;
     }
-    public function index(FilterRequest $request){
+
+    public function index(FilterRequest $request)
+    {
         $data = $request->validated();
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 10;
@@ -30,20 +33,29 @@ class ProductController extends Controller
         return ProductResource::collection($products->items())
             ->response()->header('x-total-count', $products->total());
     }
-    public function show(Product $product){
+
+    public function show(Product $product)
+    {
         return new ProductResource($product);
     }
-    public function store(StoreRequest $request){
+
+    public function store(StoreRequest $request)
+    {
         $data = $request->validated();
         return $this->productService->store($data);
     }
-    public function update(Product $product, UpdateRequest $request){
+
+    public function update(Product $product, UpdateRequest $request)
+    {
         $data = $request->validated();
         return $this->productService->update($product, $data);
     }
-    public function destroy(Product $product){
+
+    public function destroy(Product $product)
+    {
         $this->productService->delete($product);
     }
+
     public function getMaxPrice()
     {
         $maxPrice = Product::max('price');

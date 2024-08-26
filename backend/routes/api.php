@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
@@ -60,6 +61,16 @@ Route::group(['middleware' => 'auth:api'], function (){
             Route::patch('/makeUnAdmin/{user}', [UserController::class, 'makeUnAdmin']);
         });
 
+    });
+    Route::group(['prefix' => 'orders'], function () {
+        Route::get('/', [OrderController::class, 'index']);
+        Route::get('/completed', [OrderController::class, 'completed']);
+        Route::get('/current', [OrderController::class, 'current']);
+        Route::post('/', [OrderController::class, 'store']);
+        Route::delete('/products/{product}', [OrderController::class, 'removeProduct']);
+        Route::delete('/{order}', [OrderController::class, 'destroy']);
+        Route::patch('/complete', [OrderController::class, 'complete']);
+        Route::delete('/', [OrderController::class, 'cancel']);
     });
 
 });

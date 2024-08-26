@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import cl from './CustomSelect.module.css';
 
 const CustomSelect = ({ options, defaultValue, value, onChange }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const selectRef = useRef(null);
 
-    // Найти объект с выбранным id
     const selectedOption = options.find(option => option.id === value);
 
     const handleOptionClick = (optionId) => {
@@ -12,9 +12,29 @@ const CustomSelect = ({ options, defaultValue, value, onChange }) => {
         setIsOpen(false);
     };
 
+    const handleClickOutside = (event) => {
+        if (selectRef.current && !selectRef.current.contains(event.target)) {
+            setIsOpen(false);
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+    };
+    const handleOpen = () => {
+        setIsOpen(!isOpen)
+        document.addEventListener('mousedown', handleClickOutside);
+    };
+
+    useEffect(() => {
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     return (
-        <div className={cl.customSelectContainer}>
-            <div className={cl.selectedValue} onClick={() => setIsOpen(!isOpen)}>
+        <div ref={selectRef} className={cl.customSelectContainer}>
+            <div className={cl.selectedValue} onClick={handleOpen}>
                 {selectedOption ? selectedOption.title : defaultValue}
             </div>
             {isOpen && (

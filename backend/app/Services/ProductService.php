@@ -17,13 +17,12 @@ class ProductService
             DB::beginTransaction();
             $images = $data['images'];
             unset($data['images']);
-            if(isset($data['tag_ids'])){
+            if (isset($data['tag_ids'])) {
                 $tag_ids = $data['tag_ids'];
                 unset($data['tag_ids']);
                 $product = Product::Create($data);
                 $product->tags()->attach($tag_ids);
-            }
-            else{
+            } else {
                 $product = Product::Create($data);
             }
 
@@ -66,6 +65,7 @@ class ProductService
             return $exception->getMessage();
         }
     }
+
     public function delete($product)
     {
         $this->deleteImages($product);
@@ -79,6 +79,7 @@ class ProductService
             $image->delete();
         }
     }
+
     protected function deleteImagesByIds($images_ids_for_delete)
     {
         foreach ($images_ids_for_delete as $image_id) {
@@ -87,6 +88,7 @@ class ProductService
             $image->delete();
         }
     }
+
     protected function storeImages($product, $images)
     {
         foreach ($images as $image) {

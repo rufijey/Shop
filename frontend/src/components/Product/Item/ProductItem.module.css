@@ -1,31 +1,16 @@
-.container{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-}
-.products{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    padding: 0 10px;
-    width: 100%;
-}
-
 .product__item{
     display: flex;
     flex-direction: row;
     justify-content: center;
     padding: 10px 20px;
-    margin: 2px;
+    margin: 10px;
     border: 2px solid gray;
     border-radius: 4px;
     background-color: white;
     font-size: 20px;
     cursor: pointer;
     box-sizing: border-box;
-    width: calc(25% - 4px);
+    width: calc(25% - 20px);
     height: calc(30vh + 20px);
     transition: 0.2s;
 }
@@ -73,16 +58,8 @@
     overflow: hidden;
 }
 
-.observer__container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.wrapper{
-    width: 100%;
-    display: flex;
-    justify-content: center;
+.price{
+    font-weight: bold;
 }
 
 @media (max-width: 1200px) {
@@ -109,8 +86,3 @@
         font-size: 18px; /* Уменьшение размера текста описания */
     }
 }
-.price{
-    font-weight: bold;
-    font-size: 24px;
-}
-

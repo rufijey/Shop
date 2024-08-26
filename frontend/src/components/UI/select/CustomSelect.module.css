@@ -1,6 +1,7 @@
 .customSelectContainer {
     position: relative;
     width: 200px;
+    background-color: white;
 }
 
 .selectedValue {

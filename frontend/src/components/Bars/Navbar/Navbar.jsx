@@ -13,6 +13,7 @@ import CustomInput from "../../UI/input/CustomInput";
 import { AiFillHome } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
 import productStore from "../../../store/ProductStore";
+import { FaCartShopping } from "react-icons/fa6";
 
 const Navbar = observer(() => {
     const [visible, setVisible] = useState(false);
@@ -72,11 +73,14 @@ const Navbar = observer(() => {
                 <FaSearch className={cl.searchIcon} onClick={searchSubmit}/>
             </div>
             <div className={cl.navbar__links}>
+                {authStore.isAuthenticated &&
+                    <Link to='/cart' className={cl.item}><FaCartShopping/></Link>
+                }
                 {authStore.isAdmin &&
                     <Link to='/admin' className={cl.item}><MdAdminPanelSettings/></Link>
                 }
                 <div className={cl.icon} onClick={toggleDropdown} ref={dropdownRef}>
-                    {AuthStore.isAuthenticated
+                    {authStore.isAuthenticated
                         ? <div>
                             <LuUserCircle2 className={cl.item}/>
                             <div className={`${cl.dropdown} ${visible ? cl.visible : ''}`}>

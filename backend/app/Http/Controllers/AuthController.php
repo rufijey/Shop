@@ -8,12 +8,15 @@ use App\Services\AuthService;
 class AuthController extends Controller
 {
     public $service;
+
     public function __construct(AuthService $service)
     {
         $this->middleware('auth:api', ['except' => ['login', 'refresh', 'register']]);
         $this->service = $service;
     }
-    public function register(StoreRequest $request){
+
+    public function register(StoreRequest $request)
+    {
         $data = $request->validated();
         return $this->service->register($data);
     }
@@ -24,6 +27,7 @@ class AuthController extends Controller
         $fingerprint = request('fingerprint');
         return $this->service->login($credentials, $fingerprint);
     }
+
     public function me()
     {
         return $this->service->me();

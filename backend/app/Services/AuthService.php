@@ -11,7 +11,8 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthService
 {
-    public function register($data){
+    public function register($data)
+    {
         $credentials = ['email' => $data['email'], 'password' => $data['password']];
         $fingerprint = $data['fingerprint'];
         $data['password'] = Hash::make($data['password']);
@@ -20,9 +21,10 @@ class AuthService
         ], $data);
         return $this->login($credentials, $fingerprint);
     }
+
     public function login($credentials, $fingerprint)
     {
-        if (! $token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         RefreshToken::invalidateToken($fingerprint);
@@ -30,10 +32,12 @@ class AuthService
         $cookie = cookie('refresh_token', $refreshToken, config('jwt.refresh_ttl'), null, null, true, true);
         return $this->respondWithToken($token, $refreshToken)->withCookie($cookie);
     }
+
     public function me()
     {
         return response()->json(auth()->user());
     }
+
     public function logout($fingerprint)
     {
         RefreshToken::invalidateToken($fingerprint);
@@ -41,6 +45,7 @@ class AuthService
 
         return response()->json(['message' => 'Successfully logged out']);
     }
+
     public function refresh($refreshToken, $fingerprint)
     {
         $storedToken = RefreshToken::where('refresh_token', $refreshToken)
@@ -64,6 +69,7 @@ class AuthService
         }
 
     }
+
     protected function respondWithToken($token, $refreshToken)
     {
         return response()->json([

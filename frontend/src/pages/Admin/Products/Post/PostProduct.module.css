@@ -5,6 +5,7 @@
     cursor: pointer;
     margin: 10px 0;
     border-radius: 6px;
+    background-color: white;
 }
 .drz:active{
     background-color: #abdff3;

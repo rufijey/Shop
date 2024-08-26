@@ -6,6 +6,7 @@
     border: 2px solid teal;
     cursor: pointer;
     border-radius: 6px;
+    transition: 0.2s;
 }
 .btn:hover{
     transform: translateY(-3px);

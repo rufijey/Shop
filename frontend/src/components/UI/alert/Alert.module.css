@@ -1,0 +1,44 @@
+.alertContainer {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.alertContainer.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.alertContainer.hide {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+}
+
+.alertBox {
+    padding: 15px 20px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.message {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #302b2c;
+}
+
+.closeButton:hover {
+    color: #f5c6cb;
+}

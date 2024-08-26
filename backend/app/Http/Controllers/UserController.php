@@ -11,11 +11,14 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $user = User::latest()->first();
         return response()->json($user);
     }
-    public function store(StoreRequest $request){
+
+    public function store(StoreRequest $request)
+    {
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);
         $user = User::FirstOrCreate([
@@ -23,17 +26,22 @@ class UserController extends Controller
         ], $data);
         return response()->json($user);
     }
+
     public function show(Request $request)
     {
         $email = $request->get('email');
         $user = User::where('email', $email)->first();
         return new UserResource($user);
     }
-    public function makeAdmin(User $user){
+
+    public function makeAdmin(User $user)
+    {
         $user['role'] = 'admin';
         $user->update();
     }
-    public function makeUnAdmin(User $user){
+
+    public function makeUnAdmin(User $user)
+    {
         $user['role'] = 'user';
         $user->update();
     }

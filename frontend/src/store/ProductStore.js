@@ -2,6 +2,7 @@ import {action, makeAutoObservable} from 'mobx';
 import router from "../router";
 import ProductService from "../services/ProductService";
 import {getPagesCount} from "../utils/pages";
+import {createRef} from "react";
 
 class ProductStore {
     filters = {
@@ -62,7 +63,9 @@ class ProductStore {
             page: 1,
             per_page: 10
         };
-        this.syncUrl()
+        if(window.location.pathname !== '/'){
+            this.syncUrl()
+        }
     }
 
     fetchProducts = async () => {
@@ -94,9 +97,11 @@ class ProductStore {
     }
 
     setProducts(products) {
-        this.products = products;
+        this.products = products.map(product => ({
+            ...product,
+            nodeRef: createRef()
+        }));
     }
-
     setLoading(loading) {
         this.loading = loading;
     }

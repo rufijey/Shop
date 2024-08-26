@@ -12,25 +12,18 @@ import Filters from "../../Filters/Filters";
 
 const AdminSidebar = () => {
     const navigate = useNavigate()
-
-    const applyFilters = async () => {
-        productStore.syncUrl()
-        await productStore.fetchProducts()
-    }
-
-    const clearFilters = async () => {
-        productStore.resetFilters()
-        await productStore.fetchProducts()
-    }
+    
     return (
         <div className={cl.sidebar}>
             <div className={cl.main} onClick={() => navigate('/admin')}>
                 <h1 className={cl.item}>Admin</h1>
             </div>
             <div className={cl.items}>
-                <IoShirt className={cl.item} onClick={() => navigate('/admin/products')}/>
-                <BiCategory className={cl.item} onClick={() => navigate('/admin/categories')}/>
-                <FaTags className={cl.item} onClick={() => navigate('/admin/tags')}/>
+                <div className={cl.links}>
+                    <IoShirt className={cl.item} onClick={() => navigate('/admin/products')}/>
+                    <BiCategory className={cl.item} onClick={() => navigate('/admin/categories')}/>
+                    <FaTags className={cl.item} onClick={() => navigate('/admin/tags')}/>
+                </div>
                 {
                     window.location.pathname === '/admin/products' &&
                     <Filters/>

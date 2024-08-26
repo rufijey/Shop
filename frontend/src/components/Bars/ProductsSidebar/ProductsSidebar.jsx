@@ -18,7 +18,6 @@ const ProductsSidebar = () => {
 
     const applyFilters = async ()=>{
         productStore.syncUrl()
-        await productStore.fetchProducts()
     }
 
     const clearFilters = async() => {
@@ -31,7 +30,9 @@ const ProductsSidebar = () => {
             <div className={cl.main} onClick={applyFilters}>
                 <h1 className={cl.item}>Filter</h1>
             </div>
-           <Filters/>
+            <div className={cl.items}>
+                <Filters/>
+            </div>
         </div>
     );
 };
