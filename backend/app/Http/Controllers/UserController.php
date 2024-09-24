@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\User\MakeAdminRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -31,7 +30,13 @@ class UserController extends Controller
     {
         $email = $request->get('email');
         $user = User::where('email', $email)->first();
-        return new UserResource($user);
+        if($user){
+            return new UserResource($user);
+        }
+        else{
+            return response(['message'=>'User not found!']);
+        }
+
     }
 
     public function makeAdmin(User $user)

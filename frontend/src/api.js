@@ -9,25 +9,20 @@ const api = axios.create({
 });
 api.interceptors.request.use(async config => {
 
-    const expires_time = localStorage.getItem('expires_time');
-    if (expires_time < Date.now()) {
-        if (localStorage.getItem('access_token')) {
-            await authStore.refresh()
-        }
-        else{
-            AuthStore.logout()
-            await router.navigate('/user/login')
-        }
-
-    }
-
+    // const expires_time = localStorage.getItem('expires_time');
+    // if (expires_time < Date.now()) {
+    //     if (localStorage.getItem('access_token')) {
+    //         await authStore.refresh()
+    //     }
+    //     else{
+    //         authStore.resetUser()
+    //         await router.navigate('/user/login')
+    //     }
+    //
+    // }
 
     if (localStorage.getItem('access_token')) {
         config.headers.authorization = `Bearer ${localStorage.getItem('access_token')}`
-    }
-    else{
-        AuthStore.logout()
-        await router.navigate('/user/login')
     }
     return config;
 }, error => {
@@ -36,8 +31,22 @@ api.interceptors.request.use(async config => {
 api.interceptors.response.use(response => {
     return response;
 }, async error => {
-    AuthStore.logout()
-    await router.navigate('/user/login')
+    if (!error.config._retry) {
+        error.config._retry = true;
+        try {
+            if (localStorage.getItem('access_token')) {
+                await authStore.refresh()
+                error.config.headers.authorization = `Bearer ${localStorage.getItem('access_token')}`
+                return api.request(error.config)
+            }
+        } catch(err) {
+            if (err.status === 401){
+                await authStore.resetUser()
+                await router.navigate('/user/login')
+            }
+        }
+    }
+    return Promise.reject(error);
 });
 
 export default api;

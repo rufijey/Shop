@@ -6,30 +6,7 @@ import ProductService from "../../../services/ProductService";
 import productStore from "../../../store/ProductStore";
 import {observer} from "mobx-react-lite";
 
-const PriceRangeSlider = observer(() => {
-    const [maxPrice, setMaxPrice] = useState(1000);
-    const [loading, setLoading] = useState(true)
-    const fetchMaxPrice = async () => {
-        try {
-            setLoading(true)
-            const response = await ProductService.maxPrice();
-            const price = Number(response.data.max_price)
-            setMaxPrice(price);
-            if(!productStore.filters.price_range.max){
-                productStore.setFilter('price_range',{min: 0, max: price});
-            }
-        } catch (error) {
-            console.error("Error fetching max price:", error);
-        } finally {
-            setLoading(false)
-            console.log()
-        }
-    };
-
-    useEffect(() => {
-        fetchMaxPrice()
-    }, []);
-
+const PriceRangeSlider = observer(({loading, maxPrice}) => {
     const handleSliderChange = (value) => {
         productStore.setFilter('price_range',{ min: value[0], max: value[1] });
     };

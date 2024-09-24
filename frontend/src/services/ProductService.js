@@ -15,7 +15,7 @@ export default class ProductService{
         })
     }
     static async get(slug){
-        return await axios.get(`/products/${slug}`)
+        return await api.get(`/products/${slug}`)
     }
     static async post(data){
        return await api.post(`/products`,data)

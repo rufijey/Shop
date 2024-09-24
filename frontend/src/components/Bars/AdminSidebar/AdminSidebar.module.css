@@ -43,7 +43,7 @@
 }
 
 .main{
-    border-bottom: 4px solid #f3f3f3;
+    border-bottom: 4px solid white;
     border-radius: 0 0 10px 0;
     display: flex;
     justify-content: center;

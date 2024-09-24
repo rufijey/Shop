@@ -10,6 +10,7 @@ class ProductFilter extends AbstractFilter
     protected const CATEGORY_ID = 'category_id';
     protected const TAG_IDS = 'tag_ids';
     protected const PRICE_RANGE = 'price_range';
+    protected const SORT_BY = 'sort_by';
     protected function getCallbacks(): array
     {
         return [
@@ -17,6 +18,7 @@ class ProductFilter extends AbstractFilter
             self::CATEGORY_ID=>[$this, 'categoryId'],
             self::TAG_IDS=>[$this, 'tagIds'],
             self::PRICE_RANGE => [$this, 'priceRange'],
+            self::SORT_BY => [$this, 'sortBy'],
         ];
     }
 
@@ -46,4 +48,13 @@ class ProductFilter extends AbstractFilter
             $builder->where('price', '<=', $value['max']);
         }
     }
+
+    public function sortBy(Builder $builder, $value)
+    {
+        $field = $value['field'] ?? 'created_at';
+        $direction = $value['direction'] ?? 'asc';
+
+        $builder->orderBy($field, $direction);
+    }
+
 }

@@ -21,7 +21,7 @@ const Alert = ({ message, onClose, duration = 3000 , className}) => {
 
     useEffect(() => {
         if (!visible) {
-            const timeoutId = setTimeout(onClose, 500); // 500ms соответствует времени перехода в CSS
+            const timeoutId = setTimeout(onClose, 250);
             return () => clearTimeout(timeoutId);
         }
     }, [visible, onClose]);

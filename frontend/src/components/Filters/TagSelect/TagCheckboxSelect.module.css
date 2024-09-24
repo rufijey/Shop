@@ -24,7 +24,8 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-
+    width: 100%;
+    position: relative;
 }
 
 .custom__checkbox {
@@ -90,6 +91,9 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    position: absolute;
+    top: 40px;
+    z-index: 10;
 }
 .tag__input{
     height: 24px !important;

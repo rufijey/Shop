@@ -13,7 +13,7 @@
     width: 100%;
 }
 
-.product__item{
+.product{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -29,11 +29,11 @@
     height: calc(30vh + 20px);
     transition: 0.2s;
 }
-.product__item:hover{
+.product:hover{
     transform: translateY(-3px);
     box-shadow: 0 2px 0 #757474;
 }
-.product__item:active{
+.product:active{
     transform: translateY(-2px);
     box-shadow: 0 1px 0 #757474;
 }
@@ -44,7 +44,7 @@
 
 }
 
-.item__default{
+.product__item{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -54,8 +54,11 @@
 }
 .title{
     margin: 5px;
-    font-size: 25px;
-    color: #1a7695;
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 20vw;
 }
 .image {
     max-width: 100%;
@@ -86,24 +89,33 @@
 }
 
 @media (max-width: 1200px) {
-    .product__item {
-        width: calc(33.33% - 20px); /* 3 элемента в ряду */
+    .product {
+        width: calc(33.3%  - 4px); /* 3 элемента в ряду */
+    }
+    .title {
+        font-size: 20px;
+        max-width: 25vw;
     }
 }
 
 @media (max-width: 900px) {
-    .product__item {
-        width: calc(50% - 20px); /* 2 элемента в ряду */
+    .product {
+        width: calc(50% - 4px); /* 2 элемента в ряду */
+    }
+    .title {
+        font-size: 20px;
+        max-width: 30vw;
     }
 }
 
 @media (max-width: 600px) {
-    .product__item {
-        width: calc(100% - 20px); /* 1 элемент в ряду */
+    .product {
+        width: calc(100%  - 4px); /* 1 элемент в ряду */
         height: auto; /* Автоматическая высота */
     }
     .title {
-        font-size: 20px; /* Уменьшение размера шрифта для маленьких экранов */
+        font-size: 20px;
+        max-width: 40vw;
     }
     .description {
         font-size: 18px; /* Уменьшение размера текста описания */

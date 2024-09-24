@@ -19,6 +19,7 @@ class OrderProductResource extends JsonResource
             'title'=>$this->title,
             'price'=>$this->price,
             'quantity' => $this->pivot->quantity,
+            'total_quantity' => $this->quantity,
             'images' => ImageResource::collection($this->images),
             'slug'=> $this->slug,
         ];

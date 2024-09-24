@@ -1,0 +1,129 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: auto;
+    height: 85vh;
+    width: 800px;
+}
+
+.product{
+    justify-content: center;
+    padding: 10px 20px;
+    margin: 2px;
+    border: 2px solid gray;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 20px;
+    box-sizing: border-box;
+    width: calc(80% - 4px);
+    height: 220px;
+    transition: 0.2s;
+}
+
+.product__item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 200px;
+}
+.title{
+    margin: 5px;
+    font-size: 25px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.image {
+    max-width: 200px;
+    max-height: 200px;
+    height: auto;
+    object-fit: contain;
+    object-position: top;
+    cursor: pointer;
+}
+.image__container{
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: flex-start;
+    flex-grow: 1;
+    height: auto;
+    overflow: hidden;
+}
+.customView {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.price{
+    font-weight: bold;
+    font-size: 24px;
+}
+.product__desc{
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    white-space: pre-wrap;
+    width: 300px;
+    height: 100%;
+}
+.product__content{
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+}
+.order__btns{
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+}
+.delete__btn{
+}
+.delete__btn:hover{
+   color: #810303;
+}
+.delete__btn:active{
+    color: #ba2a2a;
+}
+.loader{
+    display: flex;
+    justify-content: center;
+}
+.quantity__container{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #006027;
+}
+.quantity__btn{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+.quantity__btn:hover{
+    color: black;
+}
+.quantity__btn:active{
+    color: #0a94d5;
+}
+
+.quantity{
+    font-weight: bold;
+}
+.disabled {
+    color: #1d8846; /* Светлый цвет текста */
+    cursor: auto; /* Курсор меняется на "запрещено" */
+    opacity: 0.6; /* Полупрозрачный эффект */
+}
+.disabled:hover{
+    color: #1d8846;
+}
+.disabled:active{
+    color: #1d8846;
+}

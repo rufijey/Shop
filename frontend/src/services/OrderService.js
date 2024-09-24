@@ -6,7 +6,7 @@ export default class OrderService{
        return await api.get('/orders/current')
     }
     static async addProduct(product_id){
-        return await api.post('/orders', {
+        return await api.post('/orders/current', {
             product_id: product_id
         })
     }
@@ -17,6 +17,15 @@ export default class OrderService{
         return await api.patch('/orders/complete')
     }
     static async removeProduct(productId){
-        return await api.delete('/orders/product', )
+        return await api.delete(`/orders/products/${productId}`, )
+    }
+    static async deleteCurrent(){
+        return await api.delete(`/orders/current`, )
+    }
+    static async changeQuantity(quantity, product_id){
+        return await api.patch(`/orders/quantity`,{
+            quantity: quantity,
+            product_id: product_id
+        } )
     }
 }

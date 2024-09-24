@@ -4,7 +4,7 @@ import {Outlet} from "react-router-dom";
 import cl from './ProductsLayout.module.css'
 import ProductsSidebar from "../../components/Bars/ProductsSidebar/ProductsSidebar";
 
-const UserLayout = () => {
+const ProductsLayout = () => {
     return (
         <div className={cl.container}>
             <div className={cl.sidebar}>
@@ -20,4 +20,4 @@ const UserLayout = () => {
     );
 };
 
-export default UserLayout;
+export default ProductsLayout;

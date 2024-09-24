@@ -1,0 +1,23 @@
+
+
+
+.product__nav{
+    display: flex;
+    justify-content: flex-start;
+    gap: 30px;
+    font-size: 26px;
+    padding: 10px 10px 10px 100px;
+    border-bottom: 1px solid #bdb5b5;
+    color: #074761;
+    user-select: none;
+    width: 100%;
+}
+.link{
+
+}
+.link:active{
+    color: teal;
+}
+.underline{
+    border-bottom: 2px solid #074761;
+}

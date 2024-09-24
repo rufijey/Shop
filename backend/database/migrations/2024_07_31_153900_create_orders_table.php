@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->index('orders_user_idx');
+            $table->unsignedBigInteger('user_id')->nullable()->index('orders_user_idx');
             $table->date('date')->nullable();
             $table->timestamps();
 

@@ -103,9 +103,11 @@ const UpdateProduct = () => {
         product.tags.forEach(tag => {
             formData.append('tag_ids[]', tag.id);
         });
-        product.image_ids_for_delete.forEach(image_id => {
-            formData.append('image_ids_for_delete[]', image_id);
-        });
+        if(product.image_ids_for_delete){
+            product.image_ids_for_delete.forEach(image_id => {
+                formData.append('image_ids_for_delete[]', image_id);
+            });
+        }
         formData.append('_method', 'PATCH');
 
         try {

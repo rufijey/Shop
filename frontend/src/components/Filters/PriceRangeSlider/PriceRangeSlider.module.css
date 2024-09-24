@@ -1,7 +1,7 @@
 /* Стили для контейнера слайдера */
 .slider__container {
     width: 100%;
-    padding: 10px;
+    padding: 20px;
 }
 
 .price__display {

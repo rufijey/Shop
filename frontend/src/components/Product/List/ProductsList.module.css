@@ -1,0 +1,129 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+.products{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 0 10px;
+    width: 100%;
+}
+
+.product{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 10px 20px;
+    margin: 2px;
+    border: 2px solid gray;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 20px;
+    cursor: pointer;
+    box-sizing: border-box;
+    width: calc(25% - 4px);
+    height: calc(33vh + 20px);
+    transition: 0.2s;
+}
+.product:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 2px 0 #757474;
+}
+.product:active{
+    transform: translateY(-2px);
+    box-shadow: 0 1px 0 #757474;
+}
+.description{
+    margin: 10px 20px;
+    font-size: 20px;
+    transition: 0.5s;
+
+}
+
+.product__item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+}
+.title {
+    margin: 5px;
+    font-size: 20px;
+    line-height: 35px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+.image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: top;
+}
+.image__container{
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+
+.observer__container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 1200px) {
+    .product {
+        width: calc(33.3%  - 4px);
+    }
+    .title {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 900px) {
+    .product {
+        width: calc(50% - 4px);
+    }
+    .title {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .product {
+        width: calc(100%  - 4px);
+        height: auto;
+    }
+    .title {
+        font-size: 20px;
+    }
+    .description {
+        font-size: 18px;
+    }
+}
+.price{
+    font-weight: bold;
+    font-size: 24px;
+}
+

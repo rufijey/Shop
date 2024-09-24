@@ -18,11 +18,16 @@ const Login = observer(() => {
         password:'',
         fingerprint: ''
     });
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await AuthStore.login(loginForm)
+        try {
+            await AuthStore.login(loginForm)
+        }catch (err){
+            setError('')
+        }
     };
 
     return (

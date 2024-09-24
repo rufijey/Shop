@@ -9,8 +9,9 @@
     flex-direction: column;
 }
 .links{
+    margin-top: 30px;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
     gap: 20px;
     width: 100%;
 }
@@ -24,14 +25,15 @@
     justify-content: flex-start;
     flex-wrap: wrap;
     font-size: 25px;
-    gap: 30px;
-    max-width: 400px;
+    gap: 1px;
+    max-width: 100%;
     color: #494949;
 }
 .item__container{
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
+    padding: 10px 40px;
 }
 .link{
     cursor: pointer;

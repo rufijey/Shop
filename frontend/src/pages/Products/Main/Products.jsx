@@ -5,6 +5,7 @@ import cl from './Products.module.css'
 import Pagination from "../../../components/UI/pagination/Pagination";
 import productStore from "../../../store/ProductStore";
 import {observer} from "mobx-react-lite";
+import ProductsList from "../../../components/Product/List/ProductsList";
 
 const Products = observer(() => {
     const navigate = useNavigate()
@@ -15,7 +16,7 @@ const Products = observer(() => {
     // })
 
     useEffect(() => {
-        productStore.syncUrl()
+        productStore.syncReplaceUrl()
         productStore.fetchProducts()
     }, []);
 
@@ -26,34 +27,10 @@ const Products = observer(() => {
     }
 
     return (
-        <div className={cl.container}>
-            <div className={cl.products}>
-                {productStore.products.map(product => (
-                    <div className={cl.product__item}
-                         key={product.id}
-                         onClick={() => navigate(`/products/${product.slug}`)}
-                    >
-                        <div className={cl.item__default}>
-                            <div className={cl.image__container}>
-                                <img src={product.images[0].url} className={cl.image} alt="huu"/>
-                            </div>
-                            <div>{product.title}</div>
-                            <div className={cl.price}>{product.price} ₴</div>
-                        </div>
-
-                    </div>
-                ))}
-                {/*<div ref={observedElement} style={{height: 100, backgroundColor:"red", width:"100%"}}></div>*/}
-                {productStore.totalPages > 1 &&
-                    <div className={cl.wrapper}>
-                        <Pagination
-                            page={productStore.filters.page}
-                            changePage={productStore.setPage}
-                            totalPages={productStore.totalPages}
-                        />
-                    </div>
-                }
-            </div>
+        <div>
+            <ProductsList
+                link={'products'}
+            ></ProductsList>
         </div>
     );
 });

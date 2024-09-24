@@ -63,3 +63,8 @@
     transform: translateY(-2px);
     color: #0498d3;
 }
+.loader{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

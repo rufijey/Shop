@@ -4,6 +4,7 @@ import CategoryService from "../../services/CategoryService";
 import TagService from "../../services/TagService";
 import productStore from "../../store/ProductStore";
 import {useNavigate} from "react-router-dom";
+import Loader from "../../components/UI/loader/Loader";
 const Main = () => {
     const [categories, setCategories] = useState([])
     const [categoriesLoading, setCategoriesLoading] = useState(false)
@@ -51,27 +52,32 @@ const Main = () => {
 
     return (
         <div className={cl.container}>
-            <div className={cl.title}>SHOP</div>
             <div className={cl.links}>
                 <div className={cl.item__container}>
                     <div className={cl.item__title}>Categories</div>
-                    <div className={cl.list}>
-                        {categories.map(category=>
-                            <div key={category.id} className={cl.link} onClick={()=>handleCategoryClick(category)}>
-                                {category.title}
-                            </div>
-                        )}
-                    </div>
+                    {categoriesLoading ? <Loader/> :
+                        <div className={cl.list}>
+                            {categories.map(category =>
+                                <div key={category.id} className={cl.link}
+                                     onClick={() => handleCategoryClick(category)}>
+                                    {category.title}
+                                </div>
+                            )}
+                        </div>
+                    }
                 </div>
                 <div className={cl.item__container}>
                     <div className={cl.item__title}>Tags</div>
-                    <div className={cl.list}>
-                        {tags.map(tag=>
-                            <div key={tag.id} className={cl.link} onClick={()=>handleTagClick(tag)}>
-                                {tag.title}
-                            </div>
-                        )}
-                    </div>
+                    {tagsLoading ? <Loader/> :
+                        <div className={cl.list}>
+                            {tags.map(tag =>
+                                <div key={tag.id} className={cl.link} onClick={() => handleTagClick(tag)}>
+                                    {tag.title}
+                                </div>
+                            )}
+                        </div>
+                    }
+
                 </div>
             </div>
         </div>

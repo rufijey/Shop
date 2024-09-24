@@ -7,27 +7,10 @@ import productStore from "../../../store/ProductStore";
 import {observer} from "mobx-react-lite";
 import CustomInput from "../../UI/input/CustomInput";
 
-const TagCheckboxSelect = observer(() => {
+const TagCheckboxSelect = observer(({loading, fetchTags, tags}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedTags, setSelectedTags] = useState([]); // Массив для хранения ID выбранных тегов
-    const [tags, setTags] = useState([]);
-    const [tagsLoading, setTagsLoading] = useState(false);
+    const [selectedTags, setSelectedTags] = useState([]);
     const [tagTitle, setTagTitle]= useState('')
-    const fetchTags = async (title) => {
-        try {
-            setTagsLoading(true);
-            const res = await TagService.getAll(title);
-            setTags(res.data);
-        } catch (error) {
-            console.error("Error fetching tags:", error);
-        } finally {
-            setTagsLoading(false);
-        }
-    };
-    useEffect(() => {
-        fetchTags()
-    }, []);
-
     const toggleList = () => {
         // if (!tags[0]) {
         //     fetchTags().then(()=>{
@@ -68,11 +51,6 @@ const TagCheckboxSelect = observer(() => {
                 </div>
                 {isOpen && (
                     <div className={cl.tags}>
-                        {tagsLoading &&
-                            <div className={cl.loader}>
-                                <Loader/>
-                            </div>
-                        }
                         <div className={cl.tags__search}>
                             <CustomInput
                                 value={tagTitle}
@@ -82,6 +60,11 @@ const TagCheckboxSelect = observer(() => {
                             />
                             <FaSearch className={cl.searchIcon} onClick={handleTagsSearchSubmit}/>
                         </div>
+                        {loading &&
+                            <div className={cl.loader}>
+                                <Loader/>
+                            </div>
+                        }
                         {tags.map(tag => (
                             <label key={tag.id} className={cl.custom__checkbox}>
                                 <input
@@ -99,7 +82,7 @@ const TagCheckboxSelect = observer(() => {
             </div>
             <div className={cl.tags}>
                 {tags
-                    .filter(tag => productStore.filters.tag_ids.includes(tag.id)) // Фильтруем теги
+                    .filter(tag => productStore.filters.tag_ids.includes(tag.id))
                     .map(tag => (
                         <label key={tag.id} className={cl.custom__checkbox}>
                         <input

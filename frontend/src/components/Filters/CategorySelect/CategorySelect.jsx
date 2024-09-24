@@ -7,27 +7,9 @@ import productStore from "../../../store/ProductStore";
 import { observer } from "mobx-react-lite";
 import CustomInput from "../../UI/input/CustomInput";
 
-const CategorySelect = observer(() => {
+const CategorySelect = observer(({loading, fetchCategories, categories}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [categories, setCategories] = useState([]);
-    const [categoriesLoading, setCategoriesLoading] = useState(false);
     const [categoryTitle, setCategoryTitle] = useState('');
-
-    const fetchCategories = async (title) => {
-        try {
-            setCategoriesLoading(true);
-            const res = await CategoryService.getAll(title);
-            setCategories(res.data);
-        } catch (error) {
-            console.error("Error fetching categories:", error);
-        } finally {
-            setCategoriesLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchCategories()
-    }, []);
 
     const toggleList = () => {
         // if (!categories[0]) {
@@ -69,11 +51,6 @@ const CategorySelect = observer(() => {
 
                 {isOpen && (
                     <div className={cl.categories}>
-                        {categoriesLoading &&
-                            <div className={cl.loader}>
-                                <Loader/>
-                            </div>
-                        }
                         <div className={cl.categories__search}>
                             <CustomInput
                                 value={categoryTitle}
@@ -83,6 +60,11 @@ const CategorySelect = observer(() => {
                             />
                             <FaSearch className={cl.searchIcon} onClick={handleCategorySearchSubmit}/>
                         </div>
+                        {loading &&
+                            <div className={cl.loader}>
+                                <Loader/>
+                            </div>
+                        }
                         {categories.map(category => (
                             <label key={category.id} className={cl.custom__checkbox}>
                                 <input

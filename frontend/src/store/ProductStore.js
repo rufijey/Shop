@@ -42,8 +42,20 @@ class ProductStore {
 
 
     syncUrl() {
-        const searchParams = new URLSearchParams();
+        const searchParams = this.getSearchParams()
+        router.navigate({ search: searchParams.toString() });
+    }
+    syncReplaceUrl() {
+        const searchParams = this.getSearchParams()
+        router.navigate({ search: searchParams.toString() }, {replace: true});
+    }
+    // searchProducts (){
+    //     const searchParams = this.getSearchParams()
+    //     router.navigate( `/products?${searchParams.toString()}`);
+    // }
 
+    getSearchParams(){
+        const searchParams = new URLSearchParams();
         if (this.filters.title) searchParams.set('title', this.filters.title);
         if (this.filters.category_id) searchParams.set('category_id', this.filters.category_id);
         if (this.filters.tag_ids.length) searchParams.set('tag_ids', this.filters.tag_ids.join(','));
@@ -51,7 +63,7 @@ class ProductStore {
         if (this.filters.price_range.max) searchParams.set('max_price', this.filters.price_range.max);
         searchParams.set('page', this.filters.page);
         searchParams.set('per_page', this.filters.per_page);
-        router.navigate({ search: searchParams.toString() });
+        return searchParams
     }
 
     resetFilters() {

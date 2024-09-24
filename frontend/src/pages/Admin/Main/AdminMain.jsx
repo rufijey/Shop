@@ -4,18 +4,28 @@ import {useNavigate} from "react-router-dom";
 import CustomInput from "../../../components/UI/input/CustomInput";
 import CustomButton from "../../../components/UI/button/CustomButton";
 import UserService from "../../../services/UserService";
+import Alert from "../../../components/UI/alert/Alert";
 
 const AdminMain = () => {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [user, setUser] = useState({})
+    const [showAlert, setShowAlert] = useState(false)
+    const [message, setMessage] = useState('')
+
 
     const fetchUser = async () => {
         try {
             const res = await UserService.getByEmail(email)
-            setUser(res.data)
+            if (res.data.message){
+                setMessage(res.data.message)
+                setShowAlert(true)
+            }
+            else{
+                setUser(res.data)
+            }
         } catch (err) {
-            alert('user dont exist')
+            console.error(err.message)
         }
     }
     const makeAdmin = async () => {
@@ -85,7 +95,13 @@ const AdminMain = () => {
                 }
 
             </div>
-
+            {showAlert &&
+                <Alert
+                    className={cl.alert}
+                    message={message}
+                    onClose={() => setShowAlert(false)}
+                />
+            }
         </div>
 
     );

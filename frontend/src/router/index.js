@@ -20,6 +20,10 @@ import ProductPage from "../pages/Products/ProductPage/ProductPage";
 import ProductsLayout from "../layouts/ProductsLayout/ProductsLayout";
 import UnRegisteredRoute from "../routes/UnRegisteredRoute";
 import RegisteredRoute from "../routes/RegisteredRoute";
+import ProductPageLayout from "../layouts/ProductPageLayout/ProductPageLayout";
+import ProductAbout from "../pages/Products/About/ProductAbout";
+import Reviews from "../pages/Products/Reviews/Reviews";
+import VerifyEmail from "../pages/User/Email/Verify/VerifyEmail";
 
 const router = createBrowserRouter([
     {
@@ -41,6 +45,10 @@ const router = createBrowserRouter([
                         path: "/user/login",
                         element: <Login/>,
                     },
+                    {
+                        path: "/email/verify/:id/:hash",
+                        element: <VerifyEmail/>,
+                    },
                 ]
             },
             {
@@ -53,14 +61,28 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "/products/:slug",
-                element: <ProductPage/>,
-            },
-            {
                 path: "*",
                 element: <Error404/>,
             }
         ],
+    },
+    {
+        path: "/products/:slug",
+        element: <ProductPageLayout/>,
+        children: [
+            {
+                path: "/products/:slug",
+                element: <ProductPage/>,
+            },
+            {
+                path: "/products/:slug/about",
+                element: <ProductAbout/>,
+            },
+            {
+                path: "/products/:slug/reviews",
+                element: <Reviews/>,
+            }
+        ]
     },
     {
         path: "/products",

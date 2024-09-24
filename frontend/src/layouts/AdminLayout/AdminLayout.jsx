@@ -4,7 +4,7 @@ import {Outlet} from "react-router-dom";
 import AdminSidebar from "../../components/Bars/AdminSidebar/AdminSidebar";
 import cl from './AdminLayout.module.css'
 
-const UserLayout = () => {
+const AdminLayout = () => {
     return (
         <div className={cl.container}>
             <div className={cl.sidebar}>
@@ -20,4 +20,4 @@ const UserLayout = () => {
     );
 };
 
-export default UserLayout;
+export default AdminLayout;

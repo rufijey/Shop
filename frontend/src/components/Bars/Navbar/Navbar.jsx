@@ -8,14 +8,18 @@ import {LuUserCircle2} from "react-icons/lu";
 import AuthStore from "../../../store/AuthStore";
 import {observer} from "mobx-react-lite";
 import authStore from "../../../store/AuthStore";
-import { AiOutlineProduct } from "react-icons/ai";
+import {AiOutlineProduct} from "react-icons/ai";
 import CustomInput from "../../UI/input/CustomInput";
-import { AiFillHome } from "react-icons/ai";
-import { FaSearch } from "react-icons/fa";
+import {AiFillHome} from "react-icons/ai";
+import {FaSearch} from "react-icons/fa";
 import productStore from "../../../store/ProductStore";
-import { FaCartShopping } from "react-icons/fa6";
+import {FaCartShopping} from "react-icons/fa6";
+import Modal from "../../UI/modal/Modal";
+import CurrentOrder from "../../Order/CurrentOrder";
+import {IoShirt} from "react-icons/io5";
+import orderStore from "../../../store/OrderStore";
 
-const Navbar = observer(() => {
+const Navbar = observer(({classNames}) => {
     const [visible, setVisible] = useState(false);
     const [search, setSearch] = useState('');
     const dropdownRef = useRef(null);
@@ -35,14 +39,13 @@ const Navbar = observer(() => {
         document.addEventListener('mousedown', handleClickOutside);
     }, []);
 
-    function handleLogout() {
-        AuthStore.logout();
-        navigate('/user/login');
+    const handleLogout = async () => {
+        await AuthStore.logout();
     }
 
     const searchSubmit = async () => {
         const path = window.location.pathname
-        if(!(path === '/products' || path === '/admin/products')){
+        if (!(path === '/products' || path === '/admin/products')) {
             const part = path.split('/')[1];
             part === 'admin' ? navigate(`/admin/products`) : navigate('/products')
         }
@@ -58,24 +61,40 @@ const Navbar = observer(() => {
         }
     }
 
+    const handleCartClick = () => {
+        orderStore.setVisible(true)
+    }
+
     return (
-        <div className={cl.navbar}>
+        <div className={[cl.navbar, classNames].join(' ')}>
             <div className={cl.main__links}>
                 <Link to='/' className={cl.main__item}><AiFillHome/></Link>
-                <Link to='/products' className={cl.main__item}><AiOutlineProduct/></Link>
+                <div className={cl.main__item}
+                    onClick={()=>{
+                        navigate('/products')
+                        if(window.location.pathname.split('/').at(-1) === 'products'){
+                            productStore.syncUrl()
+                        }
+                    }}
+                ><IoShirt/></div>
             </div>
             <div className={cl.input}>
-            <CustomInput
+                <CustomInput
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     onKeyDown={handleKeyDown}
                 />
-                <FaSearch className={cl.searchIcon} onClick={searchSubmit}/>
+                <FaSearch className={cl.search__icon} onClick={searchSubmit}/>
             </div>
             <div className={cl.navbar__links}>
-                {authStore.isAuthenticated &&
-                    <Link to='/cart' className={cl.item}><FaCartShopping/></Link>
-                }
+                <div onClick={handleCartClick} className={cl.item}>
+                    <FaCartShopping/>
+                    {orderStore.order.products_quantity > 0 && (
+                        <div className={cl.cart__quantity}>
+                            {orderStore.order.products_quantity}
+                        </div>
+                    )}
+                </div>
                 {authStore.isAdmin &&
                     <Link to='/admin' className={cl.item}><MdAdminPanelSettings/></Link>
                 }
@@ -98,6 +117,9 @@ const Navbar = observer(() => {
                     }
                 </div>
             </div>
+            <Modal visible={orderStore.visible} setVisible={orderStore.setVisible}>
+                <CurrentOrder setVisibleModal={orderStore.setVisible}/>
+            </Modal>
         </div>
     );
 });

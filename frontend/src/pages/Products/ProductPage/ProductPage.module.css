@@ -1,94 +1,17 @@
-.container{
-    display: flex;
-    flex-direction: column;
-    margin: 5px;
-}
-.product__container{
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 10px;
-}
-.product{
-    width: 100%;
-    margin: 10px;
-    padding: 10px;
-    border-left: 2px solid gray;
-    display: flex;
-    flex-direction: column;
-
-}
-.product__about{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-self: flex-start;
-}
-.product__description{
-    font-size: 18px;
-    border-top: 2px solid gray;
-    padding-top: 10px;
-}
-.product__title{
-    align-self: center;
-    font-size: 28px;
-    margin-bottom: 20px;
-}
-
-.tag{
-    margin: 5px;
-    border: 1px solid gray;
-    background-color: #aadef1;
-    min-width: 150px;
-    padding: 5px;
-    border-radius: 4px;
-}
-.tags{
-    font-size: 24px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 5px;
-}
-.tags__container{
-    width: 100%;
-    border-top: 2px solid gray;
-    border-bottom: 2px solid gray;
-}
-.category{
-    font-size: 26px;
-    margin-left: 20px;
-    color: teal;
-}
-.no__tags{
-    background-color: gray;
-    height: 2px;
-}
-.loader{
-    display: flex;
-    justify-content: center;
-}
-.buy{
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-.price{
-    font-size: 30px;
-    font-weight: bold;
-}
 .cart__container{
     background-color: #03b5b5;
     font-size: 24px;
-    margin: 0 20px;
     padding: 8px;
     border-radius: 10px;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
-    color: #4c4a4a;
+    color: #ffffff;
     transition: 0.3s;
     cursor: pointer;
     user-select: none;
+    width: 190px;
 }
 .cart__container:hover{
     transform: translateY(-2px);
@@ -100,7 +23,16 @@
     box-shadow: 0 1px 0 #757474;
     background-color: #018a8a;
 }
+.added{
+    background-color: #03f603;
+    width: 190px;
+}
+
 .alert{
     color: #297878;
     background-color: #bffafa;
+}
+.loader{
+    display: flex;
+    justify-content: center;
 }

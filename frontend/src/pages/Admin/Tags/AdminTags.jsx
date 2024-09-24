@@ -9,8 +9,8 @@ import TagDelete from "../../../components/Tag/Delete/TagDelete";
 import TagUpdateForm from "../../../components/Tag/UpdateForm/TagUpdateForm";
 import TagPostForm from "../../../components/Tag/PostForm/TagPostForm";
 import Loader from "../../../components/UI/loader/Loader";
-import {getPagesCount} from "../../../utils/pages";
-
+import CustomInput from "../../../components/UI/input/CustomInput"; // Добавляем CustomInput для поиска
+import { FaSearch } from "react-icons/fa";
 
 const AdminTags = () => {
     const [tags, setTags] = useState([]);
@@ -20,10 +20,12 @@ const AdminTags = () => {
     const [visibleDelete, setVisibleDelete] = useState(false);
     const [tagForChange, setTagForChange] = useState(null);
     const [tagForDelete, setTagForDelete] = useState(null);
+    const [tagTitle, setTagTitle] = useState(''); // Стейт для фильтрации по названию тегов
+
     const fetchTags = async () => {
         try {
             setLoading(true);
-            const res = await TagService.getAll();
+            const res = await TagService.getAll(tagTitle); // Передаем параметр title для фильтрации
             setTags(res.data);
         } catch (error) {
             console.error("Error fetching tags:", error);
@@ -33,7 +35,7 @@ const AdminTags = () => {
     };
 
     useEffect(() => {
-        fetchTags();
+        fetchTags(); // Загружаем теги при загрузке компонента
     }, []);
 
     const handleEditClick = (tag) => {
@@ -46,28 +48,48 @@ const AdminTags = () => {
         setVisibleDelete(true);
     };
 
+    const handleSearchSubmit = () => {
+        fetchTags(tagTitle); // Загружаем теги с фильтрацией по введенному названию
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSearchSubmit(); // Отправляем запрос по нажатию Enter
+        }
+    };
 
     return (
         <div className={cl.container}>
-            <div className={cl.tags}>
-                <div className={cl.title}>Tags:</div>
-                {tags.map(tag => (
-                    <div className={cl.tag__item} key={tag.id}>
-                        <div>{tag.title}</div>
-                        <div>
-                            <MdOutlineDriveFileRenameOutline
-                                className={cl.change}
-                                onClick={() => handleEditClick(tag)}
-                            />
-                            <TiDelete
-                                className={cl.tip}
-                                onClick={() => handleDeleteClick(tag)}
-                            />
+            <div className={cl.tags__container}>
+                <div className={cl.search}>
+                    <CustomInput
+                        value={tagTitle}
+                        onChange={e => setTagTitle(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                    />
+                    <FaSearch className={cl.search__icon} onClick={handleSearchSubmit} />
+                </div>
+                <div className={cl.tags}>
+                    {tags.map(tag => (
+                        <div className={cl.tag__item} key={tag.id}>
+                            <div>{tag.title}</div>
+                            <div>
+                                <MdOutlineDriveFileRenameOutline
+                                    className={cl.change}
+                                    onClick={() => handleEditClick(tag)}
+                                />
+                                <TiDelete
+                                    className={cl.tip}
+                                    onClick={() => handleDeleteClick(tag)}
+                                />
+                            </div>
                         </div>
-                    </div>
-                ))}
-                {loading && <Loader/>}
+                    ))}
+                </div>
+                {loading && <Loader />}
             </div>
+
             <IoMdAddCircleOutline
                 className={cl.add}
                 onClick={() => setVisibleAdd(true)}
