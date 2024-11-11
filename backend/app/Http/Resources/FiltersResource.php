@@ -20,7 +20,7 @@ class FiltersResource extends JsonResource
         return [
             'tags' => TagResource::collection(Tag::all()),
             'categories' => CategoryResource::collection(Category::all()),
-            'max-price' => Product::max('price'),
+            'max_price' => Product::max('price'),
         ];
     }
 }

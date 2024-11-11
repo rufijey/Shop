@@ -3,7 +3,7 @@
     font-size: 24px;
     padding: 8px;
     border-radius: 10px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
@@ -11,7 +11,7 @@
     transition: 0.3s;
     cursor: pointer;
     user-select: none;
-    width: 190px;
+    width: 250px;
 }
 .cart__container:hover{
     transform: translateY(-2px);
@@ -25,7 +25,6 @@
 }
 .added{
     background-color: #03f603;
-    width: 190px;
 }
 
 .alert{

@@ -40,10 +40,10 @@ api.interceptors.response.use(response => {
                 return api.request(error.config)
             }
         } catch(err) {
-            if (err.status === 401){
+            // if (err.status === 401){
                 await authStore.resetUser()
                 await router.navigate('/user/login')
-            }
+            // }
         }
     }
     return Promise.reject(error);

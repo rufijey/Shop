@@ -23,6 +23,8 @@
     border-radius: 10px;
     cursor: pointer;
     user-select: none;
+    border: 1px solid darkgray;
+    color: #6e5d5d;
 }
 .add__review:hover{
     background-color: #29bfbf;

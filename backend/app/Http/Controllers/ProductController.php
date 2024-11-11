@@ -6,7 +6,8 @@ use App\Http\Filters\ProductFilter;
 use App\Http\Requests\Product\FilterRequest;
 use App\Http\Requests\Product\StoreRequest;
 use App\Http\Requests\Product\UpdateRequest;
-use App\Http\Resources\ProductPreviewResource;
+use App\Http\Resources\FiltersResource;
+use App\Http\Resources\ProductListResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
@@ -31,7 +32,7 @@ class ProductController extends Controller
         unset($data['per_page']);
         $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
         $products = Product::filter($filter)->paginate($perPage, ['*'], 'page', $page);
-        return ProductPreviewResource::collection($products->items())
+        return ProductListResource::collection($products->items())
             ->response()->header('x-total-count', $products->total());
     }
 
@@ -62,4 +63,10 @@ class ProductController extends Controller
         $maxPrice = Product::max('price');
         return response()->json(['max_price' => $maxPrice]);
     }
+
+    public function getFilters()
+    {
+        return new FiltersResource(null);
+    }
 }
+

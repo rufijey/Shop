@@ -8,6 +8,7 @@ import CategoryService from "../../services/CategoryService";
 import Loader from "../UI/loader/Loader";
 import TagService from "../../services/TagService";
 import ProductService from "../../services/ProductService";
+
 const Filters = () => {
     const [categoriesLoading, setCategoriesLoading] = useState(true);
     const [categories, setCategories] = useState([]);
@@ -24,6 +25,28 @@ const Filters = () => {
     const clearFilters = async () => {
         productStore.resetFilters()
         await productStore.fetchProducts()
+    }
+
+    const fetchFilters = async () => {
+        try {
+            setCategoriesLoading(true);
+            setTagsLoading(true);
+            setPriceLoading(true)
+            const res = await ProductService.getFilters();
+            setCategories(res.data.categories);
+            setTags(res.data.tags);
+            const price = Number(res.data.max_price)
+            setMaxPrice(price);
+            if (!productStore.filters.price_range.max) {
+                productStore.setFilter('price_range', {min: 0, max: price});
+            }
+        } catch (error) {
+            console.error("Error fetching:", error);
+        } finally {
+            setCategoriesLoading(false);
+            setTagsLoading(false);
+            setPriceLoading(false)
+        }
     }
 
     const fetchCategories = async (title) => {
@@ -52,11 +75,11 @@ const Filters = () => {
     const fetchMaxPrice = async () => {
         try {
             setPriceLoading(true)
-            const response = await ProductService.maxPrice();
+            const response = await ProductService.getMaxPrice();
             const price = Number(response.data.max_price)
             setMaxPrice(price);
-            if(!productStore.filters.price_range.max){
-                productStore.setFilter('price_range',{min: 0, max: price});
+            if (!productStore.filters.price_range.max) {
+                productStore.setFilter('price_range', {min: 0, max: price});
             }
         } catch (error) {
             console.error("Error fetching max price:", error);
@@ -67,13 +90,11 @@ const Filters = () => {
 
 
     useEffect(() => {
-        fetchCategories()
-        fetchTags()
-        fetchMaxPrice()
+        fetchFilters()
     }, []);
 
 
-    if(categoriesLoading && tagsLoading && priceLoading){
+    if (categoriesLoading && tagsLoading && priceLoading) {
         return (
             <div className={cl.loader}>
                 <Loader/>

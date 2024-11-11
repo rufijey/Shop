@@ -28,12 +28,12 @@ class OrderController extends Controller
         return $this->orderService->index();
     }
 
-    public function completed()
+    public function getCompletedOrders()
     {
         return $this->orderService->completed();
     }
 
-    public function current()
+    public function getCurrentOrder()
     {
         return $this->orderService->current();
     }
@@ -49,12 +49,12 @@ class OrderController extends Controller
         return $this->orderService->removeProduct($product_id);
     }
 
-    public function complete()
+    public function completeOrder()
     {
         return $this->orderService->complete();
     }
 
-    public function deleteCurrent()
+    public function deleteCurrentOrder()
     {
         return $this->orderService->deleteCurrent();
     }

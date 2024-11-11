@@ -1,36 +1,43 @@
-import {useEffect, useRef, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import Loader from "../../../components/UI/loader/Loader"
-import cl from './Products.module.css'
-import Pagination from "../../../components/UI/pagination/Pagination";
+import React, {useEffect, useState} from "react";
+import Loader from "../../../components/UI/loader/Loader";
+import cl from './Products.module.css';
 import productStore from "../../../store/ProductStore";
 import {observer} from "mobx-react-lite";
 import ProductsList from "../../../components/Product/List/ProductsList";
 
 const Products = observer(() => {
-    const navigate = useNavigate()
-
-    // useObserver(observedElement,page<totalPages, loading, ()=> {
-    //     console.log(page+1)
-    //     setPage(page + 1)
-    // })
+    const handleSortChange = async (e) => {
+        const [field, direction] = e.target.value.split('|');
+        await productStore.setSortBy(field, direction);
+    };
 
     useEffect(() => {
-        productStore.syncReplaceUrl()
-        productStore.fetchProducts()
+        productStore.syncReplaceUrl();
+        productStore.fetchProducts();
     }, []);
 
     if (productStore.loading) {
-        return (
-            <Loader/>
-        )
+        return <Loader/>;
     }
 
     return (
-        <div>
-            <ProductsList
-                link={'products'}
-            ></ProductsList>
+        <div className={cl.container}>
+            {productStore.filters.sort_by &&
+                <div className={cl.sortContainer}>
+                    <select
+                        className={cl.sortSelect}
+                        value={productStore.sort}
+                        onChange={handleSortChange}
+                    >
+                        <option value="created_at|desc">Date</option>
+                        <option value="rating|desc">Rating</option>
+                        <option value="price|asc">Price: Low to High</option>
+                        <option value="price|desc">Price: High to Low</option>
+                        <option value="title|asc">Title: A to Z</option>
+                    </select>
+                </div>
+            }
+            <ProductsList link={'products'}/>
         </div>
     );
 });

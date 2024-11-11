@@ -6,18 +6,18 @@
     width: 100%;
 }
 .tags{
-    font-size: 20px;
-    color: black;
+    font-size: 26px;
+    color: #353535;
     width: 100%;
 }
 .slider{
-    font-size: 16px;
-    color: black;
+    font-size: 18px;
+    color: #353535;
     width: 100%;
 }
 .categories{
-    font-size: 20px;
-    color: black;
+    font-size: 26px;
+    color: #353535;
     width: 100%;
 }
 .main{
@@ -46,8 +46,8 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-    font-size: 20px;
-    color: #022a3a;
+    font-size: 26px;
+    color: #054157;
     cursor: pointer;
     width: 100%;
     margin-bottom: 50px;

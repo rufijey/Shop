@@ -7,3 +7,14 @@
 .form__container{
     width: 50%;
 }
+.forgot{
+    padding: 5px;
+    color: #0a94d5;
+    cursor: pointer;
+}
+.forgot:hover{
+    color: #0476ae;
+}
+.forgot:active{
+    color: #024e6e;
+}

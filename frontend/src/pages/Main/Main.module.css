@@ -48,3 +48,7 @@
 .link:active{
     color: #57e1ca;
 }
+.loader{
+    display: flex;
+    justify-content: center;
+}

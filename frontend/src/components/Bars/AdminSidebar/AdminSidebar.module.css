@@ -8,6 +8,7 @@
     overflow-x: hidden;
     user-select: none;
     border-radius: 0 10px 0 0;
+
 }
 @media (max-width: 500px) {
     .sidebar{
@@ -21,7 +22,7 @@
     font-size: 40px;
     gap: 10px;
     padding-top: 30px;
-    background-color: #86a8a8;
+    background-color: #c6c2c2;
     border-radius: 0 10px 0 0;
     height: 100%;
     overflow-x: hidden;
@@ -29,6 +30,8 @@
     scrollbar-width: thin;
     scrollbar-color: #86a8a8 #f1f1f1;
     padding-bottom: 50px;
+    border-right: 2px solid #ff4d00;
+    border-top: 2px solid #ff4d00;
 }
 .links{
     display: flex;
@@ -43,22 +46,25 @@
 }
 
 .main{
-    border-bottom: 4px solid white;
+    border-bottom: 2px solid #ff4d00;
     border-radius: 0 0 10px 0;
     display: flex;
     justify-content: center;
     padding: 11px;
     cursor: pointer;
-    background-color: #86a8a8;
+    background-color: #c6c2c2;
+    margin-bottom: 5px;
 }
 .item{
     cursor: pointer;
 }
 .item:hover{
-    transform: translateY(-3px);
-    color: #bdc8d1;
+    text-shadow:
+            0 0 5px #ff4d00,
+            0 0 10px #ff4d00,
+            0 0 20px #ff4d00,
+            0 0 30px #ff4d00;
 }
 .item:active{
     transform: translateY(-2px);
-    color: #9bbdcc;
 }

@@ -18,9 +18,10 @@ class OrderResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'products'=>OrderProductResource::collection($this->products),
+            'products'=>ProductPreviewResource::collection($this->products),
             'total_price' => $this->products()->sum(DB::raw('products.price * order_product.quantity')),
             'products_quantity' => $this->products()->sum('order_product.quantity'),
+            'date'=> $this->date,
         ];
     }
 }

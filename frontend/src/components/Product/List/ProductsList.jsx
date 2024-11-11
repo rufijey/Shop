@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import cl from './ProductsList.module.css';
 import productStore from "../../../store/ProductStore";
 import Pagination from "../../UI/pagination/Pagination";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
+import { TiDelete } from "react-icons/ti";
+import StarRatings from "react-star-ratings/build/star-ratings";
 
-const ProductsList = ({children, link}) => {
+const ProductsList = ({ link, updateClick, deleteClick }) => {
     const navigate = useNavigate();
 
     return (
@@ -20,10 +23,29 @@ const ProductsList = ({children, link}) => {
                                 <img src={product.images[0].url} className={cl.image} alt="huu"/>
                             </div>
                             <div className={cl.title}>{product.title}</div>
-                            <div className={cl.price}>{product.price} ₴</div>
-                            {React.Children.map(children, child => {
-                                return React.cloneElement(child, { product });
-                            })}
+                            <div className={cl.price__rating}>
+                                <div className={cl.price}>{product.price} ₴</div>
+                                <StarRatings
+                                    rating={Number(product.rating)}
+                                    starRatedColor="#ffd700"
+                                    numberOfStars={5}
+                                    name='rating'
+                                    starDimension="18px"
+                                    starSpacing="0"
+                                />
+                            </div>
+                            {updateClick && deleteClick &&
+                                <div>
+                                    <MdOutlineDriveFileRenameOutline
+                                        className={cl.change}
+                                        onClick={(e) => updateClick(e, product)}
+                                    />
+                                    <TiDelete
+                                        className={cl.delete}
+                                        onClick={(e) => deleteClick(e, product)}
+                                    />
+                                </div>
+                            }
                         </div>
                     </div>
                 ))}

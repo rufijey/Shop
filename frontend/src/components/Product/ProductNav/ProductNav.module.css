@@ -8,16 +8,31 @@
     font-size: 26px;
     padding: 10px 10px 10px 100px;
     border-bottom: 1px solid #bdb5b5;
-    color: #074761;
+    color: #ff4d00;
     user-select: none;
     width: 100%;
 }
 .link{
+    position: relative;
+    cursor: pointer;
+}
 
+.link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background-color: #ff4d00;
+    transition: width 0.3s ease;
+    z-index: 1;
 }
-.link:active{
-    color: teal;
+
+.link:hover::after{
+    width: 100%;
 }
+
 .underline{
-    border-bottom: 2px solid #074761;
+    border-bottom: 2px solid #ff4d00;
 }

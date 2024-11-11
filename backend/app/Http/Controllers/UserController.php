@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\StoreRequest;
+use App\Http\Resources\UserAdvancedResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,8 +13,8 @@ class UserController extends Controller
 {
     public function index()
     {
-        $user = User::latest()->first();
-        return response()->json($user);
+        $user = auth()->user();
+        return new UserAdvancedResource($user);
     }
 
     public function store(StoreRequest $request)

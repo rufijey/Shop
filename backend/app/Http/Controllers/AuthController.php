@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
@@ -22,10 +23,15 @@ class AuthController extends Controller
         return $this->service->register($data);
     }
 
-    public function login()
+    public function login(LoginRequest $request)
     {
-        $credentials = request(['email', 'password']);
-        $fingerprint = request('fingerprint');
+        $data = $request->validated();
+
+        $credentials = [
+            'email' => $data['email'],
+            'password' => $data['password'],
+        ];
+        $fingerprint = $data['fingerprint'];
         return $this->service->login($credentials, $fingerprint);
     }
 

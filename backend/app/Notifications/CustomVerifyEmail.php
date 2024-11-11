@@ -9,13 +9,13 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\URL;
 
-class CustomVerifyEmail extends Notification
+class CustomVerifyEmail extends Notification implements ShouldQueue
 {
     use Queueable;
 
     public function via($notifiable)
     {
-        return ['mail'];  // Send via email
+        return ['mail'];
     }
 
     public function toMail($notifiable)
@@ -37,6 +37,6 @@ class CustomVerifyEmail extends Notification
         $id = $notifiable->getKey();
         $hash = sha1($notifiable->getEmailForVerification());
 
-        return $frontendUrl . '/' . $id . '/' . $hash;
+        return $frontendUrl . '?id=' . $id . '&hash=' . $hash;
     }
 }

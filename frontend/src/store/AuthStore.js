@@ -4,7 +4,7 @@ import {getFingerprint} from "../services/FingerprintService";
 import UserService from "../services/UserService";
 import register from "../pages/User/Register/Register";
 import router from "../router";
-import EmailService from "../services/EmailService";
+import AccountService from "../services/AccountService";
 
 class AuthStore {
     user = null;
@@ -57,7 +57,7 @@ class AuthStore {
     }
     async verify(id, hash) {
         const fingerprint = await getFingerprint()
-        const res = await EmailService.verify(id, hash, fingerprint)
+        const res = await AccountService.verify(id, hash, fingerprint)
         this.setUserFromToken(res.data.access_token);
         localStorage.setItem('access_token', res.data.access_token);
         const expires_time = Date.now() + res.data.expires_in * 1000

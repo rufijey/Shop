@@ -1,7 +1,7 @@
 .navbar{
     height: 60px;
     width: 100%;
-    background-color: #86a8a8;
+    background-color: #c6c2c2;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -11,6 +11,8 @@
     top: 0;
     z-index: 1;
     border-radius: 10px 0 0 10px;
+    border-bottom: 2px solid #ff4d00;
+    box-shadow: 0 10px 10px -10px #ff4d00;
 }
 .navbar__links{
     display: flex;
@@ -18,31 +20,68 @@
     justify-content: center;
     gap: 10px;
 }
-.main__item{
-    font-size: 36px;
-    color: black;
-    display: flex;
-    align-items: center;
-}
 .main__links{
     display: flex;
     align-items: center;
     gap: 10px;
 }
-.item{
+.item {
+    display: flex;
+    align-items: center;
     font-size: 36px;
     color: black;
+    position: relative;
+    cursor: pointer;
 }
-.item:active{
-    color: teal;
+.main__item{
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    color: black;
+    position: relative;
+    cursor: pointer;
+    font-weight: bolder;
 }
-.main__item:active{
-    color: teal;
+
+
+.item:active, .main__item:active, .search__icon:active {
+    transition: 0.1s;
+    color: #ff4d00;
+}
+
+.search__icon{
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    margin-left: 10px;
+    color: black;
+    position: relative;
+    cursor: pointer;
+    height: 36px;
+}
+
+.item::after, .main__item::after, .icon::after, .search__icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background-color: #ff4d00;
+    transition: width 0.3s ease;
+    z-index: 1;
+}
+
+
+.item:hover::after, .main__item:hover::after, .icon:hover::after, .search__icon:hover::after {
+    width: 100%;
 }
 
 .icon {
     cursor: pointer;
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .dropdown {
@@ -77,23 +116,15 @@
 }
 .input{
     display: flex;
-    width: 500px;
+    width: 70%;
     align-items: center;
-}
-.search__icon{
-    margin-left: 10px;
-    font-size: 24px;
-}
-.search__icon:hover{
-    color: #01698c;
-}
-.search__icon:active{
-    color: #0181aa;
+    justify-content: center;
+    margin: 0 5px;
 }
 .cart__quantity{
     position: absolute;
     z-index: 1;
-    top: 30px;
+    top: 18px;
     background-color: #9ced9c;
     color: white;
     font-size: 14px;
@@ -103,6 +134,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    user-select: none;
 }
 
 @media (max-width: 768px) {

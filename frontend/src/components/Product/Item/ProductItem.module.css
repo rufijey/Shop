@@ -31,12 +31,12 @@
 .product__description{
     font-size: 22px;
     margin-left: 40px;
-    color: #4c4343;
+    color: white;
 }
 .product__title{
     align-self: flex-start;
     font-size: 28px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     padding-left: 10px;
 }
 

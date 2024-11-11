@@ -49,7 +49,7 @@ const Navbar = observer(({classNames}) => {
             const part = path.split('/')[1];
             part === 'admin' ? navigate(`/admin/products`) : navigate('/products')
         }
-        productStore.setFilter('title', search);
+        productStore.setFilter('search', search);
         productStore.syncUrl()
         await productStore.fetchProducts()
     }
@@ -65,11 +65,14 @@ const Navbar = observer(({classNames}) => {
         orderStore.setVisible(true)
     }
 
+    // useEffect(() => {
+    //     console.log(productStore.sort)
+    // }, []);
     return (
         <div className={[cl.navbar, classNames].join(' ')}>
             <div className={cl.main__links}>
-                <Link to='/' className={cl.main__item}><AiFillHome/></Link>
-                <div className={cl.main__item}
+                <Link to='/' className={cl.main__item}>ShopName</Link>
+                <div className={cl.item}
                     onClick={()=>{
                         navigate('/products')
                         if(window.location.pathname.split('/').at(-1) === 'products'){
@@ -84,7 +87,9 @@ const Navbar = observer(({classNames}) => {
                     onChange={e => setSearch(e.target.value)}
                     onKeyDown={handleKeyDown}
                 />
-                <FaSearch className={cl.search__icon} onClick={searchSubmit}/>
+                <div className={cl.search__icon} onClick={searchSubmit}>
+                    <FaSearch/>
+                </div>
             </div>
             <div className={cl.navbar__links}>
                 <div onClick={handleCartClick} className={cl.item}>

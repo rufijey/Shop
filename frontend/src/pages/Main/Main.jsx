@@ -5,39 +5,29 @@ import TagService from "../../services/TagService";
 import productStore from "../../store/ProductStore";
 import {useNavigate} from "react-router-dom";
 import Loader from "../../components/UI/loader/Loader";
+import ProductService from "../../services/ProductService";
+
 const Main = () => {
     const [categories, setCategories] = useState([])
-    const [categoriesLoading, setCategoriesLoading] = useState(false)
     const [tags, setTags] = useState([])
-    const [tagsLoading, setTagsLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
-    const fetchCategories = async () => {
+    const fetchCFilters = async () => {
         try {
-            setCategoriesLoading(true);
-            const res = await CategoryService.getAll();
-            setCategories(res.data);
+            setLoading(true);
+            const res = await ProductService.getFilters();
+            setCategories(res.data.categories);
+            setTags(res.data.tags);
         } catch (error) {
-            console.error("Error fetching categories:", error);
+            console.error("Error fetching:", error);
         } finally {
-            setCategoriesLoading(false);
-        }
-    };
-    const fetchTags = async () => {
-        try {
-            setTagsLoading(true);
-            const res = await TagService.getAll();
-            setTags(res.data);
-        } catch (error) {
-            console.error("Error fetching categories:", error);
-        } finally {
-            setTagsLoading(false);
+            setLoading(false);
         }
     };
 
     useEffect(() => {
         productStore.resetFilters()
-        fetchCategories();
-        fetchTags();
+        fetchCFilters();
     }, []);
 
     const handleCategoryClick = (category) => {
@@ -49,35 +39,37 @@ const Main = () => {
         productStore.setFilter('tag_ids', [tag.id])
         navigate('/products')
     }
+    if (loading){
+        return (
+            <div className={cl.loader}>
+                <Loader/>
+            </div>
+        )
+    }
 
     return (
         <div className={cl.container}>
             <div className={cl.links}>
                 <div className={cl.item__container}>
                     <div className={cl.item__title}>Categories</div>
-                    {categoriesLoading ? <Loader/> :
-                        <div className={cl.list}>
-                            {categories.map(category =>
-                                <div key={category.id} className={cl.link}
-                                     onClick={() => handleCategoryClick(category)}>
-                                    {category.title}
-                                </div>
-                            )}
-                        </div>
-                    }
+                    <div className={cl.list}>
+                        {categories.map(category =>
+                            <div key={category.id} className={cl.link}
+                                 onClick={() => handleCategoryClick(category)}>
+                                {category.title}
+                            </div>
+                        )}
+                    </div>
                 </div>
                 <div className={cl.item__container}>
                     <div className={cl.item__title}>Tags</div>
-                    {tagsLoading ? <Loader/> :
-                        <div className={cl.list}>
-                            {tags.map(tag =>
-                                <div key={tag.id} className={cl.link} onClick={() => handleTagClick(tag)}>
-                                    {tag.title}
-                                </div>
-                            )}
-                        </div>
-                    }
-
+                    <div className={cl.list}>
+                        {tags.map(tag =>
+                            <div key={tag.id} className={cl.link} onClick={() => handleTagClick(tag)}>
+                                {tag.title}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

@@ -76,11 +76,13 @@ class OrderStore {
     setOrder(order) {
         this.order = order
     }
+    setTotalPrice(totalPrice) {
+        this.order.total_price = totalPrice
+    }
     setProductQuantity = (quantity, productId) => {
         const product = this.order.products.find(p => p.id === productId);
         if (product) {
             this.order.products_quantity = Number(this.order.products_quantity) + Number(quantity) - Number(product.quantity);
-            console.log(this.order.products_quantity)
             product.quantity = quantity;
         }
     }

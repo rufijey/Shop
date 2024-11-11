@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->index('review_user_idx');
             $table->unsignedBigInteger('product_id')->index('product_review_idx');
             $table->text('content');
-            $table->date('date')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id', 'review_user_fk')

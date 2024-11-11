@@ -26,6 +26,7 @@ const Login = observer(() => {
         try {
             await AuthStore.login(loginForm)
         }catch (err){
+            console.log(err.response.data.errors)
             setError('')
         }
     };
@@ -43,6 +44,9 @@ const Login = observer(() => {
                              onChange={e => setLoginForm({...loginForm, password: e.target.value})}
                              type="password"
                 />
+                <div className={cl.forgot}
+                     onClick={()=> navigate('/user/password/forgot', {state: {email: loginForm.email}})}
+                >Forgot your password?</div>
                 <CustomButton type="submit">Login</CustomButton>
             </form>
         </div>

@@ -18,6 +18,7 @@ class ReviewResource extends JsonResource
             'id' => $this->id,
             'content' => $this->content,
             'rating'=> $this->rating,
+            'date'=> $this->created_at,
             'user'=> new UserResource($this->user),
 //            'is_users'=> auth()->check() && auth()->user()->id === $this->user->id,
         ];

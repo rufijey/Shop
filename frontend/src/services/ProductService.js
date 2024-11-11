@@ -7,10 +7,11 @@ export default class ProductService{
             params:{
                 page: filters.page,
                 per_page: filters.per_page,
-                title: filters.title,
+                search: filters.search,
                 tag_ids: filters.tag_ids,
                 category_id: filters.category_id,
-                price_range: {min: filters.price_range.min, max: filters.price_range.max}
+                price_range: {min: filters.price_range.min, max: filters.price_range.max},
+                sort_by:{ field:filters.sort_by.field, direction:filters.sort_by.direction}
             }
         })
     }
@@ -28,7 +29,10 @@ export default class ProductService{
         return await api.post(`/products/${slug}`,data)
 
     }
-    static async maxPrice(){
+    static async getMaxPrice(){
         return await axios.get('/products/max-price');
+    }
+    static async getFilters(){
+        return await axios.get('/products/filters');
     }
 }

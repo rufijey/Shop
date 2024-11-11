@@ -43,4 +43,7 @@ export default class UserService {
     static async makeUnAdmin(id){
         return await api.patch(`/user/makeUnAdmin/${id}`)
     }
+    static async get(){
+        return await api.get('/user')
+    }
 }

@@ -41,9 +41,9 @@ class AuthService
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-//        if (!auth()->user()->hasVerifiedEmail()) {
-//            return response()->json(['error' => 'Email not verified'], 403);
-//        }
+        if (!auth()->user()->hasVerifiedEmail()) {
+            return response()->json(['error' => 'Email not verified'], 403);
+        }
 
         return $this->getResponseWithTokens($token, $fingerprint);
     }

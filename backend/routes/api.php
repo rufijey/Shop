@@ -7,7 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\VerificationController;
+use App\Http\Controllers\AccountController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -16,9 +16,13 @@ Route::get('/', function () {
     return 112313;
 });
 
-Route::get('email/verify/{id}/{hash}/{fingerprint}', [VerificationController::class, 'verify']);
 
-Route::post('email/resend/{email}', [VerificationController::class, 'resend']);
+Route::group(['prefix' => 'account'], function () {
+    Route::post('verify/{id}/{hash}/{fingerprint}', [AccountController::class, 'verify']);
+    Route::get('verify/resend/{email}', [AccountController::class, 'resendEmail']);
+    Route::post('password/forgot', [AccountController::class, 'sendPasswordResetLink']);
+    Route::post('password/reset', [AccountController::class, 'resetPassword']);
+});
 
 
 //Route::group(['prefix' => 'user'], function () {
@@ -27,10 +31,8 @@ Route::post('email/resend/{email}', [VerificationController::class, 'resend']);
 //
 //});
 
-//Route::get('/max-price', [ProductController::class, 'getMaxPrice'])->withoutMiddleware(['auth:api', 'role:admin']);
-
-Route::group(['middleware' => ['auth:api']], function (){
-    Route::group(['middleware' => 'role:admin'], function (){
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::group(['middleware' => 'role:admin'], function () {
         Route::group(['prefix' => 'categories'], function () {
             Route::get('/', [CategoryController::class, 'index'])->withoutMiddleware(['auth:api', 'role:admin']);
             Route::get('/{category}', [CategoryController::class, 'show'])->withoutMiddleware(['auth:api', 'role:admin']);
@@ -40,7 +42,10 @@ Route::group(['middleware' => ['auth:api']], function (){
         });
         Route::group(['prefix' => 'products'], function () {
             Route::get('/', [ProductController::class, 'index'])->withoutMiddleware(['auth:api', 'role:admin']);
-            Route::get('/max-price', [ProductController::class, 'getMaxPrice'])->withoutMiddleware(['auth:api', 'role:admin']);
+            Route::get('/max-price', [ProductController::class, 'getMaxPrice'])
+                ->withoutMiddleware(['auth:api', 'role:admin']);
+            Route::get('/filters', [ProductController::class, 'getFilters'])
+                ->withoutMiddleware(['auth:api', 'role:admin']);
             Route::get('/{product}', [ProductController::class, 'show'])->withoutMiddleware(['auth:api', 'role:admin']);
             Route::post('/', [ProductController::class, 'store']);
             Route::patch('/{product}', [ProductController::class, 'update']);
@@ -53,12 +58,6 @@ Route::group(['middleware' => ['auth:api']], function (){
             Route::patch('/{tag}', [TagController::class, 'update']);
             Route::delete('/{tag}', [TagController::class, 'destroy']);
         });
-        Route::group(['prefix' => 'user'], function () {
-            Route::get('/email', [UserController::class, 'show']);
-            Route::patch('/makeAdmin/{user}', [UserController::class, 'makeAdmin']);
-            Route::patch('/makeUnAdmin/{user}', [UserController::class, 'makeUnAdmin']);
-        });
-
     });
 
     Route::group(['prefix' => 'reviews'], function () {
@@ -69,16 +68,23 @@ Route::group(['middleware' => ['auth:api']], function (){
         Route::delete('/{review}', [ReviewController::class, 'destroy']);
     });
 
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('/', [UserController::class, 'index']);
+        Route::get('/email', [UserController::class, 'show'])->middleware(['role:admin']);
+        Route::patch('/makeAdmin/{user}', [UserController::class, 'makeAdmin'])->middleware(['role:admin']);
+        Route::patch('/makeUnAdmin/{user}', [UserController::class, 'makeUnAdmin'])->middleware(['role:admin']);
+    });
+
 });
 Route::group(['prefix' => 'orders'], function () {
     Route::get('/', [OrderController::class, 'index']);
-    Route::get('/completed', [OrderController::class, 'completed']);
-    Route::get('/current', [OrderController::class, 'current']);
+    Route::get('/completed', [OrderController::class, 'getCompletedOrders']);
+    Route::get('/current', [OrderController::class, 'getCurrentOrder']);
     Route::post('/current', [OrderController::class, 'addProduct']);
     Route::delete('/products/{product}', [OrderController::class, 'removeProduct']);
     Route::delete('/{order}', [OrderController::class, 'destroy']);
-    Route::patch('/complete', [OrderController::class, 'complete']);
-    Route::delete('/current', [OrderController::class, 'deleteCurrent']);
+    Route::patch('/complete', [OrderController::class, 'completeOrder']);
+    Route::delete('/current', [OrderController::class, 'deleteCurrentOrder']);
     Route::patch('/quantity', [OrderController::class, 'changeQuantity']);
 });
 

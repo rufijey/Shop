@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {useParams} from "react-router-dom";
-import Loader from "../../../../components/UI/loader/Loader";
+import Loader from "../../../components/UI/loader/Loader";
 import cl from './VerifyEmail.module.css'
-import AccountService from "../../../../services/AccountService";
-import authStore from "../../../../store/AuthStore";
+import AccountService from "../../../services/AccountService";
+import authStore from "../../../store/AuthStore";
 
 const VerifyEmail = () => {
     const queryParams = new URLSearchParams(window.location.search);

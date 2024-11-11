@@ -6,12 +6,16 @@ import {createRef} from "react";
 
 class ProductStore {
     filters = {
-        title: '',
+        search: '',
         category_id: null,
         tag_ids: [],
         price_range: { min: 0, max: null },
         page: 1,
-        per_page: 1
+        per_page: 1,
+        sort_by:{
+            field: 'created_at',
+            direction: 'asc',
+        }
     };
     loading = true;
     products = [];
@@ -25,7 +29,7 @@ class ProductStore {
     initializeFilters() {
         const searchParams = new URLSearchParams(window.location.search);
 
-        this.filters.title = searchParams.get('title') || '';
+        this.filters.search = searchParams.get('search') || '';
         this.filters.category_id = searchParams.get('category_id') ? parseInt(searchParams.get('category_id')) : null;
 
         this.filters.tag_ids = searchParams.get('tag_ids')
@@ -35,6 +39,10 @@ class ProductStore {
         this.filters.price_range = {
             min: searchParams.get('min_price') ? parseInt(searchParams.get('min_price')) : 0,
             max: searchParams.get('max_price') ? parseInt(searchParams.get('max_price')) : null,
+        };
+        this.filters.sort_by = {
+            field: searchParams.get('sort_field') || 'created_at',
+            direction: searchParams.get('sort_direction') || 'asc',
         };
         this.filters.page = parseInt(searchParams.get('page')) || 1;
         this.filters.per_page = parseInt(searchParams.get('per_page')) || 10;
@@ -56,11 +64,13 @@ class ProductStore {
 
     getSearchParams(){
         const searchParams = new URLSearchParams();
-        if (this.filters.title) searchParams.set('title', this.filters.title);
+        if (this.filters.search) searchParams.set('search', this.filters.search);
         if (this.filters.category_id) searchParams.set('category_id', this.filters.category_id);
         if (this.filters.tag_ids.length) searchParams.set('tag_ids', this.filters.tag_ids.join(','));
         if (this.filters.price_range.min) searchParams.set('min_price', this.filters.price_range.min);
         if (this.filters.price_range.max) searchParams.set('max_price', this.filters.price_range.max);
+        if (this.filters.sort_by.field) searchParams.set('sort_field', this.filters.sort_by.field);
+        if (this.filters.sort_by.direction) searchParams.set('sort_direction', this.filters.sort_by.direction);
         searchParams.set('page', this.filters.page);
         searchParams.set('per_page', this.filters.per_page);
         return searchParams
@@ -68,12 +78,16 @@ class ProductStore {
 
     resetFilters() {
         this.filters = {
-            title: '',
+            search: '',
             category_id: null,
             tag_ids: [],
             price_range: { min: 0, max: null },
             page: 1,
-            per_page: 10
+            per_page: 10,
+            sort_by:{
+                field: 'created_at',
+                direction: 'asc',
+            }
         };
         if(window.location.pathname !== '/'){
             this.syncUrl()
@@ -98,6 +112,15 @@ class ProductStore {
         this.filters[key] = value;
     }
 
+    setSortBy = async (field, direction) => {
+        if (field && direction){
+            this.filters.sort_by = { field, direction };
+            this.syncUrl();
+            await this.fetchProducts();
+        }
+    };
+
+
     setPage = (page) => {
         this.filters.page = page;
         this.syncUrl();
@@ -120,6 +143,12 @@ class ProductStore {
 
     setTotalPages(totalPages) {
         this.totalPages = totalPages;
+    }
+    get sort() {
+        // if (!this.filters.sort_by) {
+        //     return 'created_at|asc';
+        // }
+        return `${this.filters.sort_by.field}|${this.filters.sort_by.direction}`
     }
 
 }

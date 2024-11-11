@@ -60,3 +60,13 @@ services:
       - "3307:3306"
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
 
+  queue_worker:
+    build:
+      context: ./backend
+    volumes:
+      - ./backend:/var/www
+    command: sh -c "sleep 10 && php artisan queue:work"
+    container_name: shop_queue_worker
+    depends_on:
+      - backend
+      - db

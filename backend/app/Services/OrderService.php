@@ -90,7 +90,8 @@ class OrderService
         if($order->products()->where('product_id', $product_id)->exists()) {
             $order->products()->updateExistingPivot($product_id, ['quantity' => $quantity]);
             $quantity = $order->products()->where('product_id', $product_id)->first()->pivot->quantity;
-            return response($quantity, 200);
+            $total_price = $order->products()->sum(DB::raw('products.price * order_product.quantity'));
+            return response(['quantity' => $quantity,'total_price' => $total_price], 200);
         }
     }
     public function deleteCurrent()

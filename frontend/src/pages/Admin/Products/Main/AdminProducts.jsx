@@ -39,12 +39,12 @@ const AdminProducts = observer(() => {
     }, [page]);
 
 
-    const handleDeleteClick = (product, e) => {
+    const handleDeleteClick = (e, product) => {
         e.stopPropagation()
         setProductForDelete(product);
         setVisibleDelete(true);
     }
-    function handleUpdateClick(product, e) {
+    function handleUpdateClick(e, product) {
         e.stopPropagation()
         navigate(`/admin/products/${product.slug}/update`)
     }
@@ -59,18 +59,9 @@ const AdminProducts = observer(() => {
         <div className={cl.container}>
             <ProductsList
                 link={'admin/products'}
-            >
-                <div>
-                    <MdOutlineDriveFileRenameOutline
-                        className={cl.change}
-                        onClick={(e, product) => handleUpdateClick(e, product)}
-                    />
-                    <TiDelete
-                        className={cl.delete}
-                        onClick={(e, product) => handleDeleteClick(e, product)}
-                    />
-                </div>
-            </ProductsList>
+                updateClick={handleUpdateClick}
+                deleteClick={handleDeleteClick}
+            />
             <IoMdAddCircleOutline
                 className={cl.add}
                 onClick={() => navigate('/admin/products/post')}
