@@ -2,14 +2,16 @@ import React, {useEffect} from 'react';
 import {useParams} from "react-router-dom";
 import Loader from "../../../../components/UI/loader/Loader";
 import cl from './VerifyEmail.module.css'
-import EmailService from "../../../../services/EmailService";
+import AccountService from "../../../../services/AccountService";
 import authStore from "../../../../store/AuthStore";
 
 const VerifyEmail = () => {
-    const params = useParams()
+    const queryParams = new URLSearchParams(window.location.search);
     const verify = async()=>{
+        console.log(queryParams.get('id'))
+        console.log(queryParams.get('hash'))
         try {
-            await authStore.verify(params.id, params.hash)
+            await authStore.verify(queryParams.get('id'), queryParams.get('hash'))
         }catch (err){
             console.log(err)
         }

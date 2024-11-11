@@ -52,4 +52,6 @@ class VerificationController extends Controller
         return response()->json(['message' => 'Verification link sent!']);
     }
 
+    
+
 }
