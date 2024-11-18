@@ -29,26 +29,24 @@
     font-size: 24px;
     border-radius: 20px;
     margin: 4px;
-    border: 1px solid #3B917A;
+    border: 1px solid #ff4d00;
     cursor: pointer;
     transition: 0.3s;
 }
 .categories{
-    background-color: deepskyblue;
+    background-color: #774646;
 }
 .item:hover{
     transform: translateY(-5px);
-    box-shadow: 0 4px 0 #3B917A;
 }
 .item:active{
     transform: translateY(-3px);
-    box-shadow: 0 2px 0 #3B917A;
 }
 .products{
-    background-color: greenyellow;
+    background-color: #5b808e;
 }
 .tags{
-    background-color: red;
+    background-color: #616675;
 }
 .input{
     width: 50%;

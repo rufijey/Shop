@@ -21,6 +21,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     width: 350px;
     padding: 10px 20px;
     margin: 5px;
@@ -28,6 +29,13 @@
     border-radius: 4px;
     background-color: #faf1f1;
     font-size: 20px;
+}
+.tag{
+    display: flex;
+    flex-direction: column;
+}
+.tag__category{
+    color: #8f8f8f;
 }
 .tip{
     font-size: 28px;

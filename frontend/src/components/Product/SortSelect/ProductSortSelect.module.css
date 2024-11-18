@@ -1,0 +1,41 @@
+
+.sortContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 5px;
+    padding-right: 12px;
+}
+
+.sortSelect {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 2px solid #ff4d00;
+    border-radius: 4px;
+    background-color: #444444;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sortSelect:focus {
+    border-color: #007bff;
+}
+
+.sortSelect:hover {
+    border-color: #007bff;
+}
+
+.sortSelect option {
+    padding: 8px;
+    background-color: #444444;
+    color: white;
+}
+
+.sortSelect:disabled {
+    background-color: #f5f5f5;
+    color: #999;
+    cursor: not-allowed;
+}
+
+

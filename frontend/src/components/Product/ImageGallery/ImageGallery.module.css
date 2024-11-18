@@ -17,8 +17,6 @@
     position: relative;
     width: 600px;
     height: 450px;
-    padding-bottom: 5px;
-    border-bottom: 2px solid grey;
     overflow: hidden;
 }
 
@@ -32,12 +30,14 @@
 
 .main__container{
     position: relative;
+    /*background-color: white;*/
+    /*padding: 2px ;*/
 }
 
 .nav {
     position: absolute;
-    top: 50%; /* Центрирование по вертикали относительно контейнера */
-    transform: translateY(-50%); /* Смещение для точного центрирования */
+    top: 50%;
+    transform: translateY(-50%);
     background-color: rgba(108, 108, 108, 0.5);
     color: white;
     border: none;
@@ -45,12 +45,12 @@
     cursor: pointer;
     font-size: 24px;
     border-radius: 16px;
-    z-index: 0; /* Стрелки поверх изображения */
+    z-index: 0;
 }
 
 .nav.left {
-    right: 100%; /* Перемещение за левый край контейнера */
-    margin-right: 5px; /* Сдвиг влево, чтобы попасть внутрь контейнера */
+    right: 100%;
+    margin-right: 5px;
 }
 
 .nav.right {
@@ -89,10 +89,12 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    margin-top: 10px;
-    width: 645px; /* Occupy the full width */
+    padding-top: 10px;
+    width: 645px;
     position: relative;
-    overflow: hidden; /* Hide overflow content */
+    overflow: hidden;
+    border-top: 2px solid gray;
+    margin-top: 10px;
 }
 
 .thumbnails {

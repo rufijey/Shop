@@ -14,6 +14,7 @@ class OrderStore {
             title: '',
             price: 0,
             id: 0,
+            quantity: 0
         }],
         products_quantity: null,
         total_price: null
@@ -29,6 +30,7 @@ class OrderStore {
         try {
             this.setLoading(true)
             const res = await OrderService.getCurrent()
+            console.log(res.data)
             this.setOrder(res.data)
         } catch (err) {
             console.error(err.message)

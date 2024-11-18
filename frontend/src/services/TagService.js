@@ -9,18 +9,20 @@ export default class TagService{
             }
         })
     }
-    static async post(tag){
+    static async post(title, category){
        return await api.post(`/tags`,{
-            title:tag
+            title:title,
+           category:category
         })
 
     }
     static async delete(id){
         return await api.delete(`/tags/${id}`)
     }
-    static async update(id, tag){
+    static async update(id, title, category){
         return await api.patch(`/tags/${id}`,{
-            title:tag
+            title:title,
+            category:category
         })
     }
 }

@@ -74,6 +74,7 @@ const UserPage = () => {
                                                         <div className={cl.productDetails}>
                                                             <p><strong>Title:</strong> {product.title}</p>
                                                             <p><strong>Price:</strong> {product.price}</p>
+                                                            <p><strong>Quantity:</strong> {product.quantity}</p>
                                                         </div>
                                                     </div>
                                                 ))}

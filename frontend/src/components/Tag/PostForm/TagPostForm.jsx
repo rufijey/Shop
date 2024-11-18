@@ -5,13 +5,16 @@ import TagService from "../../../services/TagService";
 
 const TagPostForm = ({fetch, setVisible}) => {
     const [tagTitle, setTagTitle] = useState('');
+    const [tagCategory, setTagCategory] = useState('');
     const addNewCategory= (e)=>{
         e.preventDefault();
-        TagService.post(tagTitle).then(res=>{
+        TagService.post(tagTitle, tagCategory).then(res=>{
             if(res.data.message){
                 alert(res.data.message)
             }
             setVisible(false)
+            setTagTitle('')
+            setTagCategory('')
             fetch()
         }).catch(err=>{
             console.log(err.message)
@@ -21,6 +24,8 @@ const TagPostForm = ({fetch, setVisible}) => {
     return (
         <div>
             <form>
+                <CustomInput onChange={e => setTagCategory(e.target.value)} value={tagCategory} type="text"
+                             placeholder="Tag category"/>
                 <CustomInput onChange={e => setTagTitle(e.target.value)} value={tagTitle} type="text"
                          placeholder="Tag title"/>
                 <CustomButton onClick={addNewCategory}>Submit</CustomButton>

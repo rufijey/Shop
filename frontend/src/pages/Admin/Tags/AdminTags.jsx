@@ -73,7 +73,10 @@ const AdminTags = () => {
                 <div className={cl.tags}>
                     {tags.map(tag => (
                         <div className={cl.tag__item} key={tag.id}>
-                            <div>{tag.title}</div>
+                            <div className={cl.tag}>
+                                <div className={cl.tag__category}>{tag.category}</div>
+                                <div>{tag.title}</div>
+                            </div>
                             <div>
                                 <MdOutlineDriveFileRenameOutline
                                     className={cl.change}

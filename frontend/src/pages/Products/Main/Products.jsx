@@ -4,6 +4,7 @@ import cl from './Products.module.css';
 import productStore from "../../../store/ProductStore";
 import {observer} from "mobx-react-lite";
 import ProductsList from "../../../components/Product/List/ProductsList";
+import ProductSortSelect from "../../../components/Product/SortSelect/ProductSortSelect";
 
 const Products = observer(() => {
     const handleSortChange = async (e) => {
@@ -23,19 +24,7 @@ const Products = observer(() => {
     return (
         <div className={cl.container}>
             {productStore.filters.sort_by &&
-                <div className={cl.sortContainer}>
-                    <select
-                        className={cl.sortSelect}
-                        value={productStore.sort}
-                        onChange={handleSortChange}
-                    >
-                        <option value="created_at|desc">Date</option>
-                        <option value="rating|desc">Rating</option>
-                        <option value="price|asc">Price: Low to High</option>
-                        <option value="price|desc">Price: High to Low</option>
-                        <option value="title|asc">Title: A to Z</option>
-                    </select>
-                </div>
+               <ProductSortSelect/>
             }
             <ProductsList link={'products'}/>
         </div>

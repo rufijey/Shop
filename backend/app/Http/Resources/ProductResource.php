@@ -24,13 +24,8 @@ class ProductResource extends JsonResource
             'category' => new CategoryResource($this->category),
             'tags' => TagResource::collection($this->tags),
             'images' => ImageResource::collection($this->images),
-//            'reviews' => ReviewResource::collection( $this->reviews()
-//                ->when(auth()->check(), function($query) {
-//                    return $query->where('user_id', '!=', auth()->id());
-//                })
-//                ->latest()
-//                ->get()),
             'reviews' => ReviewResource::collection($this->reviews()->latest()->get()),
+            'reviews_count' => $this->reviews()->count(),
             'user_review' =>  auth()->check()
                 ? new ReviewResource($this->reviews()->where('user_id', auth()->id())->first())
                 : null,
