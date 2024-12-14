@@ -8,7 +8,7 @@ class ProductFilter extends AbstractFilter
 {
     protected const SEARCH = 'search';
     protected const CATEGORY_ID = 'category_id';
-    protected const TAG_IDS = 'tag_ids';
+    protected const CHARACTERISTIC_IDS = 'characteristic_ids';
     protected const PRICE_RANGE = 'price_range';
     protected const SORT_BY = 'sort_by';
     protected function getCallbacks(): array
@@ -16,7 +16,7 @@ class ProductFilter extends AbstractFilter
         return [
             self::SEARCH=>[$this, 'search'],
             self::CATEGORY_ID=>[$this, 'categoryId'],
-            self::TAG_IDS=>[$this, 'tagIds'],
+            self::CHARACTERISTIC_IDS=>[$this, 'characteristicIds'],
             self::PRICE_RANGE => [$this, 'priceRange'],
             self::SORT_BY => [$this, 'sortBy'],
         ];
@@ -31,11 +31,11 @@ class ProductFilter extends AbstractFilter
     {
         $builder->where('category_id', $value);
     }
-    public function tagIds(Builder $builder, $value)
+    public function characteristicIds(Builder $builder, $value)
     {
-        foreach ($value as $tagId) {
-            $builder->whereHas('tags', function (Builder $query) use ($tagId) {
-                $query->where('tags.id', $tagId);
+        foreach ($value as $characteristicId) {
+            $builder->whereHas('characteristics', function (Builder $query) use ($characteristicId) {
+                $query->where('characteristics.id', $characteristicId);
             });
         }
     }

@@ -12,7 +12,6 @@
     z-index: 1;
     border-radius: 10px 0 0 10px;
     border-bottom: 2px solid #ff4d00;
-    box-shadow: 0 10px 10px -10px #ff4d00;
 }
 .navbar__links{
     display: flex;
@@ -87,7 +86,8 @@
 .dropdown {
     display: none;
     position: absolute;
-    right: -5px;
+    right: 0;
+    top: 40px;
     background-color: white;
     box-shadow: 4px 8px 16px #8a8a8a;
     list-style-type: none;
@@ -95,6 +95,7 @@
     border-radius: 8px;
     padding: 5px;
     z-index: 1;
+    color: black;
 }
 
 .dropdown.visible {

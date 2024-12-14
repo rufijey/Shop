@@ -27,9 +27,10 @@ class Product extends Model
 
     }
 
-    public function tags()
+    public function characteristics()
     {
-        return $this->belongsToMany(Tag::class, 'product_tag', 'product_id', 'tag_id');
+        return $this->belongsToMany(Characteristic::class,
+            'characteristic_product', 'product_id', 'characteristic_id');
     }
 
     public function images()

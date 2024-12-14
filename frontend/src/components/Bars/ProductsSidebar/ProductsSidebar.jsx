@@ -20,8 +20,8 @@ const ProductsSidebar = () => {
 
     return (
         <div className={cl.sidebar}>
-            <div className={cl.main} onClick={applyFilters}>
-                <h1 className={cl.item}>Filter</h1>
+            <div className={cl.main} >
+                <h1 className={cl.item} onClick={applyFilters}>Filter</h1>
             </div>
             <div className={cl.items}>
                 <Scrollbars

@@ -11,6 +11,7 @@
     justify-content: flex-start;
     padding: 0 10px;
     width: 100%;
+    color: black;
 }
 
 .product{
@@ -94,7 +95,7 @@
 
 @media (max-width: 1200px) {
     .product {
-        width: calc(33.3%  - 4px);
+        width: calc(33.3%  - 8px);
     }
     .title {
         font-size: 20px;
@@ -103,7 +104,7 @@
 
 @media (max-width: 900px) {
     .product {
-        width: calc(50% - 4px);
+        width: calc(50% - 8px);
     }
     .title {
         font-size: 20px;
@@ -112,7 +113,7 @@
 
 @media (max-width: 600px) {
     .product {
-        width: calc(100%  - 4px);
+        width: calc(100%  - 8px);
         height: auto;
     }
     .title {

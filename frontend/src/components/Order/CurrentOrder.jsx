@@ -57,7 +57,6 @@ const CurrentOrder = observer(({setVisibleModal}) => {
     const handleComplete = async () => {
         const res = await OrderService.complete();
         orderStore.resetOrder();
-        console.log(res);
     };
 
     if (orderStore.loading) {

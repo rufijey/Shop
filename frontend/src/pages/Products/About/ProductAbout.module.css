@@ -4,7 +4,7 @@
 }
 
 
-.tag{
+.characteristic{
     margin: 5px;
     border: 1px solid gray;
     background-color: #aadef1;
@@ -13,14 +13,14 @@
     border-radius: 4px;
     cursor: pointer;
 }
-.tags{
+.characteristics{
     font-size: 24px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     padding: 5px;
 }
-.tags__container{
+.characteristics__container{
     width: 100%;
     border-top: 2px solid gray;
     border-bottom: 2px solid gray;
@@ -30,7 +30,7 @@
     color: teal;
     cursor: pointer;
 }
-.no__tags{
+.no__characteristics{
     background-color: gray;
     height: 2px;
 }
@@ -39,7 +39,7 @@
     font-size: 22px;
     color: #cdcdcd;
 }
-.product__title{
+.product__body{
     align-self: flex-start;
     font-size: 28px;
 }

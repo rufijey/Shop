@@ -103,16 +103,16 @@ const Navbar = observer(({classNames}) => {
                 {authStore.isAdmin &&
                     <Link to='/admin' className={cl.item}><MdAdminPanelSettings/></Link>
                 }
-                <div className={cl.icon} onClick={toggleDropdown} ref={dropdownRef}>
+                {/*<div className={cl.icon} onClick={toggleDropdown} ref={dropdownRef}>*/}
                     {authStore.isAuthenticated
-                        ? <div>
+                        ? <div className={cl.icon} onClick={toggleDropdown} ref={dropdownRef}>
                             <LuUserCircle2 className={cl.item}/>
                             <div className={`${cl.dropdown} ${visible ? cl.visible : ''}`}>
                                 <Link to='/user/me' className={cl.dropdown__item}>Me</Link>
                                 <div onClick={handleLogout} className={cl.dropdown__item}>Logout</div>
                             </div>
                         </div>
-                        : <div>
+                        : <div className={cl.icon} onClick={toggleDropdown} ref={dropdownRef}>
                             <AiOutlineUser className={cl.item}/>
                             <div className={`${cl.dropdown} ${visible ? cl.visible : ''}`}>
                                 <Link to='/user/register' className={cl.dropdown__item}>Register</Link>
@@ -120,7 +120,7 @@ const Navbar = observer(({classNames}) => {
                             </div>
                         </div>
                     }
-                </div>
+                {/*</div>*/}
             </div>
             <Modal visible={orderStore.visible} setVisible={orderStore.setVisible}>
                 <CurrentOrder setVisibleModal={orderStore.setVisible}/>

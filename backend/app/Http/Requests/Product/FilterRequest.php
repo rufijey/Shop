@@ -24,7 +24,7 @@ class FilterRequest extends FormRequest
         return [
             'search' => 'nullable|string',
             'category_id' => '',
-            'tag_ids' => '',
+            'characteristic_ids' => '',
             'price_range'=>'nullable',
             'page' => '',
             'per_page' => '',

@@ -27,7 +27,7 @@ class StoreRequest extends FormRequest
             'price'=>'required|decimal:0,2',
             'quantity'=>'required|int',
             'category_id' => 'required|int',
-            'tag_ids'=>'array',
+            'characteristic_ids'=>'array',
             'images' => 'required|array',
         ];
     }

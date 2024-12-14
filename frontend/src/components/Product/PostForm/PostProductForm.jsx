@@ -6,9 +6,10 @@ import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import CustomInput from "../../UI/input/CustomInput";
 import CustomSelect from "../../UI/select/CustomSelect";
-import TagSelector from "../../Tag/Selector/TagSelector";
+import CharacteristicSelector from "../../Characteristic/Selector/CharacteristicSelector";
 import CategoryService from "../../../services/CategoryService";
 import ProductService from "../../../services/ProductService";
+import CustomButton from "../../UI/button/CustomButton";
 
 const PostProductForm = () => {
     const [deleteClick, setDeleteClick] = useState(false);
@@ -22,7 +23,7 @@ const PostProductForm = () => {
             id:'default',
             title:'choose category'
         },
-        tags: [],
+        characteristics: [],
         images: []
     });
     const navigate = useNavigate();
@@ -76,8 +77,8 @@ const PostProductForm = () => {
         formData.append('price', product.price);
         formData.append('quantity', product.quantity);
         formData.append('category_id', product.category.id);
-        product.tags.forEach(tag => {
-            formData.append('tag_ids[]', tag.id);
+        product.characteristics.forEach(characteristic => {
+            formData.append('characteristic_ids[]', characteristic.id);
         });
 
         try {
@@ -148,12 +149,12 @@ const PostProductForm = () => {
                     value={product.category.id}
                     onChange={value => setProduct({ ...product, category: {id:value} })}
                 />
-                <TagSelector
-                    selectedTags={product.tags}
-                    setSelectedTags={(tags) => setProduct({ ...product, tags: tags })}
+                <CharacteristicSelector
+                    selectedCharacteristics={product.characteristics}
+                    setSelectedCharacteristics={(characteristics) => setProduct({ ...product, characteristics: characteristics })}
                 />
                 <div>
-                    <button className={cl.submit__button} onClick={handleSubmit}>Submit</button>
+                    <CustomButton onClick={handleSubmit}>Submit</CustomButton>
                 </div>
             </div>
         </div>

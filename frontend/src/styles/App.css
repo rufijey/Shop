@@ -13,4 +13,30 @@ html, body {
     padding: 0;
     height: 100%;
     font-family: Arial, sans-serif;
+    color: white;
+}
+.rc-slider-handle:active {
+    border-color: #ff4d00 !important;
+    background-color: #ffe6d5 !important;
+    box-shadow: 0 0 10px #ff4d00 !important;
+    outline: none;
+}
+
+
+.fade-enter {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+.fade-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-exit {
+    opacity: 1;
+    transform: translateY(0);
+}
+.fade-exit-active {
+    opacity: 0;
+    transform: translateY(20px);
 }

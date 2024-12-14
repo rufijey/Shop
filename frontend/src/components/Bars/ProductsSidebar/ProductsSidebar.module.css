@@ -42,10 +42,11 @@
     display: flex;
     justify-content: center;
     padding: 11px;
-    cursor: pointer;
     margin-bottom: 4px;
 }
-
+.item{
+    cursor: pointer;
+}
 
 .item:hover{
     text-shadow:

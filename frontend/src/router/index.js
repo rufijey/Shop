@@ -5,7 +5,7 @@ import UserLayout from "../layouts/UserLayout/UserLayout";
 import AdminLayout from "../layouts/AdminLayout/AdminLayout";
 import AdminMain from "../pages/Admin/Main/AdminMain";
 import AdminCategories from "../pages/Admin/Categories/AdminCategories";
-import AdminTags from "../pages/Admin/Tags/AdminTags";
+import AdminCharacteristics from "../pages/Admin/Characteristics/AdminCharacteristics";
 import AdminProducts from "../pages/Admin/Products/Main/AdminProducts";
 import PostProduct from "../pages/Admin/Products/Post/PostProduct";
 import AdminProductPage from "../pages/Admin/Products/ProductPage/AdminProductPage";
@@ -125,8 +125,8 @@ const router = createBrowserRouter([
                 element: <AdminCategories/>,
             },
             {
-                path: "/admin/tags",
-                element: <AdminTags/>,
+                path: "/admin/characteristics",
+                element: <AdminCharacteristics/>,
             },
             {
                 path: "/admin/products",
