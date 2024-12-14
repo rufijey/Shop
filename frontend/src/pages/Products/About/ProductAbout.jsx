@@ -16,8 +16,8 @@ const ProductPage = observer(() => {
         navigate('/products')
     }
 
-    const handleTagClick = (tag) => {
-        productStore.setFilter('tag_ids', [tag.id])
+    const handleCharacteristicClick = (characteristic) => {
+        productStore.setFilter('characteristic_ids', [characteristic.id])
         navigate('/products')
     }
 
@@ -35,12 +35,12 @@ const ProductPage = observer(() => {
         <div>
             <div className={cl.product}>
                 <div className={cl.product__about}>
-                    <div className={cl.product__title}>{product.title}</div>
+                    <div className={cl.product__body}>{product.body}</div>
                     <div className={cl.price}>{product.price} ₴</div>
                     <div className={cl.product__description}>{product.description}</div>
                     <div className={cl.product__category}
                          onClick={() => handleCategoryClick(product.category)}
-                    >{product.category.title}</div>
+                    >{product.category.body}</div>
                 </div>
                 <div className={cl.product__image}>
                     <img
@@ -50,19 +50,19 @@ const ProductPage = observer(() => {
                 </div>
             </div>
 
-            {product.tags[0]
-                ? (<div className={cl.tags__container}>
-                    <div className={cl.tags}>
-                        {product.tags.map((tag) => (
-                            <div key={tag.id} className={cl.tag}
-                                 onClick={() => handleTagClick(tag)}
+            {product.characteristics[0]
+                ? (<div className={cl.characteristics__container}>
+                    <div className={cl.characteristics}>
+                        {product.characteristics.map((characteristic) => (
+                            <div key={characteristic.id} className={cl.characteristic}
+                                 onClick={() => handleCharacteristicClick(characteristic)}
                             >
-                                # {tag.title}
+                                # {characteristic.body}
                             </div>
                         ))}
                     </div>
                 </div>)
-                : (<div className={cl.no__tags}></div>
+                : (<div className={cl.no__characteristics}></div>
                 )}
         </div>
     )

@@ -1,100 +1,84 @@
-import React, {useEffect, useState} from 'react';
-import { FaAngleDown, FaAngleUp, FaSearch } from "react-icons/fa";
-import cl from './CategorySelect.module.css';
-import CategoryService from "../../../services/CategoryService";
-import Loader from "../../UI/loader/Loader";
+import React, {useRef, useState} from "react";
+import { CSSTransition } from "react-transition-group";
+import cl from "../Filters.module.css";
 import productStore from "../../../store/ProductStore";
 import { observer } from "mobx-react-lite";
 import CustomInput from "../../UI/input/CustomInput";
+import CustomButton from "../../UI/button/CustomButton";
+import Loader from "../../UI/loader/Loader";
+import FilterStore from "../../../store/FilterFetchingStore";
 
-const CategorySelect = observer(({loading, fetchCategories, categories}) => {
+const CategorySelect = observer(() => {
     const [isOpen, setIsOpen] = useState(false);
-    const [categoryTitle, setCategoryTitle] = useState('');
+    const [categoryTitle, setCategoryTitle] = useState("");
+    const ref = useRef();
 
     const toggleList = () => {
-        // if (!categories[0]) {
-        //     fetchCategories().then(() => {
-        //         setIsOpen(!isOpen);
-        //     });
-        // } else {
-        //     setIsOpen(!isOpen);
-        // }
-        setIsOpen(!isOpen);
-    };
-
-    const handleCheckboxChange = (event, categoryId) => {
-        if (event.target.checked) {
-            productStore.setFilter('category_id', categoryId)
-        } else {
-            productStore.setFilter('category_id', null)
-        }
+        setIsOpen((prev) => !prev);
     };
 
     const handleCategoryKeyDown = async (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            await handleCategorySearchSubmit();
+            await handleCategorySearchSubmit()
         }
-    };
+    }
 
     const handleCategorySearchSubmit = async () => {
-        await fetchCategories(categoryTitle);
+        await FilterStore.fetchCategories(categoryTitle);
     };
 
     return (
         <div className={cl.container}>
             <div className={cl.select}>
-                <div onClick={toggleList} className={cl.categoriesOpen}>
-                    <div>Category</div>
-                    {isOpen ? <FaAngleUp className={cl.arrow}/> : <FaAngleDown className={cl.arrow}/>}
-                </div>
-
-                {isOpen && (
-                    <div className={cl.categories}>
-                        <div className={cl.categories__search}>
+                <CustomButton onClick={toggleList} className={cl.valuesOpen}>
+                    Category
+                </CustomButton>
+                <CSSTransition
+                    in={isOpen}
+                    timeout={300}
+                    nodeRef={ref}
+                    classNames={{
+                        enter: cl.enter,
+                        enterActive: cl.enterActive,
+                        exit: cl.exit,
+                        exitActive: cl.exitActive,
+                    }}
+                    unmountOnExit
+                >
+                    <div ref={ref} className={cl.values}>
+                        <div className={cl.values__search}>
                             <CustomInput
                                 value={categoryTitle}
-                                onChange={e => setCategoryTitle(e.target.value)}
+                                onChange={(e) => setCategoryTitle(e.target.value)}
+                                className={cl.value__input}
                                 onKeyDown={handleCategoryKeyDown}
-                                className={cl.category__input}
                             />
-                            <FaSearch className={cl.searchIcon} onClick={handleCategorySearchSubmit}/>
                         </div>
-                        {loading &&
-                            <div className={cl.loader}>
-                                <Loader/>
+                        {FilterStore.categoriesLoading && (
+                            <div className={cl.above_loader}>
+                                <Loader />
                             </div>
-                        }
-                        {categories.map(category => (
+                        )}
+                        {FilterStore.categories.map((category) => (
                             <label key={category.id} className={cl.custom__checkbox}>
                                 <input
                                     type="checkbox"
                                     name={category.id}
                                     checked={productStore.filters.category_id === category.id}
-                                    onChange={(event) => handleCheckboxChange(event, category.id)}
+                                    onChange={(event) =>
+                                        productStore.setFilter(
+                                            "category_id",
+                                            event.target.checked ? category.id : null
+                                        )
+                                    }
                                 />
                                 <span className={cl.checkmark}></span>
                                 {category.title}
                             </label>
                         ))}
                     </div>
-                )}
-            </div>
-            <div className={cl.categories}>
-                {categories
-                    .filter(category => productStore.filters.category_id === category.id)
-                    .map(category => (
-                        <label key={category.id} className={cl.custom__checkbox}>
-                            <input
-                                type="checkbox"
-                                name={category.id}
-                                checked={productStore.filters.category_id === category.id}
-                                onChange={(event) => handleCheckboxChange(event, category.id)}
-                            />
-                            <span className={cl.checkmark}></span>
-                            {category.title}
-                        </label>
-                    ))}
+                </CSSTransition>
             </div>
         </div>
     );

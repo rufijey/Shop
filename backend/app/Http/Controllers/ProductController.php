@@ -26,14 +26,7 @@ class ProductController extends Controller
     public function index(FilterRequest $request)
     {
         $data = $request->validated();
-        $page = $data['page'] ?? 1;
-        $perPage = $data['per_page'] ?? 10;
-        unset($data['page']);
-        unset($data['per_page']);
-        $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
-        $products = Product::filter($filter)->paginate($perPage, ['*'], 'page', $page);
-        return ProductListResource::collection($products->items())
-            ->response()->header('x-total-count', $products->total());
+        return $this->productService->index($data);
     }
 
     public function show(Product $product)

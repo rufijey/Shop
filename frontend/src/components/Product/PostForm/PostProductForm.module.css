@@ -1,5 +1,5 @@
 .dropzone {
-    border: 2px solid teal;
+    border: 2px solid #ff4d00;
     padding: 20px;
     text-align: center;
     cursor: pointer;
@@ -87,7 +87,7 @@
     width: 100%;
     padding: 5px 15px;
     margin: 5px 0;
-    border: 2px solid teal;
+    border: 2px solid #ff4d00;
     border-radius: 6px;
     font-size: 20px;
     outline:none;
@@ -95,7 +95,7 @@
     height: 120px;
 }
 .textarea:focus{
-    border: 2px solid #2fa6a6;
+    box-shadow:  0 0 5px #ff4d00;
 }
 .num{
     max-width: 200px;

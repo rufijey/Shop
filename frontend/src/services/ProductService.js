@@ -8,7 +8,7 @@ export default class ProductService{
                 page: filters.page,
                 per_page: filters.per_page,
                 search: filters.search,
-                tag_ids: filters.tag_ids,
+                characteristic_ids: filters.characteristic_ids,
                 category_id: filters.category_id,
                 price_range: {min: filters.price_range.min, max: filters.price_range.max},
                 sort_by:{ field:filters.sort_by.field, direction:filters.sort_by.direction}
@@ -31,8 +31,5 @@ export default class ProductService{
     }
     static async getMaxPrice(){
         return await axios.get('/products/max-price');
-    }
-    static async getFilters(){
-        return await axios.get('/products/filters');
     }
 }

@@ -1,0 +1,48 @@
+.filters{
+    display: flex;
+    flex-wrap: wrap;
+}
+.group{
+    display: flex;
+    gap: 3px;
+}
+.button{
+    padding: 5px 7px ;
+    color: #ff4d00;
+    font-size: 18px;
+    background: transparent;
+    border: 2px solid #ff4d00;
+    cursor: pointer;
+    border-radius: 14px;
+    transition: 0.2s;
+    margin: 3px;
+    display: flex;
+    align-items: center;
+}
+.category{
+    color: #fd7948;
+    border: 2px solid #fd7948;
+}
+.close {
+    margin-left: 2px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #ff4d00;
+    transition: 0.2s;
+}
+
+
+.close:hover {
+    transform: scale(115%);
+}
+
+.close:active {
+    transform: scale(90%);
+}
+.loader{
+    width: 30px !important;
+    padding: 7px !important;
+}
+.loader__container{
+    margin-left: 10px;
+}

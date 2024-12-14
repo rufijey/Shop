@@ -61,9 +61,9 @@ const AdminMain = () => {
                 </div>
                 <div
                     className={[cl.item, cl.tags].join(' ')}
-                    onClick={() => navigate('/admin/tags')}
+                    onClick={() => navigate('/admin/characteristics')}
                 >
-                    Tags
+                    Characteristics
                 </div>
             </div>
             <div className={cl.make__admin}>

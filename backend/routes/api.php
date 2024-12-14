@@ -2,10 +2,11 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FilterController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\TagController;
+use App\Http\Controllers\CharacteristicController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AccountController;
 use Illuminate\Http\Request;
@@ -44,19 +45,19 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::get('/', [ProductController::class, 'index'])->withoutMiddleware(['auth:api', 'role:admin']);
             Route::get('/max-price', [ProductController::class, 'getMaxPrice'])
                 ->withoutMiddleware(['auth:api', 'role:admin']);
-            Route::get('/filters', [ProductController::class, 'getFilters'])
-                ->withoutMiddleware(['auth:api', 'role:admin']);
             Route::get('/{product}', [ProductController::class, 'show'])->withoutMiddleware(['auth:api', 'role:admin']);
             Route::post('/', [ProductController::class, 'store']);
             Route::patch('/{product}', [ProductController::class, 'update']);
             Route::delete('/{product}', [ProductController::class, 'destroy']);
         });
-        Route::group(['prefix' => 'tags'], function () {
-            Route::get('/', [TagController::class, 'index'])->withoutMiddleware(['auth:api', 'role:admin']);
-            Route::get('/{tag}', [TagController::class, 'show'])->withoutMiddleware(['auth:api', 'role:admin']);
-            Route::post('/', [TagController::class, 'store']);
-            Route::patch('/{tag}', [TagController::class, 'update']);
-            Route::delete('/{tag}', [TagController::class, 'destroy']);
+        Route::group(['prefix' => 'characteristics'], function () {
+            Route::get('/', [CharacteristicController::class, 'index'])->withoutMiddleware(['auth:api', 'role:admin']);
+            Route::get('/grouped', [CharacteristicController::class, 'getGrouped'])->withoutMiddleware(['auth:api', 'role:admin']);
+//            Route::get('/ids', [CharacteristicController::class, 'getByIds'])->withoutMiddleware(['auth:api', 'role:admin']);
+            Route::get('/{characteristic}', [CharacteristicController::class, 'show'])->withoutMiddleware(['auth:api', 'role:admin']);
+            Route::post('/', [CharacteristicController::class, 'store']);
+            Route::patch('/{characteristic}', [CharacteristicController::class, 'update']);
+            Route::delete('/{characteristic}', [CharacteristicController::class, 'destroy']);
         });
     });
 
@@ -86,6 +87,10 @@ Route::group(['prefix' => 'orders'], function () {
     Route::patch('/complete', [OrderController::class, 'completeOrder']);
     Route::delete('/current', [OrderController::class, 'deleteCurrentOrder']);
     Route::patch('/quantity', [OrderController::class, 'changeQuantity']);
+});
+Route::group(['prefix' => 'filters'], function () {
+    Route::get('/', [FilterController::class, 'index']);
+    Route::get('/ids', [FilterController::class, 'getByIds']);
 });
 
 Route::group([

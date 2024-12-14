@@ -22,7 +22,7 @@ class ProductListResource extends JsonResource
             'quantity'=>$this->quantity,
             'rating'=>$this->rating,
             'category' => new CategoryResource($this->category),
-            'tags' => TagResource::collection($this->tags),
+            'characteristic' => CharacteristicResource::collection($this->characteristics),
             'images' => ImageResource::collection($this->images),
             'slug'=> $this->slug,
         ];
