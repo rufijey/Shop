@@ -9,12 +9,18 @@
 }
 .forgot{
     padding: 5px;
-    color: #0a94d5;
+    color: #f3ac8d;
     cursor: pointer;
 }
 .forgot:hover{
-    color: #0476ae;
+    color: #ec733d;
 }
 .forgot:active{
-    color: #024e6e;
+    color: #ff4d00;
+}
+.error{
+    color: #8B0000;
+}
+.button{
+    margin-top: 5px;
 }

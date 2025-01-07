@@ -5,7 +5,9 @@ export default class FilterService {
     static async getAll() {
         return await axios.get('/filters');
     }
-
+    static async getNoGroup() {
+        return await axios.get('/filters/noGroup');
+    }
     static async getSelected(filters) {
         return await axios.get('/filters/ids', {
             params: {

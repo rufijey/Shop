@@ -26,8 +26,8 @@ const Login = observer(() => {
         try {
             await AuthStore.login(loginForm)
         }catch (err){
-            console.log(err.response.data.errors)
-            setError('')
+            console.log(err)
+            setError(err.response.data)
         }
     };
 
@@ -39,15 +39,17 @@ const Login = observer(() => {
                              onChange={e => setLoginForm({...loginForm, email: e.target.value})}
                              type="email"
                 />
+                {error && error.errors && <div className={cl.error}>{error.errors.email[0]}</div>}
                 <CustomInput placeholder="password"
                              value={loginForm.password}
                              onChange={e => setLoginForm({...loginForm, password: e.target.value})}
                              type="password"
                 />
+                {error && error.error && <div className={cl.error}>Wrong password</div>}
                 <div className={cl.forgot}
                      onClick={()=> navigate('/user/password/forgot', {state: {email: loginForm.email}})}
                 >Forgot your password?</div>
-                <CustomButton type="submit">Login</CustomButton>
+                <CustomButton type="submit" className={cl.button}>Login</CustomButton>
             </form>
         </div>
     );

@@ -90,6 +90,7 @@ Route::group(['prefix' => 'orders'], function () {
 });
 Route::group(['prefix' => 'filters'], function () {
     Route::get('/', [FilterController::class, 'index']);
+    Route::get('/noGroup', [FilterController::class, 'noGroup']);
     Route::get('/ids', [FilterController::class, 'getByIds']);
 });
 

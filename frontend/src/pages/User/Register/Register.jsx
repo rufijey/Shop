@@ -20,7 +20,8 @@ const Register = observer(() => {
         fingerprint: ''
     });
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleSubmit = async (e) => {
         try {
@@ -32,6 +33,7 @@ const Register = observer(() => {
         }catch (err){
             setLoading(false)
             console.log(err.response.data.errors)
+            setError(err.response.data.errors)
         }
     };
 
@@ -46,16 +48,19 @@ const Register = observer(() => {
                              onChange={e => setRegistrationForm({...registrationForm, name: e.target.value})}
                              type="text"
                 />
+                {error && error.name && <div className={cl.error}>{error.name[0]}</div>}
                 <CustomInput placeholder="email"
                              value={registrationForm.email}
                              onChange={e => setRegistrationForm({...registrationForm, email: e.target.value})}
                              type="email"
                 />
+                {error && error.email && <div className={cl.error}>{error.email[0]}</div>}
                 <CustomInput placeholder="password"
                              value={registrationForm.password}
                              onChange={e => setRegistrationForm({...registrationForm, password: e.target.value})}
                              type="password"
                 />
+                {error && error.password && <div className={cl.error}>{error.password[0]}</div>}
                 <CustomInput placeholder="password confirmation"
                              value={registrationForm.password_confirmation}
                              onChange={e => setRegistrationForm({
@@ -64,7 +69,8 @@ const Register = observer(() => {
                              })}
                              type="password"
                 />
-                <CustomButton type="submit">Register</CustomButton>
+                {error && error.password_confirmation && <div className={cl.error}>{error.password_confirmation[0]}</div>}
+                <CustomButton type="submit" className={cl.button}>Register</CustomButton>
             </form>
         </div>
     );

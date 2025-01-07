@@ -16,7 +16,7 @@ import productStore from "../../../store/ProductStore";
 import {FaCartShopping} from "react-icons/fa6";
 import Modal from "../../UI/modal/Modal";
 import CurrentOrder from "../../Order/CurrentOrder";
-import {IoShirt} from "react-icons/io5";
+import { MdMonitor } from "react-icons/md";
 import orderStore from "../../../store/OrderStore";
 
 const Navbar = observer(({classNames}) => {
@@ -65,13 +65,10 @@ const Navbar = observer(({classNames}) => {
         orderStore.setVisible(true)
     }
 
-    // useEffect(() => {
-    //     console.log(productStore.sort)
-    // }, []);
     return (
         <div className={[cl.navbar, classNames].join(' ')}>
             <div className={cl.main__links}>
-                <Link to='/' className={cl.main__item}>ShopName</Link>
+                <Link to='/' className={cl.main__item}>TechCore</Link>
                 <div className={cl.item}
                     onClick={()=>{
                         navigate('/products')
@@ -79,7 +76,7 @@ const Navbar = observer(({classNames}) => {
                             productStore.syncUrl()
                         }
                     }}
-                ><IoShirt/></div>
+                ><MdMonitor/></div>
             </div>
             <div className={cl.input}>
                 <CustomInput
@@ -87,9 +84,9 @@ const Navbar = observer(({classNames}) => {
                     onChange={e => setSearch(e.target.value)}
                     onKeyDown={handleKeyDown}
                 />
-                <div className={cl.search__icon} onClick={searchSubmit}>
-                    <FaSearch/>
-                </div>
+                {/*<div className={cl.search__icon} onClick={searchSubmit}>*/}
+                {/*    <FaSearch/>*/}
+                {/*</div>*/}
             </div>
             <div className={cl.navbar__links}>
                 <div onClick={handleCartClick} className={cl.item}>
@@ -103,7 +100,6 @@ const Navbar = observer(({classNames}) => {
                 {authStore.isAdmin &&
                     <Link to='/admin' className={cl.item}><MdAdminPanelSettings/></Link>
                 }
-                {/*<div className={cl.icon} onClick={toggleDropdown} ref={dropdownRef}>*/}
                     {authStore.isAuthenticated
                         ? <div className={cl.icon} onClick={toggleDropdown} ref={dropdownRef}>
                             <LuUserCircle2 className={cl.item}/>
@@ -120,7 +116,6 @@ const Navbar = observer(({classNames}) => {
                             </div>
                         </div>
                     }
-                {/*</div>*/}
             </div>
             <Modal visible={orderStore.visible} setVisible={orderStore.setVisible}>
                 <CurrentOrder setVisibleModal={orderStore.setVisible}/>

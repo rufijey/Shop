@@ -16,9 +16,8 @@
 .characteristics{
     font-size: 24px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 5px;
+    flex-direction: column;
+    color: white;
 }
 .characteristics__container{
     width: 100%;
@@ -36,29 +35,37 @@
 }
 
 .product__description{
-    font-size: 22px;
-    color: #cdcdcd;
+    font-size: 20px;
+    color: #451111;
 }
-.product__body{
+.product__title{
     align-self: flex-start;
-    font-size: 28px;
+    font-size: 22px;
 }
 .price{
     font-size: 30px;
     font-weight: bold;
+    color: #d8d82b;
 }
 .product__about{
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 20px;
 }
 .product__image{
     display: flex;
     align-items: center;
-    margin: 10px;
+    height: 100%;
+    flex-direction: column;
+    gap: 10px;
 }
 .product{
+    display: flex;
+    flex-direction: column;
+    color: #b1b1b1;
+    padding: 20px;
+}
+.product__top{
     display: flex;
     flex-direction: row;
     justify-content: space-between;

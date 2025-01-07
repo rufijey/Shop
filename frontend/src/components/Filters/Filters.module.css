@@ -4,6 +4,7 @@
     align-items: center;
     font-size: 40px;
     width: 100%;
+    margin-top: 20px;
 }
 .characteristics{
     font-size: 20px;
@@ -102,6 +103,7 @@
     gap: 10px;
     width: 100%;
     position: relative;
+    color: #ff4d00;
 }
 .body{
     width: 100%;
