@@ -10,10 +10,13 @@ import CharacteristicSelector from "../../Characteristic/Selector/Characteristic
 import CategoryService from "../../../services/CategoryService";
 import ProductService from "../../../services/ProductService";
 import CustomButton from "../../UI/button/CustomButton";
+import FilterService from "../../../services/FilterService";
 
 const PostProductForm = () => {
     const [deleteClick, setDeleteClick] = useState(false);
     const [categories, setCategories]= useState([])
+    const [characteristics, setCharacteristics] = useState([]);
+    const [loading, setLoading] = useState(true)
     const [product, setProduct] = useState({
         title: '',
         description: '',
@@ -35,7 +38,7 @@ const PostProductForm = () => {
                 ...(prevProduct.images || []),
                 ...acceptedImages.map(image => ({
                     image: image,
-                    url: URL.createObjectURL(image) // Генерация URL для превью
+                    url: URL.createObjectURL(image)
                 }))
             ]
         }));
@@ -47,15 +50,20 @@ const PostProductForm = () => {
     }
 
     useEffect(() => {
-        fetchCategories();
+        fetchFilters();
     }, []);
 
-    const fetchCategories = async () => {
+    const fetchFilters = async () => {
         try {
-            const res = await CategoryService.getAll();
-            setCategories(res.data);
+            setLoading(true)
+            const res = await FilterService.getNoGroup();
+            console.log(res.data)
+            setCategories(res.data.categories);
+            setCharacteristics(res.data.characteristics);
         } catch (error) {
             console.error("Error fetching categories:", error);
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -150,6 +158,8 @@ const PostProductForm = () => {
                     onChange={value => setProduct({ ...product, category: {id:value} })}
                 />
                 <CharacteristicSelector
+                    characteristics={characteristics}
+                    loading={loading}
                     selectedCharacteristics={product.characteristics}
                     setSelectedCharacteristics={(characteristics) => setProduct({ ...product, characteristics: characteristics })}
                 />

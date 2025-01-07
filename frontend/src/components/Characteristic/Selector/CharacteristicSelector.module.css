@@ -1,5 +1,6 @@
 .container {
     margin: 5px 0;
+    color: black;
 }
 .characteristics__list, .selected__characteristics {
     display: flex;
@@ -19,21 +20,17 @@
     flex-direction: row;
     align-items: center;
 }
-.characteristic {
-    background-color: #dcfafa;
-    border: 1px solid #ccc;
+.characteristic, .selected_characteristic {
+    background-color: #ff9a71;
+    border: 1px solid #fffcfc;
     padding: 5px 10px;
     cursor: pointer;
     font-size: 16px;
-}
-
-.selected_characteristic {
+    border-radius: 8px;
     display: flex;
     align-items: center;
-    background-color: #d3fbfb;
-    border: 1px solid #bbb;
-    padding: 5px 10px;
 }
+
 
 .delete {
     cursor: pointer;

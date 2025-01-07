@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import cl from './AdminSidebar.module.css'
-import {IoShirt} from "react-icons/io5";
+import cl from '../Sidebar.module.css'
+import { MdMonitor } from "react-icons/md";
 import {FaTags} from "react-icons/fa6";
 import {BiCategory} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
@@ -25,7 +25,7 @@ const AdminSidebar = () => {
                     autoHideDuration={200}
                 >
                 <div className={cl.links}>
-                    <IoShirt className={cl.item} onClick={() => navigate('/admin/products')}/>
+                    <MdMonitor className={cl.item} onClick={() => navigate('/admin/products')}/>
                     <BiCategory className={cl.item} onClick={() => navigate('/admin/categories')}/>
                     <FaTags className={cl.item} onClick={() => navigate('/admin/characteristics')}/>
                 </div>

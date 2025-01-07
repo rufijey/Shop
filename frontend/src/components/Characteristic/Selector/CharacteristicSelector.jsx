@@ -7,26 +7,26 @@ import Modal from "../../UI/modal/Modal";
 import Loader from "../../UI/loader/Loader";
 import {FaTags} from "react-icons/fa6";
 
-const CharacteristicSelector = ({selectedCharacteristics, setSelectedCharacteristics}) => {
-    const [characteristics, setCharacteristics] = useState([]);
-    const [characteristicsLoading, setCharacteristicsLoading] = useState(true);
+const CharacteristicSelector = ({selectedCharacteristics, setSelectedCharacteristics, characteristics, loading}) => {
+    // const [characteristics, setCharacteristics] = useState([]);
+    // const [characteristicsLoading, setCharacteristicsLoading] = useState(true);
     const [visible, setVisible] = useState(false);
 
-    useEffect(() => {
-        fetchCharacteristics();
-    }, []);
+    // useEffect(() => {
+    //     fetchCharacteristics();
+    // }, []);
 
-    const fetchCharacteristics = async () => {
-        try {
-            setCharacteristicsLoading(true);
-            const res = await CharacteristicService.getAll();
-            setCharacteristics(res.data);
-        } catch (error) {
-            console.error("Error fetching characteristics:", error);
-        } finally {
-            setCharacteristicsLoading(false);
-        }
-    };
+    // const fetchCharacteristics = async () => {
+    //     try {
+    //         setCharacteristicsLoading(true);
+    //         const res = await CharacteristicService.getAll();
+    //         setCharacteristics(res.data);
+    //     } catch (error) {
+    //         console.error("Error fetching characteristics:", error);
+    //     } finally {
+    //         setCharacteristicsLoading(false);
+    //     }
+    // };
 
     const handleCharacteristicSelect = (characteristic) => {
         if (!selectedCharacteristics.includes(characteristic)) {
@@ -70,7 +70,7 @@ const CharacteristicSelector = ({selectedCharacteristics, setSelectedCharacteris
                         ))}
                     </div>
                     <hr/>
-                    {characteristicsLoading ? (
+                    {loading ? (
                         <Loader/>
                     ) : (
                         <div className={cl.characteristics__list}>
@@ -80,7 +80,7 @@ const CharacteristicSelector = ({selectedCharacteristics, setSelectedCharacteris
                                     onClick={() => handleCharacteristicSelect(characteristic)}
                                     className={cl.characteristic}
                                 >
-                                    {characteristic.body}
+                                    {characteristic.type} - {characteristic.body}
                                 </div>
                             ))}
                         </div>

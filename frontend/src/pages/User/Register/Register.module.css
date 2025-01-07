@@ -16,3 +16,9 @@
     top: 40px;
     z-index: 10;
 }
+.error{
+    color: #8B0000;
+}
+.button{
+    margin-top: 5px;
+}

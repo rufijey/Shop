@@ -25,7 +25,6 @@ const PriceRangeSlider = observer(() => {
 
     return (
         <div className={cl.slider__container}>
-            <h3>Price Range</h3>
             {!FilterStore.priceLoading &&
                 <div>
                     <Slider

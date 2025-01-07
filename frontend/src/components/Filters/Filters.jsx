@@ -14,17 +14,6 @@ import {observer} from "mobx-react-lite";
 const Filters = observer(() => {
     const [loading, setLoading] = useState(true)
 
-    // const applyFilters = async () => {
-    //     productStore.syncUrl()
-    //     await productStore.fetchProducts()
-    // }
-    //
-    // const clearFilters = async () => {
-    //     productStore.resetFilters()
-    //     await productStore.fetchProducts()
-    // }
-
-
     useEffect(() => {
         FilterStore.fetchFilters().then(()=>{
             setLoading(FilterStore.totalLoading)
@@ -51,10 +40,6 @@ const Filters = observer(() => {
             <div className={cl.characteristics}>
                 <CharacteristicCheckboxSelect/>
             </div>
-            {/*<div className={cl.filter__btns}>*/}
-            {/*    <div className={cl.filter__btn} onClick={applyFilters}>Apply</div>*/}
-            {/*    <div className={cl.filter__btn} onClick={clearFilters}>Clear</div>*/}
-            {/*</div>*/}
         </div>
     );
 });

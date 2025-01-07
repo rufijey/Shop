@@ -8,12 +8,14 @@ a{
 }
 
 html, body {
-    background-color: #444444;
+    background: linear-gradient(to top right, #fd6b03, #2e2e2e) fixed;
+    background-size: cover;
     margin: 0;
     padding: 0;
     height: 100%;
     font-family: Arial, sans-serif;
     color: white;
+
 }
 .rc-slider-handle:active {
     border-color: #ff4d00 !important;

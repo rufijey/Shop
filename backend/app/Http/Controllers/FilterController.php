@@ -8,6 +8,7 @@ use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\VerifyRequest;
 use App\Http\Resources\CharacteristicResource;
 use App\Http\Resources\FiltersResource;
+use App\Http\Resources\FiltersResourceNoGroup;
 use App\Http\Resources\SelectedFiltersResource;
 use App\Models\Category;
 use App\Models\Characteristic;
@@ -42,7 +43,20 @@ class FilterController extends Controller
         ]);
     }
 
+    public function noGroup(){
+        $characteristics = Characteristic::all();
 
+        $categories = Category::all();
+        $maxPrice = Product::max('price');
+
+
+        return new FiltersResourceNoGroup([
+            'characteristics' => $characteristics,
+            'categories' => $categories,
+            'max_price' => $maxPrice,
+        ]);
+
+    }
     public function getByIds(GetByIdsRequest $request)
     {
         $data = $request->validated();

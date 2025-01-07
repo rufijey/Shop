@@ -4,6 +4,8 @@ import CategoryService from "../services/CategoryService";
 import CharacteristicService from "../services/CharacteristicService";
 import {makeAutoObservable} from "mobx";
 import FilterService from "../services/FilterService";
+import {createRef} from "react";
+import {logDOM} from "@testing-library/react";
 
 
 class FilterFetchingStore {
@@ -17,7 +19,6 @@ class FilterFetchingStore {
     constructor() {
         makeAutoObservable(this);
     }
-
     setCategoriesLoading(bool){
         this.categoriesLoading = bool;
     }
@@ -36,6 +37,7 @@ class FilterFetchingStore {
     setMaxPrice(value){
         this.maxPrice = value;
     }
+
 
 
     fetchFilters = async () => {
@@ -82,6 +84,7 @@ class FilterFetchingStore {
             this.setGroupedCharacteristicsLoading(false);
         }
     };
+
 
     get totalLoading() {
        return this.categoriesLoading && this.groupedCharacteristicsLoading && this.priceLoading

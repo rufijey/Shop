@@ -59,10 +59,10 @@ class ProductStore {
         router.navigate({search: searchParams.toString()}, {replace: true});
     }
 
-    // searchProducts (){
-    //     const searchParams = this.getSearchParams()
-    //     router.navigate( `/products?${searchParams.toString()}`);
-    // }
+    searchProducts (){
+        const searchParams = this.getSearchParams()
+        router.navigate( `/products?${searchParams.toString()}`);
+    }
 
     getSearchParams() {
         const searchParams = new URLSearchParams();

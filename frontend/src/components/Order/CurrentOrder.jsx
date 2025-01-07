@@ -9,6 +9,7 @@ import Loader from "../UI/loader/Loader";
 import orderStore from "../../store/OrderStore";
 import {FiMinus, FiPlus} from "react-icons/fi";
 import {observer} from "mobx-react-lite";
+import CustomButton from "../UI/button/CustomButton";
 
 const CurrentOrder = observer(({setVisibleModal}) => {
     const [loading, setLoading] = useState(false);
@@ -131,9 +132,9 @@ const CurrentOrder = observer(({setVisibleModal}) => {
                         <div className={cl.total__price}>{orderStore.order.total_price} ₴</div>
                     }
                     {orderStore.order.products[0] && authStore.isAuthenticated && (
-                        <div className={cl.complete__btn} onClick={handleComplete}>
+                        <CustomButton onClick={handleComplete}>
                             Complete order
-                        </div>
+                        </CustomButton>
                     )}
                 </Scrollbars>
             )}

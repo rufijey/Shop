@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import cl from './ProductsSidebar.module.css'
+import cl from '../Sidebar.module.css'
 import {useNavigate} from "react-router-dom";
 import productStore from "../../../store/ProductStore";
 import Filters from "../../Filters/Filters";
