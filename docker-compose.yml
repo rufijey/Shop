@@ -25,18 +25,6 @@ services:
     ports:
       - "3000:3000"
 
-  #  frontend:
-  #    build:
-  #      context: ./frontend
-  #      dockerfile: Dockerfile
-  #    ports:
-  #      - "8080:80"
-  #    volumes:
-  #      - ./nginx/conf.d/nginx.conf:/etc/nginx/conf.d/default.conf
-  #      - ./backend:/var/www
-  #    restart: unless-stopped
-  #    container_name: shop_frontend
-
   backend:
     build:
       context: ./backend
