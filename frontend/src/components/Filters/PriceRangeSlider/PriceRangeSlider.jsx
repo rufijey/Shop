@@ -27,6 +27,7 @@ const PriceRangeSlider = observer(() => {
         <div className={cl.slider__container}>
             {!FilterStore.priceLoading &&
                 <div>
+                    <div className={cl.price}>Price</div>
                     <Slider
                         range
                         min={0}

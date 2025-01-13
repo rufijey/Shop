@@ -7,12 +7,13 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px
+    gap: 10px;
+    color: black;
 }
 .review__container{
     display: flex;
     flex-direction: column;
-    border: 1px solid gray;
+    border: 3px solid #f4c340;
     padding: 10px;
     border-radius: 6px;
     width: 60%;

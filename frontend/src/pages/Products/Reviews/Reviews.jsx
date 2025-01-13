@@ -9,6 +9,7 @@ import Modal from "../../../components/UI/modal/Modal";
 import PostReviewForm from "../../../components/Review/PostForm/PostReviewForm";
 import authStore from "../../../store/AuthStore";
 import UpdateReviewForm from "../../../components/Review/UpdateForm/UpdateReviewForm";
+import CustomButton from "../../../components/UI/button/CustomButton";
 
 const Reviews = () => {
     const [visibleAdd, setVisibleAdd] = useState(false)
@@ -34,12 +35,12 @@ const Reviews = () => {
                 {authStore.isAuthenticated &&
                     <div>
                         {!product.is_reviewed
-                            ? <div className={cl.add__review} onClick={() => setVisibleAdd(true)}>
+                            ? <CustomButton onClick={() => setVisibleAdd(true)}>
                                 add review
-                            </div>
-                            : <div className={cl.add__review} onClick={() => setVisibleChange(true)}>
+                            </CustomButton>
+                            : <CustomButton onClick={() => setVisibleChange(true)}>
                                 change review
-                            </div>
+                            </CustomButton>
                         }
                     </div>
                 }

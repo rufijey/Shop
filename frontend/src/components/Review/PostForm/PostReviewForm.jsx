@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import cl from "./PostReviewForm.module.css";
+import cl from "../ReviewForm.module.css";
 import StarRatings from "react-star-ratings/build/star-ratings";
 import ReviewService from "../../../services/ReviewService";
 

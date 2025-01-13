@@ -42,13 +42,13 @@ class UserController extends Controller
 
     public function makeAdmin(User $user)
     {
-        $user['role'] = 'admin';
+        $user->role = 'admin';
         $user->update();
     }
 
     public function makeUnAdmin(User $user)
     {
-        $user['role'] = 'user';
+        $user->role = 'user';
         $user->update();
     }
 

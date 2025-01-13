@@ -30,6 +30,32 @@
 .submit:active{
     background-color: #098080;
 }
+.button__container{
+    color: white;
+    font-size: 24px;
+    display: flex;
+    justify-content: flex-start;
+}
+.delete{
+    background-color: red;
+    padding: 5px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+.buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    justify-content: space-between;
+}
+.delete:hover{
+    background-color: #a81b1b;
+}
+.delete:active{
+    background-color: #871717;
+}
 .submit__container{
     color: white;
     font-size: 24px;

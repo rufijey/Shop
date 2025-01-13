@@ -6,6 +6,10 @@
     flex-direction: column;
     align-items: center;
 }
+.price{
+    color: #ff4d00;
+    margin-bottom: 2px;
+}
 
 .price__display {
     display: flex;
