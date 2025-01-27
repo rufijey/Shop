@@ -6,34 +6,36 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ProductFilter extends AbstractFilter
 {
-    protected const TITLE = 'title';
+    protected const SEARCH = 'search';
     protected const CATEGORY_ID = 'category_id';
-    protected const TAG_IDS = 'tag_ids';
+    protected const CHARACTERISTIC_IDS = 'characteristic_ids';
     protected const PRICE_RANGE = 'price_range';
+    protected const SORT_BY = 'sort_by';
     protected function getCallbacks(): array
     {
         return [
-            self::TITLE=>[$this, 'title'],
+            self::SEARCH=>[$this, 'search'],
             self::CATEGORY_ID=>[$this, 'categoryId'],
-            self::TAG_IDS=>[$this, 'tagIds'],
+            self::CHARACTERISTIC_IDS=>[$this, 'characteristicIds'],
             self::PRICE_RANGE => [$this, 'priceRange'],
+            self::SORT_BY => [$this, 'sortBy'],
         ];
     }
 
-    public function title(Builder $builder, $value)
+    public function search(Builder $builder, $value)
     {
-        $builder->where('title', 'like', "%{$value}%");
+        $builder->whereRaw("MATCH(title, description) AGAINST(? IN BOOLEAN MODE)", ["{$value}*"]);
     }
 
     public function categoryId(Builder $builder, $value)
     {
         $builder->where('category_id', $value);
     }
-    public function tagIds(Builder $builder, $value)
+    public function characteristicIds(Builder $builder, $value)
     {
-        foreach ($value as $tagId) {
-            $builder->whereHas('tags', function (Builder $query) use ($tagId) {
-                $query->where('tags.id', $tagId);
+        foreach ($value as $characteristicId) {
+            $builder->whereHas('characteristics', function (Builder $query) use ($characteristicId) {
+                $query->where('characteristics.id', $characteristicId);
             });
         }
     }
@@ -46,4 +48,14 @@ class ProductFilter extends AbstractFilter
             $builder->where('price', '<=', $value['max']);
         }
     }
+
+    public function sortBy(Builder $builder, $value)
+    {
+        if ($value) {
+            $field = $value['field'] ?? 'created_at';
+            $direction = $value['direction'] ?? 'asc';
+            $builder->orderBy($field, $direction);
+        }
+    }
+
 }

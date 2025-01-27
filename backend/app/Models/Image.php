@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Image extends Model
 {
     use HasFactory;
-    protected $guarded=false;
+
+    protected $guarded = false;
     protected $table = 'images';
-    public function post(){
+
+    public function post()
+    {
         return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 }

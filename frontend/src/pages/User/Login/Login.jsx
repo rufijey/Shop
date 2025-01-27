@@ -18,11 +18,17 @@ const Login = observer(() => {
         password:'',
         fingerprint: ''
     });
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await AuthStore.login(loginForm)
+        try {
+            await AuthStore.login(loginForm)
+        }catch (err){
+            console.log(err)
+            setError(err.response.data)
+        }
     };
 
     return (
@@ -33,12 +39,17 @@ const Login = observer(() => {
                              onChange={e => setLoginForm({...loginForm, email: e.target.value})}
                              type="email"
                 />
+                {error && error.errors && <div className={cl.error}>{error.errors.email[0]}</div>}
                 <CustomInput placeholder="password"
                              value={loginForm.password}
                              onChange={e => setLoginForm({...loginForm, password: e.target.value})}
                              type="password"
                 />
-                <CustomButton type="submit">Login</CustomButton>
+                {error && error.error && <div className={cl.error}>Wrong password</div>}
+                <div className={cl.forgot}
+                     onClick={()=> navigate('/user/password/forgot', {state: {email: loginForm.email}})}
+                >Forgot your password?</div>
+                <CustomButton type="submit" className={cl.button}>Login</CustomButton>
             </form>
         </div>
     );

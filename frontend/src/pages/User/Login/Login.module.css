@@ -7,3 +7,20 @@
 .form__container{
     width: 50%;
 }
+.forgot{
+    padding: 5px;
+    color: #f3ac8d;
+    cursor: pointer;
+}
+.forgot:hover{
+    color: #ec733d;
+}
+.forgot:active{
+    color: #ff4d00;
+}
+.error{
+    color: #8B0000;
+}
+.button{
+    margin-top: 5px;
+}

@@ -8,6 +8,7 @@ import {MdOutlineDriveFileRenameOutline} from "react-icons/md";
 import {TiDelete} from "react-icons/ti";
 import Modal from "../../../../components/UI/modal/Modal";
 import ProductDelete from "../../../../components/Product/Delete/ProductDelete";
+import ProductItem from "../../../../components/Product/Item/ProductItem";
 
 const AdminProductPage = () => {
     const params = useParams()
@@ -53,29 +54,9 @@ const AdminProductPage = () => {
 
     return (
         <div className={cl.container}>
-            <div className={cl.category}>{product.category.title}</div>
-            <div className={cl.product__container}>
-                <ImageGallery images={product.images}/>
-                <div className={cl.product}>
-                    <div className={cl.product__title}>{product.title}</div>
-                    <div className={cl.product__about}>
-                        <div className={cl.price}>{product.price} ₴</div>
-                        <div className={cl.product__description}>{product.description}</div>
-                    </div>
-                </div>
-            </div>
-            {product.tags[0]
-                ? <div className={cl.tags__container}>
-                    <div className={cl.tags}>
-                        {product.tags.map(tag => (
-                            <div key={tag.id} className={cl.tag}>
-                                # {tag.title}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-                : <div className={cl.no__tags}></div>
-            }
+            <ProductItem
+                product={product}
+            />
             <div className={cl.buttons}>
                 <MdOutlineDriveFileRenameOutline
                     className={cl.change}

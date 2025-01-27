@@ -1,63 +1,70 @@
-import React, {useEffect, useState} from 'react';
-import cl from './Main.module.css'
-import CategoryService from "../../services/CategoryService";
-import TagService from "../../services/TagService";
+import React, {useState} from 'react';
+import cl from './Main.module.css';
+import Loader from "../../components/UI/loader/Loader";
+import {Scrollbars} from "react-custom-scrollbars-2";
+import productStore from "../../store/ProductStore";
+
 const Main = () => {
-    const [categories, setCategories] = useState([])
-    const [categoriesLoading, setCategoriesLoading] = useState(false)
-    const [tags, setTags] = useState([])
-    const [tagsLoading, setTagsLoading] = useState(false)
-    const fetchCategories = async () => {
-        try {
-            setCategoriesLoading(true);
-            const res = await CategoryService.getAll();
-            setCategories(res.data);
-        } catch (error) {
-            console.error("Error fetching categories:", error);
-        } finally {
-            setCategoriesLoading(false);
-        }
-    };
-    const fetchTags = async () => {
-        try {
-            setTagsLoading(true);
-            const res = await TagService.getAll();
-            setTags(res.data);
-        } catch (error) {
-            console.error("Error fetching categories:", error);
-        } finally {
-            setTagsLoading(false);
-        }
+    const [loadedImages, setLoadedImages] = useState(0);
+
+    const categoriesData = [
+        { id: 1, name: "PCs", image: "/orange_pc.jpg"},
+        { id: 2, name: "Video cards", image: "/video_card.jpg"},
+        { id: 3, name: "Processors", image: "/processor.jpg"},
+        { id: 4, name: "RAM", image: "/ram.jpeg"},
+        { id: 5, name: "Cases", image: "/pc_case.jpg"},
+        { id: 6, name: "Motherboards", image: "/motherboard.jpg", className: cl.motherboard},
+        { id: 7, name: "Keyboards", image: "/keyboard.jpg"},
+        { id: 8, name: "Mouses", image: "/mouse.jpg"},
+    ];
+
+
+    const handleImageLoad = () => {
+        setLoadedImages((prev) => prev + 1);
     };
 
-    useEffect(() => {
-        fetchCategories();
-        fetchTags();
-    }, []);
+    const handleCategoryClick = (id) => {
+        productStore.setFilter('category_id', id)
+        productStore.searchProducts()
+    }
+
     return (
-        <div className={cl.container}>
-            <div className={cl.title}>SHOP</div>
-            <div className={cl.links}>
-                <div className={cl.item__container}>
-                    <div className={cl.item__title}>Categories</div>
-                    <div className={cl.list}>
-                        {categories.map(category=>
-                            <div key={category.id} className={cl.link}>
-                                {category.title}
+        <div>
+            {loadedImages < 8 &&
+                <div className={cl.loader}>
+                    <Loader/>
+                </div>
+            }
+
+            <div className={loadedImages < 8 ? `${cl.container} ${cl.hide}` : `${cl.container}`}>
+                <div className={cl.main}>
+                    <div className={cl.header}>
+                        <h1 className={cl.title}>TechCore</h1>
+                    </div>
+
+                    <div className={cl.categories}>
+                        {categoriesData.map((category) => (
+                            <div
+                                key={category.id}
+                                className={cl.category}
+                                onClick={() => handleCategoryClick(category.id)}
+                            >
+                                <div className={[cl.image__container, category.className].join(' ')}>
+                                    <img onLoad={handleImageLoad} src={category.image} alt={category.name} />
+                                </div>
+                                <div className={cl.category__about}>{category.name}</div>
                             </div>
-                        )}
+                        ))}
                     </div>
                 </div>
-                <div className={cl.item__container}>
-                    <div className={cl.item__title}>Tags</div>
-                    <div className={cl.list}>
-                        {tags.map(tag=>
-                            <div key={tag.id} className={cl.link}>
-                                {tag.title}
-                            </div>
-                        )}
+
+                <footer className={cl.footer}>
+                    <div className={cl.socials}>
+                        <a href="#" className={cl.socialLink}>Facebook</a>
+                        <a href="#" className={cl.socialLink}>Instagram</a>
+                        <a href="#" className={cl.socialLink}>Twitter</a>
                     </div>
-                </div>
+                </footer>
             </div>
         </div>
     );

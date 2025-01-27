@@ -14,7 +14,8 @@ trait HasSlug
         return $query->where($field ?? $this->getRouteKeyName(), $id);
     }
 
-    public function getSlugAttribute(){
+    public function getSlugAttribute()
+    {
         $encodedId = base64_encode($this->id);
         return Str::slug($this->title) . '-' . $encodedId;
     }

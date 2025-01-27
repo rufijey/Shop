@@ -6,7 +6,7 @@ import cl from './UserLayout.module.css'
 const UserLayout = () => {
     return (
         <div className={cl.container}>
-            <Navbar/>
+            <Navbar classNames={cl.nav}/>
             <Outlet />
         </div>
     );

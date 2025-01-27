@@ -3,13 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
@@ -47,10 +48,13 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-    public function orders(){
+    public function orders()
+    {
         return $this->hasMany(Order::class, 'user_id', 'id');
     }
-    public function reviews(){
+
+    public function reviews()
+    {
         return $this->hasMany(Review::class, 'user_id', 'id');
     }
 

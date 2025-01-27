@@ -1,17 +1,22 @@
 .btn{
     padding: 5px 15px;
-    color: teal;
+    color: #ff4d00;
     font-size: 20px;
     background: transparent;
-    border: 2px solid teal;
+    border: 2px solid #ff4d00;
     cursor: pointer;
     border-radius: 6px;
+    transition: 0.2s;
 }
 .btn:hover{
-    transform: translateY(-3px);
-    box-shadow: 0 3px 0 darkslategray;
+    text-shadow:
+            0 0 5px #ff4d00,
+            0 0 10px #ff4d00
+
 }
 .btn:active{
-    transform: translateY(-2px);
-    box-shadow: 0 2px 0 darkslategray;
+    text-shadow:
+            0 0 5px #ff4d00,
+            0 0 10px #ff4d00,
+            0 0 20px #ff4d00
 }

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Http\Filters\ProductFilter;
+use App\Http\Resources\ProductListResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Image;
 use App\Models\Product;
@@ -11,19 +13,29 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
+    public function index($data)
+    {
+        $page = $data['page'] ?? 1;
+        $perPage = $data['per_page'] ?? 10;
+        unset($data['page']);
+        unset($data['per_page']);
+        $filter = app()->make(ProductFilter::class, ['queryParams' => array_filter($data)]);
+        $products = Product::filter($filter)->paginate($perPage, ['*'], 'page', $page);
+        return ProductListResource::collection($products->items())
+            ->response()->header('x-total-count', $products->total());
+    }
     public function store($data)
     {
         try {
             DB::beginTransaction();
             $images = $data['images'];
             unset($data['images']);
-            if(isset($data['tag_ids'])){
-                $tag_ids = $data['tag_ids'];
-                unset($data['tag_ids']);
+            if (isset($data['characteristic_ids'])) {
+                $characteristic_ids = $data['characteristic_ids'];
+                unset($data['characteristic_ids']);
                 $product = Product::Create($data);
-                $product->tags()->attach($tag_ids);
-            }
-            else{
+                $product->characteristics()->attach($characteristic_ids);
+            } else {
                 $product = Product::Create($data);
             }
 
@@ -40,13 +52,13 @@ class ProductService
     {
         try {
             DB::beginTransaction();
-            $tag_ids = $data['tag_ids'] ?? [];
-            unset($data['tag_ids']);
+            $characteristic_ids = $data['characteristic_ids'] ?? [];
+            unset($data['characteristic_ids']);
 
-            if (!empty($tag_ids)) {
-                $product->tags()->sync($tag_ids);
+            if (!empty($characteristic_ids)) {
+                $product->characteristics()->sync($characteristic_ids);
             } else {
-                $product->tags()->sync([]);
+                $product->characteristics()->sync([]);
             }
             if (isset($data['images'])) {
                 $this->storeImages($product, $data['images']);
@@ -66,6 +78,7 @@ class ProductService
             return $exception->getMessage();
         }
     }
+
     public function delete($product)
     {
         $this->deleteImages($product);
@@ -79,6 +92,7 @@ class ProductService
             $image->delete();
         }
     }
+
     protected function deleteImagesByIds($images_ids_for_delete)
     {
         foreach ($images_ids_for_delete as $image_id) {
@@ -87,6 +101,7 @@ class ProductService
             $image->delete();
         }
     }
+
     protected function storeImages($product, $images)
     {
         foreach ($images as $image) {

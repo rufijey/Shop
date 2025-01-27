@@ -1,43 +1,36 @@
 import React, {useEffect, useState} from 'react';
-import cl from './ProductsSidebar.module.css'
-import {IoShirt} from "react-icons/io5";
-import {FaTags} from "react-icons/fa6";
-import {BiCategory} from "react-icons/bi";
+import cl from '../Sidebar.module.css'
 import {useNavigate} from "react-router-dom";
-import CategoryService from "../../../services/CategoryService";
-import CustomSelect from "../../UI/select/CustomSelect";
 import productStore from "../../../store/ProductStore";
-import TagSelector from "../../Tag/Selector/TagSelector";
-import CheckboxList from "../../UI/checkboxSelect/CheckboxList";
+import Filters from "../../Filters/Filters";
+import {Scrollbars} from "react-custom-scrollbars-2";
 
 const ProductsSidebar = () => {
     const navigate = useNavigate()
-    const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
 
-    const fetchCategories = async () => {
-        try {
-            setLoading(true);
-            const res = await CategoryService.getAll();
-            setCategories(res.data);
-        } catch (error) {
-            console.error("Error fetching categories:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-    useEffect(() => {
-        fetchCategories()
-    }, []);
+    const applyFilters = async ()=>{
+        productStore.syncUrl()
+        await productStore.fetchProducts()
+    }
+
+    const clearFilters = async() => {
+        productStore.resetFilters()
+        await productStore.fetchProducts()
+    }
+
     return (
         <div className={cl.sidebar}>
-            <div className={cl.main}>
-                <h1 className={cl.item}>Filter</h1>
+            <div className={cl.main} >
+                <h1 className={cl.item} onClick={applyFilters}>Filter</h1>
             </div>
             <div className={cl.items}>
-                <div className={cl.tags}>
-                    <CheckboxList/>
-                </div>
+                <Scrollbars
+                    autoHide
+                    autoHideTimeout={1000}
+                    autoHideDuration={200}
+                >
+                    <Filters/>
+                </Scrollbars>
             </div>
         </div>
     );

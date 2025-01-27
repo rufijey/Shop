@@ -8,13 +8,18 @@ import {LuUserCircle2} from "react-icons/lu";
 import AuthStore from "../../../store/AuthStore";
 import {observer} from "mobx-react-lite";
 import authStore from "../../../store/AuthStore";
-import { AiOutlineProduct } from "react-icons/ai";
+import {AiOutlineProduct} from "react-icons/ai";
 import CustomInput from "../../UI/input/CustomInput";
-import { AiFillHome } from "react-icons/ai";
-import { FaSearch } from "react-icons/fa";
+import {AiFillHome} from "react-icons/ai";
+import {FaSearch} from "react-icons/fa";
 import productStore from "../../../store/ProductStore";
+import {FaCartShopping} from "react-icons/fa6";
+import Modal from "../../UI/modal/Modal";
+import CurrentOrder from "../../Order/CurrentOrder";
+import { MdMonitor } from "react-icons/md";
+import orderStore from "../../../store/OrderStore";
 
-const Navbar = observer(() => {
+const Navbar = observer(({classNames}) => {
     const [visible, setVisible] = useState(false);
     const [search, setSearch] = useState('');
     const dropdownRef = useRef(null);
@@ -34,18 +39,19 @@ const Navbar = observer(() => {
         document.addEventListener('mousedown', handleClickOutside);
     }, []);
 
-    function handleLogout() {
-        AuthStore.logout();
-        navigate('/user/login');
+    const handleLogout = async () => {
+        await AuthStore.logout();
     }
 
-    const searchSubmit = () => {
+    const searchSubmit = async () => {
         const path = window.location.pathname
-        if(!(path === '/products' || path === '/admin/products')){
+        if (!(path === '/products' || path === '/admin/products')) {
             const part = path.split('/')[1];
             part === 'admin' ? navigate(`/admin/products`) : navigate('/products')
         }
-        productStore.setFilter('title', search);
+        productStore.setFilter('search', search);
+        productStore.syncUrl()
+        await productStore.fetchProducts()
     }
 
     const handleKeyDown = (e) => {
@@ -55,11 +61,22 @@ const Navbar = observer(() => {
         }
     }
 
+    const handleCartClick = () => {
+        orderStore.setVisible(true)
+    }
+
     return (
-        <div className={cl.navbar}>
+        <div className={[cl.navbar, classNames].join(' ')}>
             <div className={cl.main__links}>
-                <Link to='/' className={cl.main__item}><AiFillHome/></Link>
-                <Link to='/products' className={cl.main__item}><AiOutlineProduct/></Link>
+                <Link to='/' className={cl.main__item}>TechCore</Link>
+                <div className={cl.item}
+                    onClick={()=>{
+                        navigate('/products')
+                        if(window.location.pathname.split('/').at(-1) === 'products'){
+                            productStore.syncUrl()
+                        }
+                    }}
+                ><MdMonitor/></div>
             </div>
             <div className={cl.input}>
                 <CustomInput
@@ -67,22 +84,31 @@ const Navbar = observer(() => {
                     onChange={e => setSearch(e.target.value)}
                     onKeyDown={handleKeyDown}
                 />
-                <FaSearch className={cl.searchIcon} onClick={searchSubmit}/>
+                {/*<div className={cl.search__icon} onClick={searchSubmit}>*/}
+                {/*    <FaSearch/>*/}
+                {/*</div>*/}
             </div>
             <div className={cl.navbar__links}>
+                <div onClick={handleCartClick} className={cl.item}>
+                    <FaCartShopping/>
+                    {orderStore.order.products_quantity > 0 && (
+                        <div className={cl.cart__quantity}>
+                            {orderStore.order.products_quantity}
+                        </div>
+                    )}
+                </div>
                 {authStore.isAdmin &&
                     <Link to='/admin' className={cl.item}><MdAdminPanelSettings/></Link>
                 }
-                <div className={cl.icon} onClick={toggleDropdown} ref={dropdownRef}>
-                    {AuthStore.isAuthenticated
-                        ? <div>
+                    {authStore.isAuthenticated
+                        ? <div className={cl.icon} onClick={toggleDropdown} ref={dropdownRef}>
                             <LuUserCircle2 className={cl.item}/>
                             <div className={`${cl.dropdown} ${visible ? cl.visible : ''}`}>
                                 <Link to='/user/me' className={cl.dropdown__item}>Me</Link>
                                 <div onClick={handleLogout} className={cl.dropdown__item}>Logout</div>
                             </div>
                         </div>
-                        : <div>
+                        : <div className={cl.icon} onClick={toggleDropdown} ref={dropdownRef}>
                             <AiOutlineUser className={cl.item}/>
                             <div className={`${cl.dropdown} ${visible ? cl.visible : ''}`}>
                                 <Link to='/user/register' className={cl.dropdown__item}>Register</Link>
@@ -90,8 +116,10 @@ const Navbar = observer(() => {
                             </div>
                         </div>
                     }
-                </div>
             </div>
+            <Modal visible={orderStore.visible} setVisible={orderStore.setVisible}>
+                <CurrentOrder setVisibleModal={orderStore.setVisible}/>
+            </Modal>
         </div>
     );
 });

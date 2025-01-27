@@ -1,0 +1,25 @@
+
+.slider__container {
+    width: 100%;
+    padding: 5px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.price{
+    color: #ff4d00;
+    margin-bottom: 2px;
+}
+
+.price__display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+    gap: 5px;
+}
+.input{
+    font-size: 14px;
+    padding: 3px 5px;
+}

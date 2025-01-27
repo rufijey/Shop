@@ -5,7 +5,7 @@ import UserLayout from "../layouts/UserLayout/UserLayout";
 import AdminLayout from "../layouts/AdminLayout/AdminLayout";
 import AdminMain from "../pages/Admin/Main/AdminMain";
 import AdminCategories from "../pages/Admin/Categories/AdminCategories";
-import AdminTags from "../pages/Admin/Tags/AdminTags";
+import AdminCharacteristics from "../pages/Admin/Characteristics/AdminCharacteristics";
 import AdminProducts from "../pages/Admin/Products/Main/AdminProducts";
 import PostProduct from "../pages/Admin/Products/Post/PostProduct";
 import AdminProductPage from "../pages/Admin/Products/ProductPage/AdminProductPage";
@@ -20,6 +20,13 @@ import ProductPage from "../pages/Products/ProductPage/ProductPage";
 import ProductsLayout from "../layouts/ProductsLayout/ProductsLayout";
 import UnRegisteredRoute from "../routes/UnRegisteredRoute";
 import RegisteredRoute from "../routes/RegisteredRoute";
+import ProductPageLayout from "../layouts/ProductPageLayout/ProductPageLayout";
+import ProductAbout from "../pages/Products/About/ProductAbout";
+import Reviews from "../pages/Products/Reviews/Reviews";
+import VerifyEmail from "../pages/User/Verify/VerifyEmail";
+import ResendRegisterEmail from "../pages/User/Register/Resend/ResendRegisterEmail";
+import PasswordForgot from "../pages/User/Password/PasswordForgot/PasswordForgot";
+import PasswordReset from "../pages/User/Password/PasswordReset/PasswordReset";
 
 const router = createBrowserRouter([
     {
@@ -31,6 +38,14 @@ const router = createBrowserRouter([
                 element: <Main/>,
             },
             {
+                path: "/user/password/forgot",
+                element: <PasswordForgot/>
+            },
+            {
+                path: "/user/password/reset",
+                element: <PasswordReset/>
+            },
+            {
                 element: <UnRegisteredRoute/>,
                 children:[
                     {
@@ -38,8 +53,16 @@ const router = createBrowserRouter([
                         element: <Register/>,
                     },
                     {
+                        path: "/user/register/resend",
+                        element: <ResendRegisterEmail/>,
+                    },
+                    {
                         path: "/user/login",
                         element: <Login/>,
+                    },
+                    {
+                        path: "/email/verify",
+                        element: <VerifyEmail/>,
                     },
                 ]
             },
@@ -53,14 +76,28 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: "/products/:slug",
-                element: <ProductPage/>,
-            },
-            {
                 path: "*",
                 element: <Error404/>,
             }
         ],
+    },
+    {
+        path: "/products/:slug",
+        element: <ProductPageLayout/>,
+        children: [
+            {
+                path: "/products/:slug",
+                element: <ProductPage/>,
+            },
+            {
+                path: "/products/:slug/about",
+                element: <ProductAbout/>,
+            },
+            {
+                path: "/products/:slug/reviews",
+                element: <Reviews/>,
+            }
+        ]
     },
     {
         path: "/products",
@@ -88,8 +125,8 @@ const router = createBrowserRouter([
                 element: <AdminCategories/>,
             },
             {
-                path: "/admin/tags",
-                element: <AdminTags/>,
+                path: "/admin/characteristics",
+                element: <AdminCharacteristics/>,
             },
             {
                 path: "/admin/products",

@@ -22,12 +22,13 @@ class FilterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => '',
+            'search' => 'nullable|string',
             'category_id' => '',
-            'tag_ids' => '',
-            'price_range'=>'',
+            'characteristic_ids' => '',
+            'price_range'=>'nullable',
             'page' => '',
-            'per_page' => ''
+            'per_page' => '',
+            'sort_by' => 'nullable',
         ];
     }
 }

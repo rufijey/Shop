@@ -1,0 +1,79 @@
+import React, {useEffect, useState} from 'react';
+import {useNavigate, useOutletContext, useParams} from "react-router-dom";
+import cl from "./ProductAbout.module.css";
+import Loader from "../../../components/UI/loader/Loader";
+import {observer} from "mobx-react-lite";
+import ImageGallery from "../../../components/Product/ImageGallery/ImageGallery";
+import productStore from "../../../store/ProductStore";
+import ExpandableText from "../../../components/UI/expandableText/ExpandableText";
+
+const ProductPage = observer(() => {
+    const {product, loading} = useOutletContext();
+    const [showAlert, setShowAlert] = useState(false);
+    const navigate = useNavigate();
+
+    const handleCategoryClick = (category) => {
+        productStore.setFilter('category_id', category.id)
+        navigate('/products')
+    }
+
+    const handleCharacteristicClick = (characteristic) => {
+        productStore.setFilter('characteristic_ids', [characteristic.id])
+        navigate('/products')
+    }
+
+    if (loading) {
+        return (<div className={cl.loader}>
+            <Loader/>
+        </div>);
+    }
+
+    if (!product.slug) {
+        return (<div>Error</div>);
+    }
+
+    return (
+        <div>
+            <div className={cl.product}>
+                <div className={cl.product__top}>
+                    <div className={cl.characteristics}>
+                        {product.characteristics.map(char => (
+                            <div>{char.type} .............. {char.body}</div>
+                        ))}
+                    </div>
+                    <div className={cl.product__image}>
+                        <img
+                            src={product.images[0].url}
+                            alt="Main"
+                        />
+                        <div className={cl.price}>{product.price} ₴</div>
+                    </div>
+                </div>
+                <div className={cl.product__about}>
+                    <div className={cl.product__title}>{product.title}</div>
+                    <ExpandableText text={product.description} maxLength={550} className={cl.product__description}/>
+                    <div className={cl.product__category}
+                         onClick={() => handleCategoryClick(product.category)}
+                    >{product.category.body}</div>
+                </div>
+            </div>
+
+            {/*{product.characteristics[0]*/}
+            {/*    ? (<div className={cl.characteristics__container}>*/}
+            {/*        <div className={cl.characteristics}>*/}
+            {/*            {product.characteristics.map((characteristic) => (*/}
+            {/*                <div key={characteristic.id} className={cl.characteristic}*/}
+            {/*                     onClick={() => handleCharacteristicClick(characteristic)}*/}
+            {/*                >*/}
+            {/*                    # {characteristic.body}*/}
+            {/*                </div>*/}
+            {/*            ))}*/}
+            {/*        </div>*/}
+            {/*    </div>)*/}
+            {/*    : (<div className={cl.no__characteristics}></div>*/}
+            {/*    )}*/}
+        </div>
+    )
+});
+
+export default ProductPage;
