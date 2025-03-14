@@ -23,7 +23,6 @@ class AccountService
     }
 
     public function verify($data) {
-        $data = $request->validated();
         $user = User::find($data['id']);
 
         if (!$user) {
@@ -41,7 +40,6 @@ class AccountService
         $user->email_verified_at = Carbon::now();
         $user->save();
 
-//        $token = JWTAuth::fromUser($user);
         $token = auth('api')->login($user);
         return $this->authService->getResponseWithTokens($token, $data['fingerprint']);
     }
@@ -74,7 +72,6 @@ class AccountService
 
     public function resetPassword($data)
     {
-        $data = $request->validated();
 
         $reset = DB::table('password_reset_tokens')
             ->where('email', $data['email'])

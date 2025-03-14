@@ -8,6 +8,8 @@ use App\Http\Requests\Review\UpdateRequest;
 use App\Http\Resources\ReviewResource;
 use App\Models\Review;
 use App\Services\ReviewService;
+use Symfony\Component\CssSelector\Exception\InternalErrorException;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class ReviewController extends Controller
 {
@@ -28,39 +30,21 @@ class ReviewController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
+        $this->service->create($data);
 
-        try {
-            $review = $this->service->create($data);
-
-            if (!$review) {
-                return response()->json(['message' => 'Review already exists.'], 400);
-            }
-
-            return response()->json(['message' => 'Review created successfully.'], 201);
-        } catch (\Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
     }
 
     public function update(UpdateRequest $request, Review $review)
     {
         $data = $request->validated();
 
-        try {
-            $this->service->update($review, $data);
-            return response()->json(['message' => 'Review updated successfully.'], 201);
-        } catch (\Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+        $this->service->update($review, $data);
+
     }
 
     public function destroy(Review $review)
     {
-        try {
-            $this->service->delete($review);
-            return response()->json(['message' => 'Review deleted successfully.'], 200);
-        } catch (\Exception $exception) {
-            return response()->json(['error' => $exception->getMessage()], 500);
-        }
+        $this->service->delete($review);
+
     }
 }

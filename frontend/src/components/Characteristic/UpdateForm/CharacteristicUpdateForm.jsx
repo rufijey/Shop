@@ -13,13 +13,12 @@ const CharacteristicUpdateForm = ({fetch, setVisible, characteristic}) => {
     const UpdateCharacteristic= (e)=>{
         e.preventDefault();
         CharacteristicService.update(characteristic.id, characteristicBody, characteristicType).then(res=>{
-            if(res.data.message){
-                alert(res.data.message)
-            }
             setVisible(false)
             fetch()
         }).catch(err=>{
-            console.log(err.message)
+            if(err.message){
+                alert(err.message)
+            }
         })
     }
 

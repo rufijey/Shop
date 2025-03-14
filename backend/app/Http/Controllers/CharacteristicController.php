@@ -50,14 +50,7 @@ class CharacteristicController extends Controller
         $data = $request->validated();
         $result = $this->service->create($data);
 
-        if ($result['exists']) {
-            return response()->json([
-                'message' => 'Characteristic already exists.',
-                'characteristic' => $result['characteristic'],
-            ]);
-        }
-
-        return $result['characteristic'];
+        return $result;
     }
 
     public function update(Characteristic $characteristic, UpdateRequest $request)
@@ -65,17 +58,11 @@ class CharacteristicController extends Controller
         $data = $request->validated();
         $result = $this->service->update($characteristic, $data);
 
-        if ($result['exists']) {
-            return response()->json([
-                'message' => 'Characteristic with this body and type already exists.',
-            ]);
-        }
-
-        return $result['characteristic'];
+        return $result;
     }
 
     public function destroy(Characteristic $characteristic)
     {
-        return $this->service->delete($characteristic);
+        $this->service->delete($characteristic);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Resources\CharacteristicResource;
 use App\Models\Characteristic;
 use App\Models\CharacteristicType;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 class CharacteristicService
 {
@@ -44,20 +45,14 @@ class CharacteristicService
         ])->first();
 
         if ($existingCharacteristic) {
-            return [
-                'exists' => true,
-                'characteristic' => new CharacteristicResource($existingCharacteristic),
-            ];
+           throw new ConflictHttpException("Characteristic already exists.");
         }
 
         $data['type_id'] = $type->id;
         unset($data['type']);
         $characteristic = Characteristic::create($data);
 
-        return [
-            'exists' => false,
-            'characteristic' => new CharacteristicResource($characteristic),
-        ];
+        return new CharacteristicResource($characteristic);
     }
 
     public function update(Characteristic $characteristic, array $data)
@@ -71,24 +66,18 @@ class CharacteristicService
         ])->where('id', '!=', $characteristic->id)->exists();
 
         if ($existingCharacteristic) {
-            return [
-                'exists' => true,
-            ];
+            throw new ConflictHttpException("Characteristic already exists.");
         }
 
         $data['type_id'] = $type->id;
         unset($data['type']);
         $characteristic->update($data);
 
-        return [
-            'exists' => false,
-            'characteristic' => new CharacteristicResource($characteristic),
-        ];
+        return new CharacteristicResource($characteristic);
     }
 
     public function delete(Characteristic $characteristic)
     {
         $characteristic->delete();
-        return response()->json(['message' => 'Characteristic deleted successfully.']);
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Filters\CategoryFilter;
 use App\Http\Requests\Category\FilterRequest;
 use App\Http\Requests\Order\ChangeQuantityRequest;
-use App\Http\Requests\Order\RemoveProductRequest;
 use App\Http\Requests\Order\StoreRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\OrderResource;

@@ -6,6 +6,8 @@ use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\CssSelector\Exception\InternalErrorException;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class ReviewService
 {
@@ -24,10 +26,10 @@ class ReviewService
                 DB::commit();
                 return $review;
             }
-            return null;
+            throw new BadRequestException('review already exists');
         } catch (\Exception $exception) {
             DB::rollBack();
-            throw $exception;
+            throw new InternalErrorException($exception->getMessage(),500, $exception);
         }
     }
 
@@ -41,7 +43,7 @@ class ReviewService
             return $review;
         } catch (\Exception $exception) {
             DB::rollBack();
-            throw $exception;
+            throw new InternalErrorException($exception->getMessage(),500, $exception);
         }
     }
 
@@ -55,7 +57,7 @@ class ReviewService
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
-            throw $exception;
+            throw new InternalErrorException($exception->getMessage(),500, $exception);
         }
     }
 

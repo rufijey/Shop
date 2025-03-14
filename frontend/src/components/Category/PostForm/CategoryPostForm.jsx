@@ -5,16 +5,15 @@ import CategoryService from "../../../services/CategoryService";
 
 const CategoryPostForm = ({fetch, setVisible}) => {
     const [categoryTitle, setCategoryTitle] = useState('');
-    const addNewCategory= (e)=>{
+    const addNewCategory = (e) => {
         e.preventDefault();
-        CategoryService.post(categoryTitle).then(res=>{
-            if(res.data.message){
-                alert(res.data.message)
-            }
+        CategoryService.post(categoryTitle).then(res => {
             setVisible(false)
             fetch()
-        }).catch(err=>{
-            console.log(err.message)
+        }).catch(err => {
+            if (err.message) {
+                alert(err.message)
+            }
         })
     }
 
@@ -22,7 +21,7 @@ const CategoryPostForm = ({fetch, setVisible}) => {
         <div>
             <form>
                 <CustomInput onChange={e => setCategoryTitle(e.target.value)} value={categoryTitle} type="text"
-                         placeholder="Category title"/>
+                             placeholder="Category title"/>
                 <CustomButton onClick={addNewCategory}>Submit</CustomButton>
             </form>
         </div>

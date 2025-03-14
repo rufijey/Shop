@@ -8,16 +8,15 @@ const CategoryUpdateForm = ({fetch, setVisible, category}) => {
     useEffect(() => {
         setCategoryTitle(category.title)
     }, []);
-    const UpdateCategory= (e)=>{
+    const UpdateCategory = (e) => {
         e.preventDefault();
-        CategoryService.update(category.id, categoryTitle).then(res=>{
-            if(res.data.message){
-                alert(res.data.message)
-            }
+        CategoryService.update(category.id, categoryTitle).then(res => {
             setVisible(false)
             fetch()
-        }).catch(err=>{
-            console.log(err.message)
+        }).catch(err => {
+            if (err.message) {
+                alert(err.message)
+            }
         })
     }
 
@@ -25,7 +24,7 @@ const CategoryUpdateForm = ({fetch, setVisible, category}) => {
         <div>
             <form>
                 <CustomInput onChange={e => setCategoryTitle(e.target.value)} value={categoryTitle} type="text"
-                         placeholder="Category title"/>
+                             placeholder="Category title"/>
                 <CustomButton onClick={UpdateCategory}>Submit</CustomButton>
             </form>
         </div>

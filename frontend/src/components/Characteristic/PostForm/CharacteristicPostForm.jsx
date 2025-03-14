@@ -9,15 +9,14 @@ const CharacteristicPostForm = ({fetch, setVisible}) => {
     const addNewCharacteristic= (e)=>{
         e.preventDefault();
         CharacteristicService.post(characteristicBody, characteristicType).then(res=>{
-            if(res.data.message){
-                alert(res.data.message)
-            }
             setVisible(false)
             setCharacteristicBody('')
             setCharacteristicType('')
             fetch()
         }).catch(err=>{
-            console.log(err.message)
+            if(err.message){
+                alert(err.message)
+            }
         })
     }
 

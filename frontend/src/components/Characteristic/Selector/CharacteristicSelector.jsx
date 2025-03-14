@@ -8,25 +8,7 @@ import Loader from "../../UI/loader/Loader";
 import {FaTags} from "react-icons/fa6";
 
 const CharacteristicSelector = ({selectedCharacteristics, setSelectedCharacteristics, characteristics, loading}) => {
-    // const [characteristics, setCharacteristics] = useState([]);
-    // const [characteristicsLoading, setCharacteristicsLoading] = useState(true);
     const [visible, setVisible] = useState(false);
-
-    // useEffect(() => {
-    //     fetchCharacteristics();
-    // }, []);
-
-    // const fetchCharacteristics = async () => {
-    //     try {
-    //         setCharacteristicsLoading(true);
-    //         const res = await CharacteristicService.getAll();
-    //         setCharacteristics(res.data);
-    //     } catch (error) {
-    //         console.error("Error fetching characteristics:", error);
-    //     } finally {
-    //         setCharacteristicsLoading(false);
-    //     }
-    // };
 
     const handleCharacteristicSelect = (characteristic) => {
         if (!selectedCharacteristics.includes(characteristic)) {

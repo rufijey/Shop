@@ -11,6 +11,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\UnauthorizedException;
+use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthService
@@ -30,19 +32,20 @@ class AuthService
             return response()->json(['message' => 'Please verify your email address.'], 201);
         }catch(Exception $e){
             DB::rollBack();
-            return response($e->getMessage(), 500);
+            throw $e;
         }
     }
 
 
     public function login($credentials, $fingerprint)
     {
-        if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        $token = auth()->attempt($credentials);
+        if (!$token) {
+            throw new UnauthorizedException();
         }
 
         if (!auth()->user()->hasVerifiedEmail()) {
-            return response()->json(['error' => 'Email not verified'], 403);
+            throw new Exception('Email is not verified.', 403);
         }
 
         return $this->getResponseWithTokens($token, $fingerprint);
@@ -89,7 +92,7 @@ class AuthService
             $cookie = cookie('refresh_token', $newRefreshToken, config('jwt.refresh_ttl'), null, null, true, true);
             return $this->respondWithToken($token, $newRefreshToken)->withCookie($cookie);
         } catch (JWTException $e) {
-            return response()->json(['error' => 'Could not refresh token'], 500);
+           throw new InternalErrorException('Could not refresh token', 500, $e);
         }
 
     }
