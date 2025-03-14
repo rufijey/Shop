@@ -15,10 +15,8 @@ class CheckRole
      */
     public function handle($request, Closure $next, $role)
     {
-        // Получаем токен
         $user = auth()->user();
 
-        // Проверяем роль пользователя
         if ($user->role !== $role) {
             return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
         }
