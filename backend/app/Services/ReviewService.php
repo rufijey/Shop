@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Http\Resources\ReviewResource;
 use App\Models\Product;
 use App\Models\Review;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\CssSelector\Exception\InternalErrorException;
@@ -11,20 +13,20 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class ReviewService
 {
-    public function index(int $productId)
+    public function getByProductId(int $productId)
     {
         return Review::where('product_id', $productId)->get();
     }
 
-    public function create(array $data)
+    public function create(array $data): AnonymousResourceCollection
     {
         try {
             if (!Auth::user()->reviews()->where('product_id', $data['product_id'])->exists()) {
                 DB::beginTransaction();
-                $review = Auth::user()->reviews()->create($data);
+                $reviews = Auth::user()->reviews()->create($data);
                 $this->updateProductRating($data['product_id']);
                 DB::commit();
-                return $review;
+                return ReviewResource::collection($reviews);
             }
             throw new BadRequestException('review already exists');
         } catch (\Exception $exception) {
@@ -33,7 +35,7 @@ class ReviewService
         }
     }
 
-    public function update(Review $review, array $data)
+    public function update(Review $review, array $data): Review
     {
         try {
             DB::beginTransaction();
@@ -47,7 +49,7 @@ class ReviewService
         }
     }
 
-    public function delete(Review $review)
+    public function delete(Review $review): void
     {
         try {
             DB::beginTransaction();
@@ -61,7 +63,7 @@ class ReviewService
         }
     }
 
-    private function updateProductRating(int $productId)
+    private function updateProductRating(int $productId): void
     {
         $product = Product::findOrFail($productId);
         $rating = $product->reviews()->avg('rating');

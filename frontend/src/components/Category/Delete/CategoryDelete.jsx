@@ -3,12 +3,13 @@ import CustomButton from "../../UI/button/CustomButton";
 import CategoryService from "../../../services/CategoryService";
 import cl from './CategoryDelete.module.css'
 const CategoryDelete = ({fetch, setVisible, category}) => {
-    const deleteCategory = (e)=>{
-        e.preventDefault()
-        CategoryService.delete(category.id).then(res=>{
+    const deleteCategory = async (e)=>{
+        try {
+            await CategoryService.delete(category.id)
             setVisible(false)
             fetch()
-        })
+        }catch (err){
+        }
     }
     const back = (e)=>{
         e.preventDefault()

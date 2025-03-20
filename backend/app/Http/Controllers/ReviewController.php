@@ -8,43 +8,42 @@ use App\Http\Requests\Review\UpdateRequest;
 use App\Http\Resources\ReviewResource;
 use App\Models\Review;
 use App\Services\ReviewService;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class ReviewController extends Controller
 {
-    protected $service;
+    protected ReviewService $reviewService;
 
     public function __construct(ReviewService $service)
     {
-        $this->service = $service;
+        $this->reviewService = $service;
     }
 
-    public function index(IndexRequest $request)
+    public function index(IndexRequest $request): AnonymousResourceCollection
     {
         $data = $request->validated();
-        $reviews = $this->service->index($data['product_id']);
-        return ReviewResource::collection($reviews);
+        return $this->reviewService->getByProductId($data['product_id']);
     }
 
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): void
     {
         $data = $request->validated();
-        $this->service->create($data);
-
+        $this->reviewService->create($data);
     }
 
-    public function update(UpdateRequest $request, Review $review)
+    public function update(UpdateRequest $request, Review $review): void
     {
         $data = $request->validated();
 
-        $this->service->update($review, $data);
+        $this->reviewService->update($review, $data);
 
     }
 
-    public function destroy(Review $review)
+    public function destroy(Review $review): void
     {
-        $this->service->delete($review);
+        $this->reviewService->delete($review);
 
     }
 }

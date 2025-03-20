@@ -8,29 +8,33 @@ use App\Models\User;
 use App\Notifications\CustomResetPassword;
 use App\Notifications\CustomVerifyEmail;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class AccountService
 {
-    public $authService;
+    public AuthService $authService;
 
     public function __construct(AuthService $authService)
     {
         $this->authService = $authService;
     }
 
-    public function verify($data) {
+    public function verify($data): JsonResponse {
         $user = User::find($data['id']);
 
         if (!$user) {
-            return response('User not found');
+            throw new NotFoundHttpException('User not found');
         }
 
         if (!hash_equals((string) $data['hash'], sha1($user->getEmailForVerification()))) {
-            return response('Invalid verification link');
+            throw new UnauthorizedHttpException('Invalid hash');
         }
         if ($user->hasVerifiedEmail()) {
             $token = auth('api')->login($user);
@@ -45,13 +49,13 @@ class AccountService
     }
 
 
-    public function sendPasswordResetLink($data)
+    public function sendPasswordResetLink($data): void
     {
 
         $user = DB::table('users')->where('email', $data['email'])->first();
 
         if (!$user) {
-            return response()->json(['error' => 'User not found'], 404);
+            throw new NotFoundHttpException('User not found');
         }
 
         $token = Str::random(60);
@@ -66,11 +70,9 @@ class AccountService
 
         $user = User::where('email', $data['email'])->first();
         $user->notify(new CustomResetPassword($token, $data['email']));
-
-        return response()->json(['message' => 'Reset password link sent.']);
     }
 
-    public function resetPassword($data)
+    public function resetPassword($data): void
     {
 
         $reset = DB::table('password_reset_tokens')
@@ -79,7 +81,7 @@ class AccountService
             ->first();
 
         if (!$reset) {
-            return response()->json(['error' => 'Invalid token or email'], 400);
+            throw new BadRequestException('Invalid token or email');
         }
 
         $user = User::where('email', $data['email'])->first();
@@ -87,7 +89,5 @@ class AccountService
         $user->save();
 
         DB::table('password_reset_tokens')->where('email', $data['email'])->delete();
-
-        return response()->json(['message' => 'Password has been reset successfully.']);
     }
 }

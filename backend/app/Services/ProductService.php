@@ -8,12 +8,13 @@ use App\Http\Resources\ProductResource;
 use App\Models\Image;
 use App\Models\Product;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
-    public function index($data)
+    public function getFiltered($data): JsonResponse
     {
         $page = $data['page'] ?? 1;
         $perPage = $data['per_page'] ?? 10;
@@ -24,7 +25,7 @@ class ProductService
         return ProductListResource::collection($products->items())
             ->response()->header('x-total-count', $products->total());
     }
-    public function store($data)
+    public function store($data): ProductResource
     {
         try {
             DB::beginTransaction();
@@ -44,11 +45,11 @@ class ProductService
             return new ProductResource($product);
         } catch (\Exception $exception) {
             DB::rollBack();
-            return $exception->getMessage();
+           throw $exception;
         }
     }
 
-    public function update($product, $data)
+    public function update($product, $data): ProductResource
     {
         try {
             DB::beginTransaction();
@@ -75,17 +76,17 @@ class ProductService
 
         } catch (\Exception $exception) {
             DB::rollBack();
-            return $exception->getMessage();
+            throw $exception;
         }
     }
 
-    public function delete($product)
+    public function delete($product): void
     {
         $this->deleteImages($product);
         $product->delete();
     }
 
-    protected function deleteImages($product)
+    protected function deleteImages($product): void
     {
         foreach ($product->images as $image) {
             Storage::disk('public')->delete($image->path);
@@ -93,7 +94,7 @@ class ProductService
         }
     }
 
-    protected function deleteImagesByIds($images_ids_for_delete)
+    protected function deleteImagesByIds($images_ids_for_delete): void
     {
         foreach ($images_ids_for_delete as $image_id) {
             $image = Image::find($image_id);
@@ -102,7 +103,7 @@ class ProductService
         }
     }
 
-    protected function storeImages($product, $images)
+    protected function storeImages($product, $images): void
     {
         foreach ($images as $image) {
             $name = md5(Carbon::now() . '_' . $image->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();

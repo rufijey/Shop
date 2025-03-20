@@ -8,16 +8,17 @@ const CategoryUpdateForm = ({fetch, setVisible, category}) => {
     useEffect(() => {
         setCategoryTitle(category.title)
     }, []);
-    const UpdateCategory = (e) => {
+    const UpdateCategory = async (e) => {
         e.preventDefault();
-        CategoryService.update(category.id, categoryTitle).then(res => {
+        try {
+            await CategoryService.update(categoryTitle)
             setVisible(false)
             fetch()
-        }).catch(err => {
-            if (err.message) {
-                alert(err.message)
+        }catch (err){
+            if (err.response.message) {
+                alert(err.response.message)
             }
-        })
+        }
     }
 
     return (

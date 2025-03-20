@@ -5,25 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Services\AuthService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public $service;
+    public AuthService $authService;
 
     public function __construct(AuthService $service)
     {
         $this->middleware('auth:api', ['except' => ['login', 'refresh', 'register']]);
-        $this->service = $service;
+        $this->authService = $service;
     }
 
-    public function register(StoreRequest $request)
+    public function register(StoreRequest $request): JsonResponse
     {
         $data = $request->validated();
-        return $this->service->register($data);
+        return $this->authService->register($data);
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): JsonResponse
     {
         $data = $request->validated();
 
@@ -32,25 +33,25 @@ class AuthController extends Controller
             'password' => $data['password'],
         ];
         $fingerprint = $data['fingerprint'];
-        return $this->service->login($credentials, $fingerprint);
+        return $this->authService->login($credentials, $fingerprint);
     }
 
-    public function me()
+    public function me(): JsonResponse
     {
-        return $this->service->me();
+        return $this->authService->me();
     }
 
-    public function logout()
+    public function logout(): void
     {
         $fingerprint = request('fingerprint');
-        return $this->service->logout($fingerprint);
+        $this->authService->logout($fingerprint);
     }
 
-    public function refresh()
+    public function refresh(): JsonResponse
     {
         $refreshToken = request()->cookie('refresh_token');
         $fingerprint = request('fingerprint');
-        return $this->service->refresh($refreshToken, $fingerprint);
+        return $this->authService->refresh($refreshToken, $fingerprint);
     }
 
 }

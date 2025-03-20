@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import CategoryService from "../../../services/CategoryService";
 import cl from './AdminCategories.module.css';
-import { TiDelete } from "react-icons/ti";
-import { IoMdAddCircleOutline } from "react-icons/io";
-import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
+import {TiDelete} from "react-icons/ti";
+import {IoMdAddCircleOutline} from "react-icons/io";
+import {MdOutlineDriveFileRenameOutline} from "react-icons/md";
 import Modal from "../../../components/UI/modal/Modal";
 import CategoryPostForm from "../../../components/Category/PostForm/CategoryPostForm";
 import CategoryUpdateForm from "../../../components/Category/UpdateForm/CategoryUpdateForm";
@@ -35,7 +35,7 @@ const AdminCategories = () => {
     };
 
     useEffect(() => {
-        fetchCategories(); // Загружаем категории при загрузке компонента
+        fetchCategories();
     }, []);
 
     const handleEditClick = (category) => {
@@ -89,7 +89,7 @@ const AdminCategories = () => {
                     ))}
                 </div>
 
-                {loading && <Loader />}
+                {loading && <Loader/>}
             </div>
 
             <IoMdAddCircleOutline
@@ -97,7 +97,7 @@ const AdminCategories = () => {
                 onClick={() => setVisibleAdd(true)}
             />
             <Modal visible={visibleAdd} setVisible={setVisibleAdd}>
-                <CategoryPostForm fetch={fetchCategories} setVisible={setVisibleAdd} />
+                <CategoryPostForm fetch={fetchCategories} setVisible={setVisibleAdd}/>
             </Modal>
             <Modal visible={visibleChange} setVisible={setVisibleChange}>
                 {categoryForChange && (
