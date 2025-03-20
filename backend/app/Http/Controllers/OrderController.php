@@ -12,7 +12,9 @@ use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
 use App\Services\OrderService;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -22,22 +24,22 @@ class OrderController extends Controller
     {
         $this->orderService = $orderService;
     }
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
-        return $this->orderService->index();
+        return $this->orderService->getUserOrders();
     }
 
-    public function getCompletedOrders()
+    public function getCompletedOrders(): AnonymousResourceCollection
     {
         return $this->orderService->completed();
     }
 
-    public function getCurrentOrder()
+    public function getCurrentOrder(): ?OrderResource
     {
         return $this->orderService->current();
     }
 
-    public function addProduct(StoreRequest $request)
+    public function addProduct(StoreRequest $request): OrderResource
     {
         $data = $request->validated();
         return $this->orderService->addProduct($data);
@@ -45,17 +47,17 @@ class OrderController extends Controller
 
     public function removeProduct($product_id)
     {
-        return $this->orderService->removeProduct($product_id);
+        $this->orderService->removeProduct($product_id);
     }
 
     public function completeOrder()
     {
-        return $this->orderService->complete();
+        $this->orderService->complete();
     }
 
-    public function deleteCurrentOrder()
+    public function deleteCurrentOrder(): void
     {
-        return $this->orderService->deleteCurrent();
+        $this->orderService->deleteCurrent();
     }
 
     public function destroy(Order $order): void
@@ -63,7 +65,7 @@ class OrderController extends Controller
         $order->products()->detach();
         $order->delete();
     }
-    public function changeQuantity(ChangeQuantityRequest $request)
+    public function changeQuantity(ChangeQuantityRequest $request): ResponseFactory
     {
         $data = $request->validated();
         return $this->orderService->changeQuantity($data['quantity'], $data['product_id']);

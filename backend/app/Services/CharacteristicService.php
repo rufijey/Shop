@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 class CharacteristicService
 {
-    public function getAll($filter)
+    public function getAll($filter): AnonymousResourceCollection
     {
         $characteristics = Characteristic::filter($filter)->get();
         return CharacteristicResource::collection($characteristics);
