@@ -28,7 +28,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class FilterController extends Controller
 {
-    public function index()
+    public function index(): FiltersResource
     {
         $groupedCharacteristics = Characteristic::all()
             ->groupBy(fn($item) => $item->type->id);
@@ -43,7 +43,8 @@ class FilterController extends Controller
         ]);
     }
 
-    public function noGroup(){
+    public function noGroup(): FiltersResourceNoGroup
+    {
         $characteristics = Characteristic::all();
 
         $categories = Category::all();
@@ -57,7 +58,7 @@ class FilterController extends Controller
         ]);
 
     }
-    public function getByIds(GetByIdsRequest $request)
+    public function getByIds(GetByIdsRequest $request): SelectedFiltersResource
     {
         $data = $request->validated();
         $characteristics = isset($data['characteristic_ids']) ?

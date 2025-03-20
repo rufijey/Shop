@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Resources\CharacteristicResource;
 use App\Models\Characteristic;
 use App\Models\CharacteristicType;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 class CharacteristicService
@@ -15,7 +16,7 @@ class CharacteristicService
         return CharacteristicResource::collection($characteristics);
     }
 
-    public function getGrouped($filter)
+    public function getGrouped($filter): array
     {
         $characteristics = Characteristic::filter($filter)->get();
 
@@ -28,13 +29,13 @@ class CharacteristicService
             ->toArray();
     }
 
-    public function getByIds(array $ids)
+    public function getByIds(array $ids): AnonymousResourceCollection
     {
         $characteristics = Characteristic::whereIn('id', $ids)->get();
         return CharacteristicResource::collection($characteristics);
     }
 
-    public function create(array $data)
+    public function create(array $data): CharacteristicResource
     {
         $typeTitle = ucfirst(strtolower($data['type']));
         $type = CharacteristicType::firstOrCreate(['title' => $typeTitle]);
@@ -55,7 +56,7 @@ class CharacteristicService
         return new CharacteristicResource($characteristic);
     }
 
-    public function update(Characteristic $characteristic, array $data)
+    public function update(Characteristic $characteristic, array $data): CharacteristicResource
     {
         $typeTitle = ucfirst(strtolower($data['type']));
         $type = CharacteristicType::firstOrCreate(['title' => $typeTitle]);
@@ -76,7 +77,7 @@ class CharacteristicService
         return new CharacteristicResource($characteristic);
     }
 
-    public function delete(Characteristic $characteristic)
+    public function delete(Characteristic $characteristic): void
     {
         $characteristic->delete();
     }

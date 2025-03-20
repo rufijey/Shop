@@ -5,16 +5,17 @@ import CategoryService from "../../../services/CategoryService";
 
 const CategoryPostForm = ({fetch, setVisible}) => {
     const [categoryTitle, setCategoryTitle] = useState('');
-    const addNewCategory = (e) => {
+    const addNewCategory = async (e) => {
         e.preventDefault();
-        CategoryService.post(categoryTitle).then(res => {
+        try {
+            await CategoryService.post(categoryTitle)
             setVisible(false)
             fetch()
-        }).catch(err => {
-            if (err.message) {
-                alert(err.message)
+        }catch (err){
+            if (err.response.message) {
+                alert(err.response.message)
             }
-        })
+        }
     }
 
     return (

@@ -8,6 +8,7 @@ use App\Models\RefreshToken;
 use App\Models\User;
 use App\Notifications\CustomVerifyEmail;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,12 +18,15 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthService
 {
-    public function register($data)
+    public OrderService $orderService;
+    public function __construct(OrderService $orderService)
+    {
+        $this->orderService = $orderService;
+    }
+    public function register($data): JsonResponse
     {
         try {
             DB::beginTransaction();
-            $credentials = ['email' => $data['email'], 'password' => $data['password']];
-            $fingerprint = $data['fingerprint'];
             $data['password'] = Hash::make($data['password']);
 
             $user = User::firstOrCreate(['email' => $data['email']], $data);
@@ -36,8 +40,7 @@ class AuthService
         }
     }
 
-
-    public function login($credentials, $fingerprint)
+    public function login($credentials, $fingerprint): JsonResponse
     {
         $token = auth()->attempt($credentials);
         if (!$token) {
@@ -51,29 +54,27 @@ class AuthService
         return $this->getResponseWithTokens($token, $fingerprint);
     }
 
-    public function getResponseWithTokens($token, $fingerprint)
+    public function getResponseWithTokens($token, $fingerprint): JsonResponse
     {
         $this->invalidateRefreshToken($fingerprint);
         $refreshToken = $this->createRefreshToken($fingerprint);
         $cookie = cookie('refresh_token', $refreshToken, config('jwt.refresh_ttl'), null, null, true, true);
-        $this->syncOrders();
-        return $this->respondWithToken($token, $refreshToken)->withCookie($cookie);
+        $this->orderService->syncOrders();
+        return $this->respondWithToken($token)->withCookie($cookie);
     }
 
-    public function me()
+    public function me(): JsonResponse
     {
         return response()->json(auth()->user());
     }
 
-    public function logout($fingerprint)
+    public function logout($fingerprint): void
     {
         $this->invalidateRefreshToken($fingerprint);
-        auth()->logout(true);
-
-        return response()->json(['message' => 'Successfully logged out']);
+        auth()->logout();
     }
 
-    public function refresh($refreshToken, $fingerprint)
+    public function refresh($refreshToken, $fingerprint): JsonResponse
     {
         $storedToken = RefreshToken::where('refresh_token', $refreshToken)
             ->where('fingerprint', $fingerprint)
@@ -90,14 +91,14 @@ class AuthService
             $storedToken->delete();
 
             $cookie = cookie('refresh_token', $newRefreshToken, config('jwt.refresh_ttl'), null, null, true, true);
-            return $this->respondWithToken($token, $newRefreshToken)->withCookie($cookie);
+            return $this->respondWithToken($token)->withCookie($cookie);
         } catch (JWTException $e) {
            throw new InternalErrorException('Could not refresh token', 500, $e);
         }
 
     }
 
-    protected function respondWithToken($token, $refreshToken)
+    protected function respondWithToken(string $token): JsonResponse
     {
         return response()->json([
             'access_token' => $token,
@@ -106,7 +107,7 @@ class AuthService
         ]);
     }
 
-    public static function createRefreshToken($fingerprint)
+    public static function createRefreshToken(string $fingerprint): string
     {
         $userId = auth()->user()->id;
         $refreshToken = bin2hex(random_bytes(64));
@@ -122,7 +123,7 @@ class AuthService
         return $refreshToken;
     }
 
-    public static function invalidateRefreshToken($fingerprint)
+    public static function invalidateRefreshToken(string $fingerprint): void
     {
         $userId = auth()->user()->id;
         RefreshToken::where('user_id', $userId)
@@ -130,38 +131,4 @@ class AuthService
             ->delete();
     }
 
-    protected function syncOrders()
-    {
-        try {
-            DB::beginTransaction();
-
-            $guest_id = request()->cookie('guest_id');
-            $guestOrder = Order::where('guest_id', $guest_id)->whereNull('date')->first();
-            $userOrder = auth()->user()->orders()->whereNull('date')->first();
-            if ($guestOrder) {
-                if (!$userOrder) {
-                    $guestOrder->update([
-                        'user_id' => auth()->user()->id,
-                        'guest_id' => null
-                    ]);
-                }
-                else{
-                    $products = $guestOrder->products;
-
-                    foreach ($products as $product) {
-                        $userProduct = $userOrder->products()->where('product_id', $product->id)->first();
-                        $userOrder->products()->syncWithoutDetaching($product->id, ['quantity' => $product->pivot->quantity]);
-                    }
-
-                    $guestOrder->products()->detach();
-                }
-            }
-
-            DB::commit();
-        }catch (Exception $e){
-            DB::rollBack();
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-
-    }
 }

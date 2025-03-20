@@ -4,7 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Validation\UnauthorizedException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class CheckRole
 {
@@ -18,7 +20,7 @@ class CheckRole
         $user = auth()->user();
 
         if ($user->role !== $role) {
-            return response()->json(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+           throw new UnauthorizedException('Unauthorized');
         }
 
         return $next($request);

@@ -9,10 +9,13 @@ use App\Http\Requests\Category\UpdateRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+use function PHPUnit\Framework\throwException;
 
 class CategoryController extends Controller
 {
-    public function index(FilterRequest $request)
+    public function index(FilterRequest $request): AnonymousResourceCollection
     {
         $data = $request->validated();
         $filter = app()->make(CategoryFilter::class, ['queryParams' => array_filter($data)]);
@@ -20,40 +23,34 @@ class CategoryController extends Controller
         return CategoryResource::collection($categories);
     }
 
-    public function show(Category $category)
+    public function show(Category $category): CategoryResource
     {
         return new CategoryResource($category);
     }
 
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): void
     {
         $data = $request->validated();
         $category = Category::firstOrNew(['title' => $data['title']], $data);
         if ($category->exists) {
-            return response()->json([
-                'message' => 'Category already exists.',
-                'category' => $category
-            ]);
+           throw new ConflictHttpException('category already exists');
         } else {
             Category::Create($data);
         }
     }
 
-    public function update(Category $category, UpdateRequest $request)
+    public function update(Category $category, UpdateRequest $request): void
     {
         $data = $request->validated();
         $categoryExists = Category::where('title', $data['title'])->exists();
         if ($categoryExists) {
-            return response()->json([
-                'message' => 'Category already exists.',
-                'category' => $category
-            ]);
+            throw new ConflictHttpException('category already exists');
         } else {
             $category->update($data);
         }
     }
 
-    public function destroy(Category $category)
+    public function destroy(Category $category): void
     {
         $category->delete();
     }

@@ -61,7 +61,7 @@ const PostProductForm = () => {
             setCategories(res.data.categories);
             setCharacteristics(res.data.characteristics);
         } catch (error) {
-            console.error("Error fetching categories:", error);
+
         } finally {
             setLoading(false)
         }
@@ -94,7 +94,7 @@ const PostProductForm = () => {
             });
             navigate('/admin/products');
         } catch (error) {
-            console.error('Failed to upload images:', error);
+
         }
     };
 

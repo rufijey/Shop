@@ -58,11 +58,13 @@ class OrderController extends Controller
         return $this->orderService->deleteCurrent();
     }
 
-    public function destroy(Order $order){
+    public function destroy(Order $order): void
+    {
         $order->products()->detach();
         $order->delete();
     }
-    public function changeQuantity(ChangeQuantityRequest $request){
+    public function changeQuantity(ChangeQuantityRequest $request)
+    {
         $data = $request->validated();
         return $this->orderService->changeQuantity($data['quantity'], $data['product_id']);
 

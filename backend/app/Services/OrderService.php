@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class OrderService
@@ -84,7 +85,7 @@ class OrderService
     public function changeQuantity($quantity, $product_id)
     {
         $order = $this->findCurrentOrder();
-        if ($order instanceof \Illuminate\Http\Response) {
+        if ($order) {
             return $order;
         }
         if($order->products()->where('product_id', $product_id)->exists()) {
@@ -126,6 +127,40 @@ class OrderService
         }
     }
 
+    public function syncOrders(): void
+    {
+        try {
+            DB::beginTransaction();
+
+            $guest_id = request()->cookie('guest_id');
+            $guestOrder = Order::where('guest_id', $guest_id)->whereNull('date')->first();
+            $userOrder = auth()->user()->orders()->whereNull('date')->first();
+            if ($guestOrder) {
+                if (!$userOrder) {
+                    $guestOrder->update([
+                        'user_id' => auth()->user()->id,
+                        'guest_id' => null
+                    ]);
+                }
+                else{
+                    $products = $guestOrder->products;
+
+                    foreach ($products as $product) {
+                        $userProduct = $userOrder->products()->where('product_id', $product->id)->first();
+                        $userOrder->products()->syncWithoutDetaching($product->id, ['quantity' => $product->pivot->quantity]);
+                    }
+
+                    $guestOrder->products()->detach();
+                }
+            }
+
+            DB::commit();
+        }catch (Exception $e){
+            DB::rollBack();
+            throw $e;
+        }
+
+    }
 
 
 }

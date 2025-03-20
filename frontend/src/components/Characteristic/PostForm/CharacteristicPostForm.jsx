@@ -2,22 +2,24 @@ import React, {useState} from 'react';
 import CustomInput from "../../UI/input/CustomInput";
 import CustomButton from "../../UI/button/CustomButton";
 import CharacteristicService from "../../../services/CharacteristicService";
+import CategoryService from "../../../services/CategoryService";
 
 const CharacteristicPostForm = ({fetch, setVisible}) => {
     const [characteristicBody, setCharacteristicBody] = useState('');
     const [characteristicType, setCharacteristicType] = useState('');
-    const addNewCharacteristic= (e)=>{
+    const addNewCharacteristic= async (e)=>{
         e.preventDefault();
-        CharacteristicService.post(characteristicBody, characteristicType).then(res=>{
+        try {
+            await CharacteristicService.post(characteristicBody, characteristicType)
             setVisible(false)
             setCharacteristicBody('')
             setCharacteristicType('')
             fetch()
-        }).catch(err=>{
-            if(err.message){
-                alert(err.message)
+        }catch (err){
+            if (err.response.message) {
+                alert(err.response.message)
             }
-        })
+        }
     }
 
     return (

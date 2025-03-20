@@ -65,7 +65,7 @@ const UpdateProductForm = () => {
             setCategories(res.data.categories);
             setCharacteristics(res.data.characteristics);
         } catch (error) {
-            console.error("Error fetching categories:", error);
+
         } finally {
             setLoading(false)
         }
@@ -75,7 +75,7 @@ const UpdateProductForm = () => {
             const res = await ProductService.get(params.slug);
             setProduct(res.data)
         } catch (error) {
-            console.error("Error fetching categories:", error);
+
         }
     }
 

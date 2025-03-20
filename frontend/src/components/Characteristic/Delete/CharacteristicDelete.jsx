@@ -2,13 +2,16 @@ import React from 'react';
 import CustomButton from "../../UI/button/CustomButton";
 import CharacteristicService from "../../../services/CharacteristicService";
 import cl from './CharacteristicDelete.module.css'
+import CategoryService from "../../../services/CategoryService";
 const CharacteristicDelete = ({fetch, setVisible, characteristic}) => {
-    const deleteCategory = (e)=>{
+    const deleteCategory = async (e)=>{
         e.preventDefault()
-        CharacteristicService.delete(characteristic.id).then(res=>{
+        try {
+            await CharacteristicService.delete(characteristic.id)
             setVisible(false)
             fetch()
-        })
+        }catch (err){
+        }
     }
     const back = (e)=>{
         e.preventDefault()

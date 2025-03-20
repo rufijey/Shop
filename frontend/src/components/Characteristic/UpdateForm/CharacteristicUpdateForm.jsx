@@ -10,16 +10,18 @@ const CharacteristicUpdateForm = ({fetch, setVisible, characteristic}) => {
         setCharacteristicBody(characteristic.body)
         setCharacteristicType(characteristic.type)
     }, [characteristic]);
-    const UpdateCharacteristic= (e)=>{
+    const UpdateCharacteristic= async (e)=>{
         e.preventDefault();
-        CharacteristicService.update(characteristic.id, characteristicBody, characteristicType).then(res=>{
+
+        try {
+            await CharacteristicService.update(characteristic.id, characteristicBody, characteristicType)
             setVisible(false)
             fetch()
-        }).catch(err=>{
-            if(err.message){
-                alert(err.message)
+        }catch (err){
+            if (err.response.message) {
+                alert(err.response.message)
             }
-        })
+        }
     }
 
     return (
