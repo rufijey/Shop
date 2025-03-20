@@ -28,12 +28,13 @@ class OrderService
         return OrderResource::collection($orders);
     }
 
-    public function current()
+    public function current(): ?OrderResource
     {
         $order = $this->findCurrentOrder();
         if ($order) {
             return new OrderResource($order);
         }
+        return null;
     }
 
     public function addProduct($data): OrderResource
@@ -72,7 +73,7 @@ class OrderService
         $order->products()->detach($product_id);
     }
 
-    public function complete()
+    public function complete(): void
     {
         $user = auth()->user();
         $order = $user->orders()->whereNull('date')->first();

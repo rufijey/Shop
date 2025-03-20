@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    private $orderService;
+    private OrderService $orderService;
     public function __construct(OrderService $orderService)
     {
         $this->orderService = $orderService;
@@ -45,12 +45,12 @@ class OrderController extends Controller
         return $this->orderService->addProduct($data);
     }
 
-    public function removeProduct($product_id)
+    public function removeProduct($product_id): void
     {
         $this->orderService->removeProduct($product_id);
     }
 
-    public function completeOrder()
+    public function completeOrder(): void
     {
         $this->orderService->complete();
     }
